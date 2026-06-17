@@ -28,7 +28,8 @@ export default function TypingHeroTitle() {
     'Konsultasi & Manajemen',
     'Pemasaran & Iklan',
     'Penulisan & Artikel',
-    'Edukasi & Pelatihan'
+    'Edukasi & Pelatihan',
+    'Desain Grafis'
   ];
 
   const [index, setIndex] = useState(0); // Indeks kata aktif di dalam array
