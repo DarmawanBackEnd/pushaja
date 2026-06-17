@@ -32,7 +32,8 @@ export default function HeroSearch() {
     'Aplikasi mobile React Native',
     'Landing page Figma premium',
     'Artikel SEO Bahasa Indonesia',
-    'Video editor TikTok & Reels'
+    'Video editor TikTok & Reels',
+    'Desain Grafis'
   ];
 
   // Mengambil riwayat pencarian dari localStorage saat komponen pertama kali dimuat di client
