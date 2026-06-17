@@ -1,0 +1,237 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==========================================
+// ENUMS (Tipe Data Konstan)
+// ==========================================
+
+enum AdminRole {
+  superadmin
+  moderator
+}
+
+enum UserRole {
+  client
+  freelancer
+}
+
+enum GigStatus {
+  pending
+  active
+  rejected
+}
+
+enum VerificationStatus {
+  pending
+  approved
+  rejected
+}
+
+enum OrderStatus {
+  unpaid
+  on_progress @map("on_progress") // Memetakan snake_case di DB ke camelCase di Prisma
+  in_review   @map("in_review")
+  completed
+  cancelled
+}
+
+enum PaymentStatus {
+  pending
+  success     @map("succes")      // Memetakan "succes" (typo visual ERD) ke "success" di TypeScript
+  failed
+}
+
+enum DisputeStatus {
+  open
+  investigating
+  resolved_refund       @map("resolved_refund")
+  resolved_release_fund @map("resolved_release_fund")
+}
+
+// ==========================================
+// MODELS (Tabel Database)
+// ==========================================
+
+model Admin {
+  id             String    @id @default(uuid())
+  name           String
+  email          String    @unique
+  password       String
+  profilePicture String?   @map("profile_picture") @db.Text
+  roleLevel      AdminRole @map("role_level") // Visual ERD: role_level
+  disputes       Dispute[]
+
+  @@map("admins") // Memetakan nama tabel menjadi lowercase plural "admins"
+}
+
+model User {
+  id                 String     @id @default(uuid())
+  name               String
+  email              String     @unique
+  password           String?
+  profilePicture     String?    @map("profile_picture") @db.Text
+  role               UserRole
+  phone              String?
+  balance            Decimal    @default(0.00) @db.Decimal(12, 2)
+  isVerified         Boolean    @default(false) @map("is_verified") // Visual ERD: is_verified
+  createdAt          DateTime   @default(now()) @map("create_at")    // Visual ERD: create_at
+  updatedAt          DateTime   @updatedAt @map("update_at")          // Visual ERD: update_at
+  
+  // Relasi timbal balik (Relation Fields)
+  gigs               Gig[]      @relation("FreelancerGigs")
+  clientOrders       Order[]    @relation("ClientOrders")
+  freelancerOrders   Order[]    @relation("FreelancerOrders")
+  clientReviews      Review[]   @relation("ClientReviews")
+  freelancerReviews  Review[]   @relation("FreelancerReviews")
+  disputes           Dispute[]  @relation("ComplainantDisputes")
+  verification       FreelancerVerification?
+
+  @@map("users")
+}
+
+model CategoryGroup {
+  id         String     @id @default(uuid())
+  name       String
+  slug       String     @unique
+  icon       String?    @db.Text // Menyimpan data nama ikon SVG, SVG path, atau slug ikon
+  categories Category[]
+
+  @@map("category_groups")
+}
+
+model Category {
+  id              String         @id @default(uuid())
+  name            String
+  slug            String         @unique
+  imageUrl        String?        @db.Text // Menyimpan URL gambar untuk card jenis layanan
+  categoryGroupId String?        @map("category_group_id")
+  categoryGroup   CategoryGroup? @relation(fields: [categoryGroupId], references: [id], onDelete: SetNull)
+  gigs            Gig[]
+
+  @@map("categories")
+}
+
+model Gig {
+  id           String    @id @default(uuid())
+  freelancerId String    @map("freelancer_id") // Visual ERD: freelancer_id
+  categoryId   String    @map("category_id")   // Visual ERD: category_id
+  title        String
+  description  String    @db.Text
+  price        Decimal   @db.Decimal(10, 2)
+  deliveryDays Int       @map("delivery_days") // Visual ERD: delivery_days
+  imageUrl     String?   @map("image_url") @db.Text // Tambahan kolom gambar jasa
+  status       GigStatus @default(pending)
+  
+  // Relasi
+  freelancer   User      @relation("FreelancerGigs", fields: [freelancerId], references: [id], onDelete: Cascade)
+  category     Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  orders       Order[]
+
+  @@map("gigs")
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  gigId        String      @map("gig_id")        // Visual ERD: gig_id
+  clientId     String      @map("client_id")     // Visual ERD: client_id
+  freelancerId String      @map("freelancer_id") // Visual ERD: freelancer_id
+  totalAmount  Decimal     @map("total_amount") @db.Decimal(10, 2) // Visual ERD: total_amount
+  status       OrderStatus @default(unpaid)
+  dueDate      DateTime    @map("due_date")      // Visual ERD: due_date
+
+  // Relasi
+  gig          Gig         @relation(fields: [gigId], references: [id], onDelete: Restrict)
+  client       User        @relation("ClientOrders", fields: [clientId], references: [id], onDelete: Cascade)
+  freelancer   User        @relation("FreelancerOrders", fields: [freelancerId], references: [id], onDelete: Cascade)
+  payment      Payment?
+  deliverables Deliverable[]
+  reviews      Review[]
+  disputes     Dispute[]
+
+  @@map("orders")
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  orderId       String        @unique @map("order_id") // Relasi One-to-One dengan Order
+  paymentMethod String        @map("payment_method")   // Visual ERD: payment_method
+  amount        Decimal       @db.Decimal(10, 2)
+  status        PaymentStatus @default(pending)
+  transactionId String?       @map("transaction_id")   // Visual ERD: transaction_id
+
+  // Relasi
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Deliverable {
+  id          String   @id @default(uuid())
+  orderId     String   @map("order_id")
+  filePath    String   @map("file_path") // Visual ERD: file_path
+  message     String   @map("massage") @db.Text // Visual ERD: massage (typo visual ERD dialihkan ke "message" di TypeScript)
+  submittedAt DateTime @default(now()) @map("submitted_at") // Visual ERD: submitted_at
+
+  // Relasi
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("deliverables")
+}
+
+model Review {
+  id           String   @id @default(uuid())
+  orderId      String   @map("order_id")
+  clientId     String   @map("client_id")
+  freelancerId String   @map("freelancer_id")
+  rating       Int
+  comment      String?  @db.Text
+
+  // Relasi
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  client       User     @relation("ClientReviews", fields: [clientId], references: [id], onDelete: Cascade)
+  freelancer   User     @relation("FreelancerReviews", fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model Dispute {
+  id            String        @id @default(uuid())
+  orderId       String        @map("order_id")
+  complainantId String        @map("complainant_id") // Visual ERD: complainant_id
+  adminId       String?       @map("admin_id")       // Visual ERD: admin_id
+  reason        String        @db.Text
+  status        DisputeStatus @default(open)
+
+  // Relasi
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  complainant   User          @relation("ComplainantDisputes", fields: [complainantId], references: [id], onDelete: Cascade)
+  admin         Admin?        @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@map("disputes")
+}
+
+model FreelancerVerification {
+  id                String             @id @default(uuid())
+  userId            String             @unique @map("user_id")
+  fullName          String             @map("full_name")
+  phone             String
+  email             String
+  birthPlace        String             @map("birth_place")
+  birthDate         DateTime           @map("birth_date")
+  link              String?            @db.Text
+  cvUrl             String             @map("cv_url") @db.Text
+  bankAccount       String             @map("bank_account")
+  status            VerificationStatus @default(pending)
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("freelancer_verifications")
+}
