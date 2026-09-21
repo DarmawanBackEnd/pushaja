@@ -5,6 +5,7 @@ import HeroSearch from '@/components/HeroSearch';
 import CategorySlider from '@/components/CategorySlider';
 import TypingHeroTitle from '@/components/TypingHeroTitle';
 import GigSlider from '@/components/GigSlider';
+import { ShieldCheck, Zap, Scale, MessageSquareQuote, Star, Sprout } from 'lucide-react';
 
 
 // ============================================================================
@@ -304,8 +305,8 @@ export default async function Home() {
             
             {/* Benefit 1 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center text-xl mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF]">
-                🛡️
+              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
+                <ShieldCheck size={22} strokeWidth={2.5} />
               </div>
               <h3 className="text-base font-extrabold text-slate-900 mb-3">Rekening Bersama pushaja</h3>
               <p className="text-xs text-slate-400 leading-relaxed font-medium">
@@ -315,8 +316,8 @@ export default async function Home() {
 
             {/* Benefit 2 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center text-xl mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF]">
-                ⚡
+              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
+                <Zap size={22} strokeWidth={2.5} />
               </div>
               <h3 className="text-base font-extrabold text-slate-900 mb-3">Dorong Kecepatan Pengiriman</h3>
               <p className="text-xs text-slate-400 leading-relaxed font-medium">
@@ -326,8 +327,8 @@ export default async function Home() {
 
             {/* Benefit 3 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center text-xl mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF]">
-                ⚖️
+              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
+                <Scale size={22} strokeWidth={2.5} />
               </div>
               <h3 className="text-base font-extrabold text-slate-900 mb-3">Mediasi Sengketa (Dispute) Adil</h3>
               <p className="text-xs text-slate-400 leading-relaxed font-medium">
@@ -379,7 +380,7 @@ export default async function Home() {
           {/* Header Section */}
           <div className="max-w-3xl mb-16 text-left animate-in fade-in duration-550">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-3 py-1 text-[10px] font-black tracking-wider text-[#1E40AF] uppercase border border-[#1E40AF]/10 mb-3">
-              💬 TESTIMONI TERVERIFIKASI
+              <MessageSquareQuote size={12} strokeWidth={2.5} /> TESTIMONI TERVERIFIKASI
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
               Apa Kata Klien Tentang pushaja?
@@ -396,8 +397,8 @@ export default async function Home() {
             <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
                 {/* Rating Bintang */}
-                <div className="flex gap-1 text-[#A3E635] text-lg mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
-                  ★ ★ ★ ★ ★
+                <div className="flex gap-1 text-[#A3E635] mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
+                  <Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" />
                 </div>
                 {/* Kutipan Ulasan */}
                 <blockquote className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium italic">
@@ -421,8 +422,8 @@ export default async function Home() {
             <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
                 {/* Rating Bintang */}
-                <div className="flex gap-1 text-[#A3E635] text-lg mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
-                  ★ ★ ★ ★ ★
+                <div className="flex gap-1 text-[#A3E635] mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
+                  <Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" />
                 </div>
                 {/* Kutipan Ulasan */}
                 <blockquote className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium italic">
@@ -446,8 +447,8 @@ export default async function Home() {
             <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
                 {/* Rating Bintang */}
-                <div className="flex gap-1 text-[#A3E635] text-lg mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
-                  ★ ★ ★ ★ ★
+                <div className="flex gap-1 text-[#A3E635] mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
+                  <Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" />
                 </div>
                 {/* Kutipan Ulasan */}
                 <blockquote className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium italic">
@@ -494,7 +495,7 @@ export default async function Home() {
               <div className="md:col-span-7 text-left space-y-6">
                 
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-widest text-[#A3E635] uppercase border border-white/10">
-                  🌱 TENTANG PUSHAJA
+                  <Sprout size={12} strokeWidth={2.5} /> TENTANG PUSHAJA
                 </span>
                 
                 <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">

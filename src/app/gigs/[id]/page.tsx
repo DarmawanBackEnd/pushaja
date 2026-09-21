@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import { Star } from 'lucide-react';
 
 export default async function GigDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -75,17 +76,17 @@ export default async function GigDetailPage({ params }: { params: Promise<{ id: 
                   )}
                 </div>
                 <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mt-1">
-                  <span className="flex items-center gap-1"><span className="text-[#A3E635]">★</span> 5.0 (24 Ulasan)</span>
+                  <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 fill-[#A3E635] text-[#A3E635]" /> 5.0 (24 Ulasan)</span>
                   <span>•</span>
-                  <span>{gig.orders?._count || 0} Pesanan Selesai</span>
+                  <span>{((gig as any).orders?._count ?? (gig as any)._count?.orders ?? 0)} Pesanan Selesai</span>
                 </div>
               </div>
             </div>
 
             {/* Banner Jasa */}
             <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-slate-100 border border-slate-200">
-              {gig.imageUrl ? (
-                <Image src={gig.imageUrl} alt={gig.title} fill className="object-cover" />
+              {(gig as any).imageUrl ? (
+                <Image src={(gig as any).imageUrl} alt={gig.title} fill className="object-cover" />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1E40AF] to-indigo-900 flex items-center justify-center">
                   <span className="text-white/20 font-black text-4xl uppercase tracking-widest">PUSHAJA</span>

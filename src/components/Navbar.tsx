@@ -62,19 +62,19 @@ export default function Navbar() {
              ---------------------------------------------------- */}
           <div className="flex items-center gap-8 shrink-0">
             <a href="/" className="flex items-center group">
-              <div className="relative w-32 h-9 transition-transform group-hover:scale-105">
+              <div className="relative w-32 sm:w-36 h-11 sm:h-12 transition-transform duration-300 group-hover:scale-105">
                 <Image 
-                  src="/logo%20pushaja.png"
+                  src="/logo-pushaja-v2.png"
                   alt="Logo pushaja" 
                   fill
                   priority
-                  className="object-contain"
+                  className="object-contain object-left"
                 />
               </div>
             </a>
 
             {/* Menu Navigasi Tengah (Desktop Only) */}
-            <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+            <nav className="hidden md:flex items-center gap-7 text-[15px] font-semibold text-slate-600">
               <a href="#" className="hover:text-[#1E40AF] transition-colors">Jobboard</a>
               
               {/* Dropdown Mempekerjakan */}
@@ -82,7 +82,7 @@ export default function Navbar() {
                 <button 
                   onClick={() => setIsHireOpen(!isHireOpen)}
                   onBlur={() => setTimeout(() => setIsHireOpen(false), 200)}
-                  className="flex items-center gap-1 hover:text-[#1E40AF] transition-colors focus:outline-none"
+                  className="flex items-center gap-1.5 hover:text-[#1E40AF] transition-colors focus:outline-none"
                 >
                   Mempekerjakan
                   <svg className={`h-4 w-4 transition-transform duration-200 ${isHireOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,14 +92,14 @@ export default function Navbar() {
 
                 {/* Dropdown Menu Box */}
                 {isHireOpen && (
-                  <div className="absolute left-0 mt-3 w-56 rounded-2xl border border-slate-100 bg-white p-2.5 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150">
-                    <a href="#" className="block rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                  <div className="absolute left-0 mt-3 w-60 rounded-2xl border border-slate-100 bg-white p-2.5 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <a href="#" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
                       Buat Project Baru (Brief)
                     </a>
-                    <a href="#" className="block rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                    <a href="#" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
                       Cari Berdasarkan Keahlian
                     </a>
-                    <a href="#" className="block rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                    <a href="#" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
                       Panduan Rekrutmen Freelancer
                     </a>
                   </div>
@@ -111,7 +111,7 @@ export default function Navbar() {
           {/* ----------------------------------------------------
               BAGIAN KANAN: TOMBOL AKSI & USER REGISTER
              ---------------------------------------------------- */}
-          <div className="hidden md:flex items-center gap-6 text-sm font-bold shrink-0">
+          <div className="hidden md:flex items-center gap-6 text-[15px] font-semibold shrink-0">
             {session ? (
               // TAMPILAN SETELAH LOGIN (FOTO PROFIL & DROPDOWN PENGATURAN)
               <div className="relative" ref={profileRef}>
@@ -120,8 +120,8 @@ export default function Navbar() {
                   className="flex items-center gap-3 hover:opacity-80 transition-opacity focus:outline-none"
                 >
                   <div className="text-right hidden lg:block">
-                    <p className="text-sm font-bold text-slate-800">{profile?.name || session.name}</p>
-                    <p className="text-xs font-semibold text-slate-400 capitalize">{session.role}</p>
+                    <p className="text-[15px] font-bold text-slate-800">{profile?.name || session.name}</p>
+                    <p className="text-xs font-medium text-slate-400 capitalize">{session.role}</p>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#1E40AF] to-[#A3E635] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative">
                     {profile?.profilePicture ? (
@@ -210,7 +210,7 @@ export default function Navbar() {
                 {/* Tombol Daftar / Registrasi (Blue Pill Button) */}
                 <a 
                   href="/register" 
-                  className="rounded-full bg-[#1E40AF] px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/10 hover:bg-[#1e40af]/90 hover:shadow-lg transition-all active:scale-[0.98]"
+                  className="rounded-full bg-[#1E40AF] px-6 py-2.5 text-[15px] font-bold text-white shadow-md shadow-blue-500/10 hover:bg-[#1e40af]/90 hover:shadow-lg transition-all active:scale-[0.98]"
                 >
                   Daftar
                 </a>
@@ -242,7 +242,7 @@ export default function Navbar() {
          ---------------------------------------------------- */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white px-4 py-6 shadow-inner animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col gap-4 text-sm font-bold text-slate-700">
+          <nav className="flex flex-col gap-4 text-[15px] font-semibold text-slate-700">
             <a href="#" className="block py-2 hover:text-[#1E40AF]">Jobboard</a>
             <a href="#" className="block py-2 hover:text-[#1E40AF]">Cari Freelancer</a>
             

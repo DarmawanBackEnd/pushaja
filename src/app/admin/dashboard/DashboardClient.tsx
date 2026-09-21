@@ -4,6 +4,7 @@ import React, { useState, useTransition } from 'react';
 import { logoutUser } from '@/actions/auth.action';
 import { approveGig, rejectGig } from '@/actions/admin.action';
 import { useRouter } from 'next/navigation';
+import { Calendar, ChevronDown } from 'lucide-react';
 
 // Impor Tab Komponen Moduler Baru
 import OverviewTab from './tabs/OverviewTab';
@@ -304,7 +305,7 @@ export default function DashboardClient({
                   </svg>
                   Pengaturan Layanan
                 </span>
-                <span className={`text-[9px] transition-transform duration-300 ${isServicesDropdownOpen ? 'rotate-180' : ''}`}>▼</span>
+                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isServicesDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Submenus dengan Indentasi */}
@@ -416,8 +417,9 @@ export default function DashboardClient({
               {activeTab === 'sengketa' && 'Selesaikan perselisihan transaksi escrow dengan adil.'}
             </p>
           </div>
-          <div className="text-xs font-black text-slate-400 bg-white border border-slate-200 px-4 py-2.5 rounded-2xl self-start shrink-0">
-            📅 HARI INI: {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          <div className="flex items-center gap-1.5 text-xs font-black text-slate-400 bg-white border border-slate-200 px-4 py-2.5 rounded-2xl self-start shrink-0">
+            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+            <span>HARI INI: {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
           </div>
         </div>
 

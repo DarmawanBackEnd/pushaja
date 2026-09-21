@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 interface CategoryGroupWithCategories {
   id: string;
@@ -137,9 +138,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
               className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kiri"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
             </button>
           )}
 
@@ -150,9 +149,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
               className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kanan"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
             </button>
           )}
 
@@ -241,9 +238,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
                   </span>
 
                   {/* Ikon panah kecil di pojok kanan bawah melambangkan navigasi */}
-                  <span className="absolute bottom-4 right-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all text-xs font-bold z-10">
-                    ➔
-                  </span>
+                  <ArrowRight className="absolute bottom-4 right-4 h-4 w-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all z-10" />
                 </div>
               ))}
             </div>
@@ -265,7 +260,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
               className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#1E40AF] hover:text-[#1e40af]/80 hover:underline transition-all"
             >
               Lihat Jasa Lainnya di Kategori Ini
-              <span className="text-sm">➔</span>
+              <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </div>
         </div>

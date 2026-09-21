@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import { createModerator, updateModerator, deleteModerator } from '@/actions/admin.action';
+import { UserPlus } from 'lucide-react';
 
 interface ModeratorTabProps {
   moderators: any[];
@@ -200,7 +201,14 @@ export default function ModeratorTab({ moderators, userRole, onRefresh }: Modera
             disabled={isPending}
             className="w-full rounded-xl bg-[#1E40AF] hover:bg-blue-800 py-3 text-xs font-black text-white active:scale-[0.98] transition-all shadow-md shadow-blue-500/10 cursor-pointer"
           >
-            {isPending ? 'Menyimpan...' : '➕ Daftarkan Moderator'}
+            {isPending ? (
+              'Menyimpan...'
+            ) : (
+              <span className="flex items-center justify-center gap-1.5">
+                <UserPlus className="w-4 h-4" />
+                Daftarkan Moderator
+              </span>
+            )}
           </button>
         </form>
 

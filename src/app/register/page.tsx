@@ -5,6 +5,7 @@ import { registerUser } from '@/actions/auth.action';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { AlertTriangle, ArrowRight } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function RegisterPage() {
         {/* Notifikasi Sukses / Gagal */}
         {error && (
           <div className="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 text-xs font-bold flex gap-2 items-center animate-in slide-in-from-top-2">
-            <span className="text-base">⚠️</span>
+            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
         )}
@@ -158,7 +159,12 @@ export default function RegisterPage() {
                 <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
                 Memproses Pendaftaran...
               </span>
-            ) : 'Daftar Akun Baru ➔'}
+            ) : (
+              <span className="flex items-center justify-center gap-2">
+                Daftar Akun Baru
+                <ArrowRight className="w-4 h-4" />
+              </span>
+            )}
           </button>
         </form>
 

@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
+import { ChevronLeft, ChevronRight, Flame, Star, Clock } from 'lucide-react';
 
 interface GigSliderProps {
   gigs: any[];
@@ -74,31 +75,25 @@ export default function GigSlider({ gigs }: GigSliderProps) {
 
   return (
     <div className="relative w-full group/slider">
-      {/* Tombol Navigasi Kiri (Clean, tanpa background abu-abu/gradient tebal) */}
+      {/* Tombol Navigasi Kiri */}
       {showLeftArrow && (
         <button
           onClick={() => scroll('left')}
           className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-110 active:scale-90 transition-all duration-300 focus:outline-none cursor-pointer"
           aria-label="Geser Kiri"
         >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <title>Geser Kiri</title>
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft className="h-6 w-6" strokeWidth={2.5} />
         </button>
       )}
 
-      {/* Tombol Navigasi Kanan (Clean, tanpa background abu-abu/gradient tebal) */}
+      {/* Tombol Navigasi Kanan */}
       {showRightArrow && (
         <button
           onClick={() => scroll('right')}
           className="absolute right-[-20px] top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-110 active:scale-90 transition-all duration-300 focus:outline-none cursor-pointer"
           aria-label="Geser Kanan"
         >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <title>Geser Kanan</title>
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight className="h-6 w-6" strokeWidth={2.5} />
         </button>
       )}
 
@@ -150,14 +145,14 @@ export default function GigSlider({ gigs }: GigSliderProps) {
                   </span>
                   
                   {/* Badge Popularitas Otomatis */}
-                  <span className="flex items-center gap-1 rounded-full bg-[#A3E635]/20 backdrop-blur-md px-3 py-1 text-[9px] font-black text-[#A3E635] border border-[#A3E635]/30">
-                    🔥 TERPOPULER #{idx + 1}
+                  <span className="flex items-center gap-1.5 rounded-full bg-[#A3E635]/20 backdrop-blur-md px-3 py-1 text-[9px] font-black text-[#A3E635] border border-[#A3E635]/30">
+                    <Flame className="w-3 h-3 text-[#A3E635]" /> TERPOPULER #{idx + 1}
                   </span>
                 </div>
 
                 {/* Info Rating & Jumlah Ulasan */}
                 <div className="flex items-center gap-1.5 self-start bg-slate-950/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black border border-white/5 z-10">
-                  <span className="text-[#A3E635]">★</span>
+                  <Star className="w-3.5 h-3.5 fill-[#A3E635] text-[#A3E635]" />
                   <span>{gig.rating ? Number(gig.rating).toFixed(1) : '5.0'}</span>
                   <span className="text-white/60 font-semibold">({gig.reviewsCount || 25 + (idx * 7)})</span>
                 </div>
@@ -203,11 +198,8 @@ export default function GigSlider({ gigs }: GigSliderProps) {
                   </div>
 
                   {/* Estimasi Waktu Pengiriman */}
-                  <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold shrink-0">
-                    <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <title>Durasi Pengerjaan</title>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                  <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-bold shrink-0">
+                    <Clock className="h-3.5 w-3.5 text-slate-400" />
                     <span>{gig.deliveryDays || 3} hari</span>
                   </div>
                 </div>

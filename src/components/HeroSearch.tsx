@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { Clock, Sparkles } from 'lucide-react';
 
 /**
  * KOMPONEN: HeroSearch
@@ -163,7 +164,7 @@ export default function HeroSearch() {
           {/* Bagian A: Riwayat Pencarian */}
           <div className="mb-6">
             <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-              <span>🕒</span> Riwayat Pencarian
+              <Clock size={13} strokeWidth={2.5} /> Riwayat Pencarian
             </h4>
             
             {history.length === 0 ? (
@@ -206,7 +207,7 @@ export default function HeroSearch() {
           {/* Bagian B: Pencarian Populer */}
           <div>
             <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-              <span>✨</span> Pencarian Populer
+              <Sparkles size={13} strokeWidth={2.5} /> Pencarian Populer
             </h4>
             <div className="flex flex-wrap gap-2 pl-1">
               {POPULAR_SEARCHES.map((term) => (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trophy } from 'lucide-react';
 
 export default function AdminWidgets() {
   return (
@@ -54,7 +55,7 @@ export default function AdminWidgets() {
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
         <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-amber-50/30">
           <div className="flex items-center gap-2">
-            <span className="text-lg">🏆</span>
+            <Trophy className="w-5 h-5 text-amber-500" />
             <h3 className="font-black text-slate-800 text-sm">Top Freelancers</h3>
           </div>
           <span className="text-[10px] font-bold text-slate-400 uppercase">Bulan Ini</span>

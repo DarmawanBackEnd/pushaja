@@ -8,9 +8,10 @@ import {
   createCategory, 
   updateCategory, 
   deleteCategory,
-  getCategoryGroups,
-  getCategoriesList
+  getCategoryGroups, 
+  getCategoriesList 
 } from '@/actions/admin.action';
+import { PlusCircle } from 'lucide-react';
 
 interface CategoryTabProps {
   categories: any[];
@@ -371,7 +372,14 @@ export default function CategoryTab({
                 disabled={isPending}
                 className="w-full rounded-xl bg-[#1E40AF] hover:bg-blue-800 py-3 text-xs font-black text-white active:scale-[0.98] transition-all shadow-md shadow-blue-500/10 cursor-pointer text-center"
               >
-                {isPending ? 'Menyimpan...' : '➕ Tambah Kategori Grup'}
+                {isPending ? (
+                  'Menyimpan...'
+                ) : (
+                  <span className="flex items-center justify-center gap-1.5">
+                    <PlusCircle className="w-4 h-4" />
+                    Tambah Kategori Grup
+                  </span>
+                )}
               </button>
             </form>
           </div>
@@ -544,7 +552,14 @@ export default function CategoryTab({
                 disabled={isPending}
                 className="w-full rounded-xl bg-[#1E40AF] hover:bg-blue-800 py-3 text-xs font-black text-white active:scale-[0.98] transition-all shadow-md shadow-blue-500/10 cursor-pointer text-center"
               >
-                {isPending ? 'Menerbitkan...' : '➕ Terbitkan Jenis Layanan'}
+                {isPending ? (
+                  'Menerbitkan...'
+                ) : (
+                  <span className="flex items-center justify-center gap-1.5">
+                    <PlusCircle className="w-4 h-4" />
+                    Terbitkan Jenis Layanan
+                  </span>
+                )}
               </button>
             </form>
           </div>
