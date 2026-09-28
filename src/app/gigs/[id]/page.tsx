@@ -24,6 +24,8 @@ export default async function GigDetailPage({ params }: { params: Promise<{ id: 
     minimumFractionDigits: 0,
   }).format(rawPrice);
 
+  const categorySlug = (gig.category as any)?.slug || '';
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-[#A3E635] selection:text-[#1E40AF]">
       <Navbar />
@@ -34,7 +36,9 @@ export default async function GigDetailPage({ params }: { params: Promise<{ id: 
         <nav className="mb-8 text-xs font-bold text-slate-400 flex items-center gap-2">
           <Link href="/" className="hover:text-[#1E40AF] transition-colors">Beranda</Link>
           <span>/</span>
-          <span className="hover:text-[#1E40AF] transition-colors cursor-pointer">{gig.category.name}</span>
+          <Link href={categorySlug ? `/categories/${categorySlug}` : '/categories'} className="hover:text-[#1E40AF] transition-colors">
+            {gig.category?.name}
+          </Link>
           <span>/</span>
           <span className="text-slate-600 truncate max-w-[200px]">{gig.title}</span>
         </nav>
@@ -46,9 +50,12 @@ export default async function GigDetailPage({ params }: { params: Promise<{ id: 
             
             {/* Header: Judul & Kategori */}
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-3 py-1 text-[10px] font-black tracking-widest text-[#1E40AF] uppercase border border-[#1E40AF]/10 mb-4">
-                {gig.category.name}
-              </span>
+              <Link 
+                href={categorySlug ? `/categories/${categorySlug}` : '/categories'}
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-3 py-1 text-[10px] font-black tracking-widest text-[#1E40AF] uppercase border border-[#1E40AF]/10 mb-4 hover:bg-[#1E40AF]/10 transition-colors"
+              >
+                {gig.category?.name}
+              </Link>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
                 {gig.title}
               </h1>

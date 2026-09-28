@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 interface CategoryGroupWithCategories {
@@ -211,8 +212,9 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
           {activeGroup && activeGroup.categories && activeGroup.categories.length > 0 ? (
             <div className="grid gap-4 grid-cols-2 md:grid-cols-4 animate-in fade-in duration-300">
               {activeGroup.categories.map((sub) => (
-                <div 
+                <Link 
                   key={sub.id}
+                  href={`/categories/${sub.slug}`}
                   className="relative h-28 rounded-2xl overflow-hidden bg-slate-900 p-5 flex flex-col justify-end text-white shadow-sm hover:shadow-lg hover:scale-[1.03] hover:brightness-105 active:scale-95 transition-all duration-300 cursor-pointer group"
                 >
                   {/* Gambar visual premium Unsplash */}
@@ -239,7 +241,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
 
                   {/* Ikon panah kecil di pojok kanan bawah melambangkan navigasi */}
                   <ArrowRight className="absolute bottom-4 right-4 h-4 w-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all z-10" />
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
@@ -255,13 +257,13 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
 
           {/* LINK SELANJUTNYA (DI KANAN BAWAH ALA FIVERR/FASTWORK) */}
           <div className="mt-6 flex justify-end">
-            <a 
-              href={`#kategori-${activeSlug}`} 
+            <Link 
+              href={`/categories/${activeGroup?.slug || activeSlug}`} 
               className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#1E40AF] hover:text-[#1e40af]/80 hover:underline transition-all"
             >
               Lihat Jasa Lainnya di Kategori Ini
               <ArrowRight className="h-3.5 w-3.5" />
-            </a>
+            </Link>
           </div>
         </div>
 
