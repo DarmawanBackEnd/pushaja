@@ -91,7 +91,7 @@ const PUSHAJA_GIGS = [
     rating: 5.0,
     reviewsCount: 24,
     status: 'active',
-    category: { name: 'Web Programming' },
+    category: { name: 'Web Programming', slug: 'pembuatan-web-saas' },
     freelancer: {
       name: 'Darmawan Putra',
       isVerified: true,
@@ -107,7 +107,7 @@ const PUSHAJA_GIGS = [
     rating: 4.9,
     reviewsCount: 42,
     status: 'active',
-    category: { name: 'UI/UX & Desain Grafis' },
+    category: { name: 'UI/UX & Desain Grafis', slug: 'desain-landing-page' },
     freelancer: {
       name: 'Syafira Putri',
       isVerified: true,
@@ -123,7 +123,7 @@ const PUSHAJA_GIGS = [
     rating: 4.8,
     reviewsCount: 16,
     status: 'active',
-    category: { name: 'Database & DevOps' },
+    category: { name: 'Database & DevOps', slug: 'tuning-query-postgresql' },
     freelancer: {
       name: 'Eko Prasetyo',
       isVerified: false,
@@ -139,7 +139,7 @@ const PUSHAJA_GIGS = [
     rating: 5.0,
     reviewsCount: 58,
     status: 'active',
-    category: { name: 'Writing & Translation' },
+    category: { name: 'Writing & Translation', slug: 'copywriting-landing-page' },
     freelancer: {
       name: 'Riana Lestari',
       isVerified: true,
@@ -155,7 +155,7 @@ const PUSHAJA_GIGS = [
     rating: 4.9,
     reviewsCount: 31,
     status: 'active',
-    category: { name: 'Video & Animation' },
+    category: { name: 'Video & Animation', slug: 'editing-video-tiktok' },
     freelancer: {
       name: 'Budi Santoso',
       isVerified: true,
@@ -171,7 +171,7 @@ const PUSHAJA_GIGS = [
     rating: 5.0,
     reviewsCount: 12,
     status: 'active',
-    category: { name: 'Security & Network' },
+    category: { name: 'Security & Network', slug: 'integrasi-api-payment' },
     freelancer: {
       name: 'Kevin Wijaya',
       isVerified: false,
@@ -227,5 +227,140 @@ export async function getGigById(id: string) {
   } catch (error) {
     console.error('Terjadi kegagalan mengambil detail gig:', error);
     return { success: false, error: 'Gagal memuat detail jasa.' };
+  }
+}
+
+export interface SearchGigsParams {
+  query?: string;
+  categorySlug?: string;
+  sortBy?: string;
+}
+
+/**
+ * SERVER ACTION: searchGigsAction
+ * Melakukan pencarian jasa secara cerdas di database PostgreSQL,
+ * mencakup judul, deskripsi, kategori, dan nama freelancer.
+ */
+export async function searchGigsAction(params: SearchGigsParams) {
+  try {
+    const { query = '', categorySlug = '', sortBy = 'popular' } = params;
+    const trimmedQuery = query.trim();
+
+    // Ambil daftar kategori untuk filter navigasi
+    const categories = await prisma.category.findMany({
+      orderBy: { name: 'asc' },
+      select: { id: true, name: true, slug: true }
+    });
+
+    // Susun filter pencarian
+    const where: any = {
+      status: 'active'
+    };
+
+    if (trimmedQuery) {
+      where.OR = [
+        { title: { contains: trimmedQuery, mode: 'insensitive' } },
+        { description: { contains: trimmedQuery, mode: 'insensitive' } },
+        { category: { name: { contains: trimmedQuery, mode: 'insensitive' } } },
+        { freelancer: { name: { contains: trimmedQuery, mode: 'insensitive' } } },
+      ];
+    }
+
+    if (categorySlug) {
+      where.category = {
+        slug: categorySlug
+      };
+    }
+
+    // Urutan penyortiran
+    let orderBy: any = { orders: { _count: 'desc' } };
+    if (sortBy === 'price_low') {
+      orderBy = { price: 'asc' };
+    } else if (sortBy === 'price_high') {
+      orderBy = { price: 'desc' };
+    } else if (sortBy === 'latest') {
+      orderBy = { id: 'desc' };
+    }
+
+    const dbGigs = await prisma.gig.findMany({
+      where,
+      orderBy,
+      include: {
+        freelancer: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            isVerified: true,
+            profilePicture: true,
+          }
+        },
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          }
+        },
+        _count: {
+          select: { orders: true }
+        }
+      }
+    });
+
+    let finalGigs: any[] = dbGigs.map(g => ({
+      ...g,
+      price: Number(g.price),
+      rating: 5.0,
+      reviewsCount: g._count?.orders || 0,
+    }));
+
+    let isDemo = false;
+    // Fallback pencarian pada demo gigs jika hasil DB kosong
+    if (finalGigs.length === 0) {
+      let filteredDemo = [...PUSHAJA_GIGS];
+      if (trimmedQuery) {
+        const qLower = trimmedQuery.toLowerCase();
+        filteredDemo = filteredDemo.filter(g => 
+          g.title.toLowerCase().includes(qLower) ||
+          g.description.toLowerCase().includes(qLower) ||
+          g.category.name.toLowerCase().includes(qLower) ||
+          g.freelancer.name.toLowerCase().includes(qLower)
+        );
+      }
+      if (categorySlug) {
+        filteredDemo = filteredDemo.filter(g => 
+          g.category.slug === categorySlug ||
+          g.category.name.toLowerCase().includes(categorySlug.replace(/-/g, ' ').toLowerCase())
+        );
+      }
+      if (sortBy === 'price_low') {
+        filteredDemo.sort((a, b) => a.price - b.price);
+      } else if (sortBy === 'price_high') {
+        filteredDemo.sort((a, b) => b.price - a.price);
+      }
+
+      if (filteredDemo.length > 0) {
+        finalGigs = filteredDemo;
+        isDemo = true;
+      }
+    }
+
+    return {
+      success: true,
+      data: finalGigs,
+      categories,
+      totalCount: finalGigs.length,
+      isDemo
+    };
+  } catch (error) {
+    console.error('Gagal melakukan pencarian jasa:', error);
+    return {
+      success: false,
+      data: [],
+      categories: [],
+      totalCount: 0,
+      error: 'Terjadi kesalahan saat memproses pencarian.'
+    };
   }
 }

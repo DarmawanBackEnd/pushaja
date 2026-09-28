@@ -1,27 +1,18 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Clock, Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Clock, Sparkles, Search, X } from 'lucide-react';
 
 /**
  * KOMPONEN: HeroSearch
  * 
- * APA komponen ini?
- * Komponen pencarian interaktif yang dipasang di tengah Hero Section. Komponen ini 
- * bertindak sebagai React Client Component untuk menangani status interaksi dinamis.
- * 
- * MENGAPA ditulis seperti ini?
- * 1. Dropdown Riwayat & Populer: Saat input diklik (fokus), sebuah dropdown card berisi 
- *    "Riwayat Pencarian" dan "Pencarian Populer" akan muncul.
- * 2. Integrasi LocalStorage: Riwayat pencarian disimpan dan diambil secara dinamis dari 
- *    `localStorage` browser pengguna, sehingga benar-benar berfungsi secara riil!
- * 3. Trik onMouseDown & preventDefault: Untuk mencegah dropdown langsung menutup ketika 
- *    pengguna mengeklik item di dalamnya, kita menggunakan event `onMouseDown` dengan 
- *    `e.preventDefault()`. Ini menunda penutupan input dan memicu aksi klik secara mulus.
- * 4. Desain Visual Premium: Meniru persis estetika pencarian AI milik Fastwork dengan border 
- *    gradien melingkar yang menawan, ikon kilau bintang (sparkle), dan tata letak yang bersih.
+ * Komponen pencarian interaktif yang dipasang di tengah Hero Section.
+ * Mengintegrasikan pencarian riil ke halaman /search dengan query pencarian,
+ * riwayat tersimpan di LocalStorage, dan kata kunci populer.
  */
 export default function HeroSearch() {
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
@@ -73,8 +64,8 @@ export default function HeroSearch() {
     saveHistory(updatedHistory);
     setIsFocused(false);
     
-    // Simulasi aksi pencarian (bisa diarahkan ke router.push('/search?q=' + query) di masa depan)
-    alert(`Mencari Jasa untuk: "${trimmedQuery}"`);
+    // Arahkan ke rute hasil pencarian riil
+    router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
   };
 
   // Menghapus satu item dari riwayat pencarian
@@ -84,7 +75,7 @@ export default function HeroSearch() {
     saveHistory(updatedHistory);
   };
 
-  // Menangani klik pada salah satu tag di dropdown (mengisi input pencarian)
+  // Menangani klik pada salah satu tag di dropdown (mengisi input & langsung cari)
   const handleItemSelect = (selectedText: string) => {
     setQuery(selectedText);
     
@@ -96,6 +87,9 @@ export default function HeroSearch() {
     
     saveHistory(updatedHistory);
     setIsFocused(false);
+
+    // Langsung navigasi ke hasil pencarian
+    router.push(`/search?q=${encodeURIComponent(selectedText)}`);
   };
 
   // Efek klik di luar kontainer untuk menutup dropdown
@@ -125,11 +119,9 @@ export default function HeroSearch() {
             : 'border-slate-200 hover:border-slate-300'
         }`}
       >
-        {/* Ikon Sparkles AI di bagian kiri (Fastwork-style) */}
+        {/* Ikon Sparkles di bagian kiri */}
         <div className="flex items-center pl-3 shrink-0 text-slate-400">
-          <svg className="h-5 w-5 text-violet-500 fill-current animate-pulse" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
+          <Sparkles className="h-5 w-5 text-[#1E40AF] animate-pulse" />
         </div>
 
         {/* Input Text Utama */}
@@ -138,19 +130,18 @@ export default function HeroSearch() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
-          placeholder="Logo minimalis untuk restoran" 
+          placeholder="Cari jasa: contoh 'Web SaaS', 'Desain Logo', 'Video Editor'..." 
           className="w-full bg-transparent px-2 py-3 text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
         />
 
-        {/* Info & Tombol AI Search kanan (Ala Fastwork referensi Anda) */}
+        {/* Info & Tombol Cari kanan */}
         <div className="flex items-center gap-3 shrink-0 pr-1">
           <button 
             type="submit"
+            aria-label="Cari Jasa"
             className="rounded-full bg-gradient-to-r from-[#1E40AF] to-blue-700 p-3 text-white hover:opacity-90 shadow-md hover:shadow-lg transition-all active:scale-95"
           >
-            <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <Search className="h-4 w-4" strokeWidth={2.5} />
           </button>
         </div>
       </form>
@@ -159,7 +150,7 @@ export default function HeroSearch() {
           DROPDOWN CONTAINER (RIWAYAT & PENCARIAN POPULER)
          ---------------------------------------------------- */}
       {isFocused && (
-        <div className="absolute left-0 mt-3 w-full rounded-3xl border border-slate-100 bg-white p-6 shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200">
+        <div className="absolute left-0 mt-3 w-full rounded-3xl border border-slate-100 bg-white p-6 shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 text-left">
           
           {/* Bagian A: Riwayat Pencarian */}
           <div className="mb-6">
@@ -181,19 +172,18 @@ export default function HeroSearch() {
                     className="group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] cursor-pointer transition-colors"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-slate-300">#</span>
+                      <Search className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#1E40AF]" />
                       {item}
                     </span>
                     {/* Tombol hapus riwayat individual */}
                     <button 
+                      type="button"
                       onMouseDown={(e) => e.stopPropagation()} // Cegah trigger item klik
                       onClick={(e) => handleDeleteHistory(item, e)}
                       className="rounded-full p-1 text-slate-300 hover:bg-slate-200 hover:text-slate-600 transition-all opacity-0 group-hover:opacity-100"
                       title="Hapus riwayat"
                     >
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
+                      <X className="h-3.5 h-3.5" />
                     </button>
                   </li>
                 ))}
