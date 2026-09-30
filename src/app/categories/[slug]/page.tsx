@@ -376,6 +376,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   <div className="pt-3">
                     <Link
                       href="/freelancer/apply"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E40AF] hover:bg-[#1e40af]/90 text-white text-xs font-extrabold shadow-md hover:shadow-lg transition-all"
                     >
                       <PlusCircle className="w-4 h-4" />
@@ -399,7 +401,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <div className="flex items-center gap-6">
             <Link href="/" className="hover:text-[#1E40AF] transition-colors">Beranda</Link>
             <Link href="/categories" className="hover:text-[#1E40AF] transition-colors">Semua Kategori</Link>
-            <Link href="/freelancer/apply" className="hover:text-[#1E40AF] transition-colors">Daftar Freelancer</Link>
+            <Link href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="hover:text-[#1E40AF] transition-colors">Daftar Freelancer</Link>
           </div>
         </div>
       </footer>

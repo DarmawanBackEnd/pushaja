@@ -46,7 +46,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           <div className="flex items-center gap-6">
             <Link href="/" className="hover:text-[#1E40AF] transition-colors">Beranda</Link>
             <Link href="/categories" className="hover:text-[#1E40AF] transition-colors">Semua Kategori</Link>
-            <Link href="/freelancer/apply" className="hover:text-[#1E40AF] transition-colors">Daftar Freelancer</Link>
+            <Link href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="hover:text-[#1E40AF] transition-colors">Daftar Freelancer</Link>
           </div>
         </div>
       </footer>

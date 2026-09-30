@@ -156,7 +156,7 @@ export default function Navbar() {
                     ) : null}
 
                     {session.role === 'client' ? (
-                      <a href="/freelancer/apply" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                      <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
                         <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         Daftar sebagai Freelancer
                       </a>
@@ -195,7 +195,7 @@ export default function Navbar() {
               // TAMPILAN SEBELUM LOGIN (TOMBOL DAFTAR / MASUK)
               <>
                 {/* Link Daftar sebagai Freelancer (Warna aksen biru elegan) */}
-                <a href="/freelancer/apply" className="text-slate-600 hover:text-[#1E40AF] transition-colors font-semibold">
+                <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#1E40AF] transition-colors font-semibold">
                   Daftar sebagai freelancer
                 </a>
                 
@@ -270,7 +270,7 @@ export default function Navbar() {
                   <a href="/freelancer/dashboard" className="block py-2 hover:text-[#1E40AF]">Dashboard Freelancer</a>
                 ) : null}
                 {session.role === 'client' ? (
-                  <a href="/freelancer/apply" className="block py-2 hover:text-[#1E40AF]">Daftar sebagai Freelancer</a>
+                  <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 hover:text-[#1E40AF]">Daftar sebagai Freelancer</a>
                 ) : null}
                 <Link href="/chat/order-dummy-123" className="block py-2 hover:text-[#1E40AF]">Kotak Pesan</Link>
                 <a href="#" className="block py-2 hover:text-[#1E40AF]">Kupon Diskon</a>
@@ -280,7 +280,7 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <a href="/freelancer/apply" className="block py-2 text-[#1E40AF] hover:underline">Daftar sebagai freelancer</a>
+                <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 text-[#1E40AF] hover:underline">Daftar sebagai freelancer</a>
                 
                 <div className="h-[1px] bg-slate-100 my-2"></div>
                 

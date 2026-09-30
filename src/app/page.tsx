@@ -590,7 +590,7 @@ export default async function Home() {
           <div>
             <h4 className="text-sm font-bold text-slate-800 mb-4">Untuk Freelancer</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Cara Mulai Jual Layanan</a></li>
+              <li><a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="hover:text-[#1E40AF] transition-colors">Cara Mulai Jual Layanan</a></li>
               <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Skema Komisi Pembagian Hasil</a></li>
               <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Pencairan Saldo (Withdraw)</a></li>
               <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Tips Memperoleh Banyak Orderan</a></li>
