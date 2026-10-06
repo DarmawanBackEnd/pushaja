@@ -139,8 +139,8 @@ export default function GigPackageSelector({ basePrice, deliveryDays, packagesJs
             </div>
 
             {/* Order Button */}
-            <Link href={`/chat/order-dummy-123`} className="w-full rounded-2xl bg-[#1E40AF] px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2 group">
-              Pilih {activePackage.name}
+            <Link href={`/chat`} className="w-full rounded-2xl bg-[#1E40AF] px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2 group">
+              Pilih {activePackage.name} & Mulai Chat
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>

@@ -92,6 +92,10 @@ model User {
   freelancerReviews  Review[]   @relation("FreelancerReviews")
   disputes           Dispute[]  @relation("ComplainantDisputes")
   verification       FreelancerVerification?
+  conversationsAsUserOne Conversation[] @relation("UserOneConversations")
+  conversationsAsUserTwo Conversation[] @relation("UserTwoConversations")
+  sentMessages           Message[]      @relation("SentMessages")
+  receivedMessages       Message[]      @relation("ReceivedMessages")
 
   @@map("users")
 }
@@ -133,6 +137,7 @@ model Gig {
   freelancer   User      @relation("FreelancerGigs", fields: [freelancerId], references: [id], onDelete: Cascade)
   category     Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   orders       Order[]
+  conversations Conversation[]
 
   @@map("gigs")
 }
@@ -154,6 +159,7 @@ model Order {
   deliverables Deliverable[]
   reviews      Review[]
   disputes     Dispute[]
+  conversations Conversation[]
 
   @@map("orders")
 }
@@ -236,3 +242,44 @@ model FreelancerVerification {
 
   @@map("freelancer_verifications")
 }
+
+model Conversation {
+  id            String    @id @default(uuid())
+  userOneId     String    @map("user_one_id")
+  userTwoId     String    @map("user_two_id")
+  orderId       String?   @map("order_id")
+  gigId         String?   @map("gig_id")
+  lastMessage   String?   @map("last_message") @db.Text
+  lastMessageAt DateTime  @default(now()) @map("last_message_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relasi
+  userOne       User      @relation("UserOneConversations", fields: [userOneId], references: [id], onDelete: Cascade)
+  userTwo       User      @relation("UserTwoConversations", fields: [userTwoId], references: [id], onDelete: Cascade)
+  order         Order?    @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  gig           Gig?      @relation(fields: [gigId], references: [id], onDelete: SetNull)
+  messages      Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String       @map("conversation_id")
+  senderId       String       @map("sender_id")
+  receiverId     String       @map("receiver_id")
+  text           String       @db.Text
+  attachmentUrl  String?      @map("attachment_url") @db.Text
+  attachmentType String?      @map("attachment_type")
+  isRead         Boolean      @default(false) @map("is_read")
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  // Relasi
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver       User         @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
