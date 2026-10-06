@@ -29,10 +29,18 @@ declare global {
   var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
-// Gunakan instance global jika sudah ada, atau buat baru jika belum ada
-export const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+// Gunakan instance global jika sudah ada dan memiliki model conversation, atau buat baru
+const getPrismaClient = () => {
+  if (globalThis.prismaGlobal && (globalThis.prismaGlobal as any).conversation) {
+    return globalThis.prismaGlobal;
+  }
+  
+  // Jika instance lama belum memiliki model conversation (stale cache), buat instance baru
+  const client = prismaClientSingleton();
+  if (process.env.NODE_ENV !== 'production') {
+    globalThis.prismaGlobal = client;
+  }
+  return client;
+};
 
-// Jika bukan di lingkungan produksi, simpan instance ke objek global
-if (process.env.NODE_ENV !== 'production') {
-  globalThis.prismaGlobal = prisma;
-}
+export const prisma = getPrismaClient();
