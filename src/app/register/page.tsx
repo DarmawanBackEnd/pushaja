@@ -77,7 +77,7 @@ export default function RegisterPage() {
           <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95 duration-200">
             <div className="relative w-44 h-12">
               <Image 
-                src="/logo-dinkop-kota-serang.png" 
+                src="/logo-dinkop-kota-serang-new.png" 
                 alt="Logo DinkopUKM Kota Serang" 
                 fill 
                 priority 
@@ -160,7 +160,7 @@ export default function RegisterPage() {
             <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95 duration-200">
               <div className="relative w-44 h-12 mx-auto">
                 <Image 
-                  src="/logo-dinkop-kota-serang.png"
+                  src="/logo-dinkop-kota-serang-new.png"
                   alt="Logo DinkopUKM Kota Serang" 
                   fill
                   priority
