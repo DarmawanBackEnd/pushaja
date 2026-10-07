@@ -545,8 +545,12 @@ export default async function Home() {
           
           {/* Col 1 */}
           <div className="col-span-2 md:col-span-1">
-            <div className="relative w-48 sm:w-56 h-12 sm:h-14 mb-4">
+            <div 
+              className="relative w-48 sm:w-56 h-12 sm:h-14 mb-4"
+              suppressHydrationWarning
+            >
               <Image 
+                key="footer-logo"
                 src="/logo-dinkop-kota-serang-new.png" 
                 alt="Logo DinkopUKM Perindag Kota Serang"
                 fill
