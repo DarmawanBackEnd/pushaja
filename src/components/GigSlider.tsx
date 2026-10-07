@@ -79,7 +79,7 @@ export default function GigSlider({ gigs }: GigSliderProps) {
       {showLeftArrow && (
         <button
           onClick={() => scroll('left')}
-          className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg hover:bg-slate-50 hover:text-[#15803D] hover:scale-110 active:scale-90 transition-all duration-300 focus:outline-none cursor-pointer"
+          className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-110 active:scale-90 transition-all duration-300 focus:outline-none cursor-pointer"
           aria-label="Geser Kiri"
         >
           <ChevronLeft className="h-6 w-6" strokeWidth={2.5} />
@@ -90,7 +90,7 @@ export default function GigSlider({ gigs }: GigSliderProps) {
       {showRightArrow && (
         <button
           onClick={() => scroll('right')}
-          className="absolute right-[-20px] top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg hover:bg-slate-50 hover:text-[#15803D] hover:scale-110 active:scale-90 transition-all duration-300 focus:outline-none cursor-pointer"
+          className="absolute right-[-20px] top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-110 active:scale-90 transition-all duration-300 focus:outline-none cursor-pointer"
           aria-label="Geser Kanan"
         >
           <ChevronRight className="h-6 w-6" strokeWidth={2.5} />
@@ -106,9 +106,9 @@ export default function GigSlider({ gigs }: GigSliderProps) {
         {popularGigs.map((gig, idx) => {
           // Buat variasi gradient background premium untuk visual header kartu
           const gradients = [
-            'from-[#15803D] via-emerald-800 to-slate-900',
-            'from-slate-900 via-emerald-950 to-[#15803D]',
-            'from-emerald-900 via-slate-900 to-[#15803D]'
+            'from-[#1E40AF] via-blue-800 to-indigo-950',
+            'from-indigo-950 via-purple-900 to-[#1E40AF]',
+            'from-blue-900 via-indigo-900 to-[#1E40AF]'
           ];
           const coverGradient = gradients[idx % gradients.length];
 
@@ -118,7 +118,7 @@ export default function GigSlider({ gigs }: GigSliderProps) {
           return (
             <Link href={`/gigs/${gig.id}`} key={gig.id || idx}>
             <article
-              className="flex-none w-[290px] sm:w-[340px] md:w-[370px] snap-start flex flex-col justify-between overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-sm hover:shadow-2xl hover:border-[#15803D]/40 transition-all duration-500 hover:-translate-y-2 group"
+              className="flex-none w-[290px] sm:w-[340px] md:w-[370px] snap-start flex flex-col justify-between overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-sm hover:shadow-2xl hover:border-[#1E40AF]/40 transition-all duration-500 hover:-translate-y-2 group"
             >
               {/* Visual Cover / Header Kartu */}
               <div className={`relative h-60 w-full ${!gig.imageUrl ? 'bg-gradient-to-br ' + coverGradient : 'bg-slate-100'} p-6 flex flex-col justify-between text-white overflow-hidden shrink-0`}>
@@ -128,8 +128,8 @@ export default function GigSlider({ gigs }: GigSliderProps) {
                 ) : (
                   <>
                     {/* Efek Pendar Cahaya Neon Ornamen */}
-                    <div className="absolute top-[-20%] right-[-20%] w-36 h-36 bg-[#EAB308]/20 rounded-full blur-2xl group-hover:bg-[#EAB308]/30 group-hover:scale-125 transition-all duration-500 z-0"></div>
-                    <div className="absolute bottom-[-30%] left-[-10%] w-28 h-28 bg-[#15803D]/30 rounded-full blur-xl group-hover:bg-[#EAB308]/10 transition-all duration-500 z-0"></div>
+                    <div className="absolute top-[-20%] right-[-20%] w-36 h-36 bg-[#A3E635]/10 rounded-full blur-2xl group-hover:bg-[#A3E635]/20 group-hover:scale-125 transition-all duration-500 z-0"></div>
+                    <div className="absolute bottom-[-30%] left-[-10%] w-28 h-28 bg-[#1E40AF]/30 rounded-full blur-xl group-hover:bg-[#A3E635]/5 transition-all duration-500 z-0"></div>
                   </>
                 )}
                 
@@ -140,19 +140,19 @@ export default function GigSlider({ gigs }: GigSliderProps) {
 
                 <div className="flex justify-between items-start z-10">
                   {/* Tag Kategori Jasa */}
-                  <span className="rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-wider text-[#EAB308] uppercase border border-white/15">
-                    {gig.category?.name || 'Layanan Unggulan'}
+                  <span className="rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-wider text-[#A3E635] uppercase border border-white/15">
+                    {gig.category?.name || 'Jasa Digital'}
                   </span>
                   
                   {/* Badge Popularitas Otomatis */}
-                  <span className="flex items-center gap-1.5 rounded-full bg-[#EAB308]/20 backdrop-blur-md px-3 py-1 text-[9px] font-black text-[#EAB308] border border-[#EAB308]/30">
-                    <Flame className="w-3 h-3 text-[#EAB308]" /> TERPOPULER #{idx + 1}
+                  <span className="flex items-center gap-1.5 rounded-full bg-[#A3E635]/20 backdrop-blur-md px-3 py-1 text-[9px] font-black text-[#A3E635] border border-[#A3E635]/30">
+                    <Flame className="w-3 h-3 text-[#A3E635]" /> TERPOPULER #{idx + 1}
                   </span>
                 </div>
 
                 {/* Info Rating & Jumlah Ulasan */}
                 <div className="flex items-center gap-1.5 self-start bg-slate-950/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black border border-white/5 z-10">
-                  <Star className="w-3.5 h-3.5 fill-[#EAB308] text-[#EAB308]" />
+                  <Star className="w-3.5 h-3.5 fill-[#A3E635] text-[#A3E635]" />
                   <span>{gig.rating ? Number(gig.rating).toFixed(1) : '5.0'}</span>
                   <span className="text-white/60 font-semibold">({gig.reviewsCount || 25 + (idx * 7)})</span>
                 </div>
@@ -162,7 +162,7 @@ export default function GigSlider({ gigs }: GigSliderProps) {
               <div className="p-6 flex-1 flex flex-col justify-between gap-5">
                 <div>
                   {/* Judul Layanan */}
-                  <h3 className="text-sm sm:text-base font-extrabold text-slate-800 leading-snug group-hover:text-[#15803D] transition-colors duration-300 line-clamp-2">
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-800 leading-snug group-hover:text-[#1E40AF] transition-colors duration-300 line-clamp-2">
                     {gig.title}
                   </h3>
 
@@ -172,28 +172,28 @@ export default function GigSlider({ gigs }: GigSliderProps) {
                   </p>
                 </div>
 
-                {/* Profil Freelancer / Mitra */}
+                {/* Profil Freelancer */}
                 <div className="border-t border-slate-100 pt-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {/* Avatar Bulat */}
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#15803D]/10 text-xs font-black text-[#15803D] border border-[#15803D]/15 transition-all duration-300 group-hover:border-[#15803D] overflow-hidden relative shrink-0">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1E40AF]/10 text-xs font-black text-[#1E40AF] border border-[#1E40AF]/15 transition-all duration-300 group-hover:border-[#1E40AF] overflow-hidden relative shrink-0">
                       {gig.freelancer?.profilePicture ? (
-                        <img src={gig.freelancer.profilePicture} alt={gig.freelancer.name || 'Mitra'} className="w-full h-full object-cover" />
+                        <img src={gig.freelancer.profilePicture} alt={gig.freelancer.name || 'Freelancer'} className="w-full h-full object-cover" />
                       ) : (
-                        gig.freelancer?.name ? gig.freelancer.name.charAt(0) : 'M'
+                        gig.freelancer?.name ? gig.freelancer.name.charAt(0) : 'F'
                       )}
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-black text-slate-700 leading-none">{gig.freelancer?.name || 'Mitra Binaan'}</span>
+                        <span className="text-xs font-black text-slate-700 leading-none">{gig.freelancer?.name || 'Freelancer'}</span>
                         {(gig.freelancer?.isVerified ?? true) && (
-                          <svg className="h-3.5 w-3.5 text-emerald-600 fill-current shrink-0" viewBox="0 0 20 20">
-                            <title>Mitra Terverifikasi</title>
+                          <svg className="h-3.5 w-3.5 text-blue-600 fill-current shrink-0" viewBox="0 0 20 20">
+                            <title>Freelancer Terverifikasi</title>
                             <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 111.414-1.414L9 10.586l3.293-3.293a1 1 0 111.414 1.414z" />
                           </svg>
                         )}
                       </div>
-                      <span className="text-[9px] text-emerald-600 font-bold uppercase tracking-wider block mt-0.5">Binaan DinkopUKM Serang</span>
+                      <span className="text-[9px] text-slate-400 block mt-0.5 font-bold uppercase tracking-wider">Verifikator pushaja</span>
                     </div>
                   </div>
 
@@ -209,12 +209,12 @@ export default function GigSlider({ gigs }: GigSliderProps) {
               <div className="border-t border-slate-100 px-6 py-5 bg-slate-50/70 flex items-center justify-between">
                 <div>
                   <span className="text-[9px] text-slate-400 uppercase tracking-widest block font-black">Mulai Dari</span>
-                  <span className="text-base font-black text-[#15803D] tracking-tight">
+                  <span className="text-base font-black text-[#1E40AF] tracking-tight">
                     {formatRupiah(rawPrice)}
                   </span>
                 </div>
-                <button className="rounded-2xl bg-white border border-slate-200 px-4.5 py-2.5 text-xs font-black text-slate-700 shadow-sm hover:shadow hover:bg-[#15803D] hover:text-white hover:border-[#15803D] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer">
-                  Lihat Layanan
+                <button className="rounded-2xl bg-white border border-slate-200 px-4.5 py-2.5 text-xs font-black text-slate-700 shadow-sm hover:shadow hover:bg-[#1E40AF] hover:text-white hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer">
+                  Lihat Jasa
                 </button>
               </div>
             </article>

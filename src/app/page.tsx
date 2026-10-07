@@ -5,28 +5,15 @@ import HeroSearch from '@/components/HeroSearch';
 import CategorySlider from '@/components/CategorySlider';
 import TypingHeroTitle from '@/components/TypingHeroTitle';
 import GigSlider from '@/components/GigSlider';
-import Image from 'next/image';
-import Link from 'next/link';
-import { 
-  ShieldCheck, 
-  Zap, 
-  Scale, 
-  MessageSquareQuote, 
-  Star, 
-  Sprout, 
-  Landmark, 
-  Sparkles,
-  MapPin,
-  Phone,
-  Mail,
-  GraduationCap,
-  Search,
-  ArrowRight
-} from 'lucide-react';
+import { ShieldCheck, Zap, Scale, MessageSquareQuote, Star, Sprout } from 'lucide-react';
+
 
 // ============================================================================
-// DATA FREELANCE EKSKLUSIF ASLI PUSHAJA (DIPERTAHANKAN SESUAI PERMINTAAN)
+// DATA FREELANCE EXCLUSIF UNTUK PUSHAJA (PERSONALIZED COPYWRITING)
 // ============================================================================
+// Menggantikan data tiruan generik dengan portofolio jasa freelance kustom 
+// berbahasa Indonesia yang dirancang khusus untuk pushaja. 
+// Penamaan, deskripsi, dan copywriting disesuaikan penuh agar terlihat profesional.
 const PUSHAJA_GIGS = [
   {
     id: 'pushaja-1',
@@ -128,51 +115,64 @@ export default async function Home() {
   // Ambil data kategori grup dinamis langsung dari database
   const categoryGroups = await getCategoryGroups();
   
-  // Tampilkan data rill atau data kustom eksklusif PushAja
+  // Backup menggunakan data kustom eksklusif pushaja jika db masih kosong
   const gigsToDisplay = hasDbData 
     ? dbResponse.data!.map(gig => ({ ...gig, price: Number(gig.price) })) 
     : PUSHAJA_GIGS;
+  const isDemoMode = !hasDbData;
+
+  // Format IDR Rupiah
+  const formatRupiah = (value: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-[#EAB308] selection:text-[#15803D]">
+    <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-[#A3E635] selection:text-[#1E40AF]">
       
       {/* ----------------------------------------------------
-          NAVBAR RESMI PUSHAJA (DINKOPUKM PERINDAG KOTA SERANG)
+          NAVBAR KUSTOM PUSHAJA (ALA FASTWORK REFERENSI)
          ---------------------------------------------------- */}
       <Navbar />
 
       {/* ----------------------------------------------------
-          HERO SECTION ASLI PUSHAJA (DENGAN IDENTITAS LOGO DINKOPUKM)
+          HERO SECTION (KUSTOM PUSHAJA COPYWRITING)
+          Catatan: relative z-30 overflow-visible agar dropdown pencarian
+          tidak tertimpa atau terpotong oleh komponen di bawahnya.
          ---------------------------------------------------- */}
-      <section className="relative z-30 overflow-visible bg-gradient-to-b from-emerald-50/80 via-emerald-50/20 to-slate-50 py-20 text-center">
+      <section className="relative z-30 overflow-visible bg-gradient-to-b from-blue-50/80 via-blue-50/20 to-slate-50 py-20 text-center">
         
-        {/* Hiasan Latar Belakang Bulatan Berpendar Hijau & Emas */}
+        {/* Hiasan Latar Belakang Bulatan Berpendar Lembut - Terbungkus wadah overflow-hidden agar aman */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-[-10%] right-[-10%] w-[380px] h-[380px] rounded-full bg-emerald-200/30 blur-[90px]"></div>
-          <div className="absolute bottom-[-10%] left-[-10%] w-[320px] h-[320px] rounded-full bg-[#EAB308]/15 blur-[80px]"></div>
+          <div className="absolute top-[-10%] right-[-10%] w-[350px] h-[350px] rounded-full bg-blue-200/30 blur-[90px]"></div>
+          <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] rounded-full bg-[#A3E635]/10 blur-[80px]"></div>
         </div>
 
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 z-10 flex flex-col items-center">
           
-          {/* Label Kampanye Asli pushaja x DinkopUKM Kota Serang */}
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100/80 px-4 py-1.5 text-xs font-black text-[#15803D] border border-emerald-200 mb-6 shadow-sm">
-            <Landmark className="h-3.5 w-3.5 text-[#15803D]" />
-            PUSHAJA INDONESIA — DORONG BISNIS ANDA LEBIH CEPAT • DINKOPUKM KOTA SERANG
+          {/* Label Kampanye pushaja */}
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-4 py-1.5 text-xs font-black text-[#1E40AF] border border-[#1E40AF]/10 mb-6">
+            <svg className="h-3.5 w-3.5 text-[#1E40AF] animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <title>Kampanye pushaja</title>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            PUSHAJA INDONESIA — DORONG BISNIS ANDA LEBIH CEPAT
           </span>
 
-          {/* Sub-judul Copywriting Asli pushaja */}
-          <h2 className="text-xs sm:text-sm font-black text-[#15803D] uppercase tracking-widest flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#EAB308]" />
+          {/* Sub-judul Copywriting pushaja */}
+          <h2 className="text-xs sm:text-sm font-black text-[#1E40AF] uppercase tracking-widest">
             Temukan freelancer dengan keahlian terbaik..
           </h2>
 
-          {/* Tajuk Utama dengan Animasi Mengetik Asli pushaja */}
+          {/* Tajuk Utama dengan Animasi Mengetik Interaktif */}
           <TypingHeroTitle />
 
-          {/* Paragraf Utama Asli pushaja */}
-          <p className="max-w-2xl text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+          <p className="max-w-2xl text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
             Kerja praktis tanpa ribet bersama ribuan talenta digital independen terbaik tanah air. <br className="hidden sm:inline" />
-            Pekerjaan Beres, Bisnis Melesat. <strong className="text-[#15803D]">#TinggalPushAja</strong>
+            Pekerjaan Beres, Bisnis Melesat. <strong className="text-[#1E40AF]">#TinggalPushAja</strong>
           </p>
 
           {/* Bilah Pencarian AI Interaktif (Client Component) */}
@@ -186,51 +186,18 @@ export default async function Home() {
          ---------------------------------------------------- */}
       <CategorySlider initialGroups={categoryGroups} />
 
-      {/* ----------------------------------------------------
-          BANNER PROMOSI: PELATIHAN BINAAN & LIVE TRACKING KE HALAMAN SENDIRI
-         ---------------------------------------------------- */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8">
-        <div className="relative rounded-[2.5rem] bg-gradient-to-r from-[#15803D] via-emerald-800 to-slate-900 p-8 sm:p-12 text-white shadow-xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#EAB308]/15 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="relative z-10 max-w-2xl text-left space-y-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-widest text-[#EAB308] uppercase border border-white/20">
-              <GraduationCap className="w-3.5 h-3.5" /> PROGRAM RESMI PEMKOT SERANG
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
-              Pelatihan Binaan & Pelacakan Status Real-Time
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-              Ikuti program Bimbingan Teknis (Bimtek) digital gratis dan pantau status progres pelatihan maupun pesanan proyek Anda secara transparan di halaman khusus.
-            </p>
-          </div>
-          <div className="relative z-10 flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
-            <Link
-              href="/pelatihan"
-              className="rounded-2xl bg-[#EAB308] hover:bg-amber-400 text-slate-950 font-black px-6 py-3.5 text-xs sm:text-sm shadow-lg transition-all text-center flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
-            >
-              <Search className="w-4 h-4" />
-              Lacak Status Proyek
-            </Link>
-            <Link
-              href="/pelatihan"
-              className="rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-extrabold px-6 py-3.5 text-xs sm:text-sm transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
-            >
-              Lihat Program Pelatihan
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+
 
       {/* ----------------------------------------------------
-          SECTION: CARA MEMPEKERJAKAN FREELANCER (STEPS & YOUTUBE)
+          NEW SECTION: CARA MEMPEKERJAKAN FREELANCER (STEPS & YOUTUBE)
+          Diletakkan di atas etalase unggulan.
          ---------------------------------------------------- */}
       <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-12 gap-12 items-center">
           
           {/* Kolom Kiri: Langkah-langkah Rekrutmen */}
           <div className="md:col-span-6 text-left">
-            <span className="text-[#15803D] text-xs font-black uppercase tracking-wider block mb-3">
+            <span className="text-[#1E40AF] text-xs font-black uppercase tracking-wider block mb-3">
               PANDUAN TRANSAKSI PUSHAJA
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -246,7 +213,7 @@ export default async function Home() {
               
               {/* Langkah 1 */}
               <div className="flex gap-4 items-start">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-xs font-black text-white">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
                   1
                 </div>
                 <div>
@@ -259,7 +226,7 @@ export default async function Home() {
 
               {/* Langkah 2 */}
               <div className="flex gap-4 items-start">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-xs font-black text-white">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
                   2
                 </div>
                 <div>
@@ -272,7 +239,7 @@ export default async function Home() {
 
               {/* Langkah 3 */}
               <div className="flex gap-4 items-start">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-xs font-black text-white">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
                   3
                 </div>
                 <div>
@@ -285,7 +252,7 @@ export default async function Home() {
 
               {/* Langkah 4 */}
               <div className="flex gap-4 items-start">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-xs font-black text-white">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
                   4
                 </div>
                 <div>
@@ -299,7 +266,7 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Kolom Kanan: Video Tutorial YouTube Asli */}
+          {/* Kolom Kanan: Video Tutorial YouTube */}
           <div className="md:col-span-6 flex justify-center">
             <div className="w-full max-w-lg aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100 relative group">
               <iframe 
@@ -316,13 +283,14 @@ export default async function Home() {
       </section>
 
       {/* ----------------------------------------------------
-          SECTION: KENAPA MEMILIH PUSHAJA (LEFT ALIGNED)
+          UPDATED SECTION: KENAPA MEMILIH PUSHAJA (LEFT ALIGNED)
+          Diletakkan di atas etalase unggulan.
          ---------------------------------------------------- */}
       <section className="py-20 bg-slate-50 border-y border-slate-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
           
           <div className="max-w-3xl mb-16">
-            <span className="text-[#15803D] text-xs font-black uppercase tracking-wider block mb-3">
+            <span className="text-[#1E40AF] text-xs font-black uppercase tracking-wider block mb-3">
               KEMUDAHAN DAN KEAMANAN
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -337,34 +305,34 @@ export default async function Home() {
             
             {/* Benefit 1 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mb-6 border border-emerald-100 transition-colors group-hover:bg-emerald-100 text-[#15803D]">
+              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
                 <ShieldCheck size={22} strokeWidth={2.5} />
               </div>
               <h3 className="text-base font-extrabold text-slate-900 mb-3">Rekening Bersama pushaja</h3>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+              <p className="text-xs text-slate-400 leading-relaxed font-medium">
                 Pembayaran Anda aman tertahan di escrow sistem pushaja. Dana baru akan diteruskan ke freelancer ketika Anda menyatakan puas dengan hasil pekerjaan yang dikirimkan.
               </p>
             </div>
 
             {/* Benefit 2 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mb-6 border border-emerald-100 transition-colors group-hover:bg-emerald-100 text-[#15803D]">
+              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
                 <Zap size={22} strokeWidth={2.5} />
               </div>
               <h3 className="text-base font-extrabold text-slate-900 mb-3">Dorong Kecepatan Pengiriman</h3>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+              <p className="text-xs text-slate-400 leading-relaxed font-medium">
                 Setiap jasa disepakati dengan durasi pengerjaan yang ketat. Freelancer yang terlambat mengirim tugas akan mendapatkan penurunan reputasi dan potensi pembatalan dana instan.
               </p>
             </div>
 
             {/* Benefit 3 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mb-6 border border-emerald-100 transition-colors group-hover:bg-emerald-100 text-[#15803D]">
+              <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
                 <Scale size={22} strokeWidth={2.5} />
               </div>
               <h3 className="text-base font-extrabold text-slate-900 mb-3">Mediasi Sengketa (Dispute) Adil</h3>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                Apabila hasil kerja melanggar kesepakatan awal, tim mediasi pushaja bersama DinkopUKM siap meninjau keluhan secara netral dan mengembalikan dana pembeli sepenuhnya secara objektif.
+              <p className="text-xs text-slate-400 leading-relaxed font-medium">
+                Apabila hasil kerja melanggar kesepakatan awal, tim mediasi pushaja siap meninjau keluhan secara netral dan mengembalikan dana pembeli sepenuhnya secara objektif.
               </p>
             </div>
 
@@ -374,15 +342,18 @@ export default async function Home() {
       </section>
 
       {/* ----------------------------------------------------
-          SECTION: JASA POPULER TERLARIS (AUTOMATED POPULARITY SLIDER)
+          REDESIGNED SECTION: 3 JASA POPULER TERLARIS (AUTOMATED POPULARITY SLIDER)
+          Diletakkan paling bawah sebelum footer. Tata letak menyamping, scrollable.
          ---------------------------------------------------- */}
       <section className="bg-slate-100/50 py-20 md:py-28 border-t border-slate-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          {/* Header Konten Jasa Terpopuler */}
-          <div className="flex flex-col items-start text-left border-b border-slate-200 pb-10 mb-12">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-4 py-1.5 text-[10px] font-black tracking-widest text-[#15803D] uppercase border border-emerald-200 mb-4 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#EAB308]" />
+          {/* Header Konten Redesain */}
+          <div className="flex flex-col items-start text-left border-b border-slate-100 pb-10 mb-12">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#A3E635]/10 px-4 py-1.5 text-[10px] font-black tracking-widest text-[#1E40AF] uppercase border border-[#A3E635]/20 mb-4 shadow-sm">
+              <svg className="w-3.5 h-3.5 text-[#A3E635]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
               SISTEM POPULARITAS OTOMATIS
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-800 tracking-tight">
@@ -393,20 +364,22 @@ export default async function Home() {
             </p>
           </div>
 
-          {/* Slider Jasa Horizontal Menyamping (Jasa Asli PushAja) */}
+          {/* Slider Jasa Horizontal Menyamping (Hanya 3 Terpopuler) */}
           <GigSlider gigs={gigsToDisplay} />
 
         </div>
       </section>
 
       {/* ----------------------------------------------------
-          SECTION: ULASAN PELANGGAN (CUSTOMER REVIEWS ASLI)
+          NEW SECTION: ULASAN PELANGGAN (CUSTOMER REVIEWS)
+          Diletakkan di bawah section card jasa terpopuler.
          ---------------------------------------------------- */}
       <section className="py-20 bg-white border-b border-slate-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          <div className="max-w-3xl mb-16 text-left">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100/70 px-3 py-1 text-[10px] font-black tracking-wider text-[#15803D] uppercase border border-emerald-200 mb-3">
+          {/* Header Section */}
+          <div className="max-w-3xl mb-16 text-left animate-in fade-in duration-550">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-3 py-1 text-[10px] font-black tracking-wider text-[#1E40AF] uppercase border border-[#1E40AF]/10 mb-3">
               <MessageSquareQuote size={12} strokeWidth={2.5} /> TESTIMONI TERVERIFIKASI
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -417,21 +390,25 @@ export default async function Home() {
             </p>
           </div>
 
-          {/* Grid Testimoni Asli */}
+          {/* Grid Testimoni */}
           <div className="grid gap-8 md:grid-cols-3">
             
             {/* Ulasan 1 */}
-            <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
+            <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="flex gap-1 text-[#EAB308] mb-5">
+                {/* Rating Bintang */}
+                <div className="flex gap-1 text-[#A3E635] mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
                   <Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" />
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium italic">
+                {/* Kutipan Ulasan */}
+                <blockquote className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium italic">
                   "Sistem escrow rekening bersama pushaja benar-benar memberikan rasa aman yang luar biasa. Freelancer menyelesaikan web SaaS kami tepat waktu, dan dana baru dicairkan setelah kami uji coba menyeluruh. Sangat direkomendasikan!"
                 </blockquote>
               </div>
+              
+              {/* Profil Pemberi Ulasan */}
               <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-xs font-black text-white">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
                   AN
                 </div>
                 <div>
@@ -442,17 +419,21 @@ export default async function Home() {
             </div>
 
             {/* Ulasan 2 */}
-            <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
+            <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="flex gap-1 text-[#EAB308] mb-5">
+                {/* Rating Bintang */}
+                <div className="flex gap-1 text-[#A3E635] mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
                   <Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" />
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium italic">
+                {/* Kutipan Ulasan */}
+                <blockquote className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium italic">
                   "Desain UI/UX aplikasi e-commerce kami yang dikerjakan via pushaja sangat memukau! Penjualan kami meningkat drastis berkat desain premium yang responsif. Kolaborasi naskah brief-nya sangat mulus."
                 </blockquote>
               </div>
+              
+              {/* Profil Pemberi Ulasan */}
               <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-600 text-xs font-black text-white">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-600 text-xs font-black text-white">
                   SR
                 </div>
                 <div>
@@ -463,17 +444,21 @@ export default async function Home() {
             </div>
 
             {/* Ulasan 3 */}
-            <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
+            <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="flex gap-1 text-[#EAB308] mb-5">
+                {/* Rating Bintang */}
+                <div className="flex gap-1 text-[#A3E635] mb-5 drop-shadow-[0_1px_1px_rgba(30,64,175,0.2)]">
                   <Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" />
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium italic">
+                {/* Kutipan Ulasan */}
+                <blockquote className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium italic">
                   "Video promosi Reels & TikTok untuk menu kuliner baru kami meledak di media sosial. Hasil pengerjaannya sangat cepat, komunikasi responsif, dan kualitas dubbing suara serta editing videonya benar-benar di atas rata-rata!"
                 </blockquote>
               </div>
+              
+              {/* Profil Pemberi Ulasan */}
               <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-700 text-xs font-black text-white">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-black text-white">
                   RP
                 </div>
                 <div>
@@ -489,17 +474,19 @@ export default async function Home() {
       </section>
 
       {/* ----------------------------------------------------
-          SECTION: TENTANG PUSHAJA (CARD JUMBO PREMIUM)
+          NEW SECTION: TENTANG PUSHAJA (ABOUT PLATFORM)
+          Diletakkan di bawah section ulasan pelanggan.
          ---------------------------------------------------- */}
-      <section id="tentang-pushaja" className="py-20 bg-slate-50 border-b border-slate-200">
+      <section className="py-20 bg-slate-50 border-b border-slate-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          <div className="relative rounded-[3rem] overflow-hidden bg-gradient-to-br from-[#15803D] via-emerald-900 to-slate-950 text-white shadow-2xl p-8 md:p-16 border border-emerald-950">
+          {/* Card Jumbo Premium "Tentang pushaja" */}
+          <div className="relative rounded-[3rem] overflow-hidden bg-gradient-to-br from-[#1E40AF] via-blue-900 to-indigo-950 text-white shadow-2xl p-8 md:p-16 border border-blue-950">
             
             {/* Glowing background shapes */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-[-30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#EAB308]/15 blur-[120px]"></div>
-              <div className="absolute bottom-[-20%] left-[-20%] w-[400px] h-[400px] rounded-full bg-[#15803D]/40 blur-[100px]"></div>
+              <div className="absolute top-[-30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#A3E635]/10 blur-[120px]"></div>
+              <div className="absolute bottom-[-20%] left-[-20%] w-[400px] h-[400px] rounded-full bg-[#1E40AF]/40 blur-[100px]"></div>
             </div>
 
             <div className="relative z-10 grid md:grid-cols-12 gap-12 items-center">
@@ -507,7 +494,7 @@ export default async function Home() {
               {/* Kolom Kiri: Ringkasan Platform */}
               <div className="md:col-span-7 text-left space-y-6">
                 
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-widest text-[#EAB308] uppercase border border-white/10">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-widest text-[#A3E635] uppercase border border-white/10">
                   <Sprout size={12} strokeWidth={2.5} /> TENTANG PUSHAJA
                 </span>
                 
@@ -521,15 +508,15 @@ export default async function Home() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-                  Dengan dukungan resmi dari <strong>Dinas Koperasi, UKM, Perindustrian dan Perdagangan (DinkopUKM Perindag) Kota Serang</strong>, platform ini mempertemukan talenta digital terverifikasi dengan pelaku usaha lokal. Sistem escrow rekening bersama kami menjamin perlindungan investasi Anda, sehingga Anda bisa fokus penuh pada ekspansi bisnis Anda.
+                  Dengan mempertemukan talenta digital terverifikasi dari Sabang sampai Merauke, kami menyeimbangkan kualitas standar global dengan kearifan lokal. Sistem escrow rekening bersama kami menjamin perlindungan investasi Anda, sehingga Anda bisa fokus penuh pada ekspansi bisnis Anda.
                 </p>
 
                 <div className="pt-4 flex gap-4 flex-wrap">
-                  <span className="text-xs font-black text-[#EAB308]">#TinggalPushAja</span>
+                  <span className="text-xs font-black text-[#A3E635]">#TinggalPushAja</span>
                   <span className="text-xs font-black text-slate-400">•</span>
-                  <span className="text-xs font-black text-[#EAB308]">#KerjaTanpaRibet</span>
+                  <span className="text-xs font-black text-[#A3E635]">#KerjaTanpaRibet</span>
                   <span className="text-xs font-black text-slate-400">•</span>
-                  <span className="text-xs font-black text-[#EAB308]">#KotaSerangMadani</span>
+                  <span className="text-xs font-black text-[#A3E635]">#TalentaBangsa</span>
                 </div>
 
               </div>
@@ -539,25 +526,25 @@ export default async function Home() {
                 
                 {/* Stat 1 */}
                 <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#EAB308] block mb-1">50K+</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">50K+</span>
                   <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Proyek Selesai</span>
                 </div>
 
                 {/* Stat 2 */}
                 <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#EAB308] block mb-1">15K+</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">15K+</span>
                   <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Talenta Terpilih</span>
                 </div>
 
                 {/* Stat 3 */}
                 <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#EAB308] block mb-1">99.4%</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">99.4%</span>
                   <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Kepuasan Klien</span>
                 </div>
 
                 {/* Stat 4 */}
                 <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#EAB308] block mb-1">Rp 0</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">Rp 0</span>
                   <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Risiko Transaksi</span>
                 </div>
 
@@ -570,62 +557,43 @@ export default async function Home() {
         </div>
       </section>
 
+
+
       {/* ----------------------------------------------------
           FOOTER COMPREHENSIVE
          ---------------------------------------------------- */}
       <footer className="bg-white border-t border-slate-200 py-16 text-slate-500">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 text-left">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           
           {/* Col 1 */}
-          <div className="col-span-2 md:col-span-1">
-            <div 
-              className="relative w-48 sm:w-56 h-12 sm:h-14 mb-4"
-              suppressHydrationWarning
-            >
-              <Image 
-                key="footer-logo"
-                src="/logo-dinkop-kota-serang-new.png" 
-                alt="Logo DinkopUKM Perindag Kota Serang"
-                fill
-                className="object-contain object-left"
-              />
-            </div>
-            <p className="mt-3 text-xs text-slate-400 leading-relaxed">
-              Platform marketplace jasa & talenta digital terpercaya, didukung resmi oleh Dinas Koperasi, Usaha Kecil Menengah, Perindustrian dan Perdagangan Pemerintah Kota Serang.
+          <div>
+            <span className="text-2xl font-black tracking-tight text-[#1E40AF]">
+              push<span className="text-[#A3E635] drop-shadow-[0_1px_1px_rgba(30,64,175,0.8)]">aja</span>
+            </span>
+            <p className="mt-4 text-xs text-slate-400 leading-relaxed">
+              Platform marketplace freelance terpercaya karya anak bangsa, menghubungkan talenta digital terbaik dengan pebisnis profesional secara transparan, adil, dan kilat.
             </p>
-            <div className="mt-4 space-y-1 text-xs text-slate-500">
-              <p className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#15803D]" />
-                <span>Gedung DinkopUKM, Kota Serang, Banten</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#15803D]" />
-                <span>(0254) 200-SERANG</span>
-              </p>
-            </div>
           </div>
 
           {/* Col 2 */}
           <div>
             <h4 className="text-sm font-bold text-slate-800 mb-4">Untuk Pembeli</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Cari Jasa Pemrograman Web</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Cari Jasa Desain Grafis & UI/UX</a></li>
-              <li><Link href="/pelatihan" className="hover:text-[#15803D] transition-colors">Lacak Status Pesanan (Live Tracking)</Link></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Jaminan Rekening Bersama Escrow</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Kebijakan Pengembalian Dana</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Cari Jasa Pemrograman Web</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Cari Jasa Desain Grafis & UI/UX</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Jaminan Rekening Bersama Escrow</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Kebijakan Pengembalian Dana</a></li>
             </ul>
           </div>
 
           {/* Col 3 */}
           <div>
-            <h4 className="text-sm font-bold text-slate-800 mb-4">Untuk Freelancer & Mitra</h4>
+            <h4 className="text-sm font-bold text-slate-800 mb-4">Untuk Freelancer</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="hover:text-[#15803D] transition-colors">Cara Mulai Jual Layanan</a></li>
-              <li><Link href="/pelatihan" className="hover:text-[#15803D] transition-colors">Bimtek & Pelatihan Gratis</Link></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Skema Komisi Pembagian Hasil</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Pencairan Saldo (Withdraw)</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Tips Memperoleh Banyak Orderan</a></li>
+              <li><a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="hover:text-[#1E40AF] transition-colors">Cara Mulai Jual Layanan</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Skema Komisi Pembagian Hasil</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Pencairan Saldo (Withdraw)</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Tips Memperoleh Banyak Orderan</a></li>
             </ul>
           </div>
 
@@ -633,10 +601,10 @@ export default async function Home() {
           <div>
             <h4 className="text-sm font-bold text-slate-800 mb-4">Mediasi & Bantuan</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Hubungi Layanan CS Bantuan</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Syarat & Ketentuan Lisensi</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Kebijakan Privasi Data Pengguna</a></li>
-              <li><a href="#" className="hover:text-[#15803D] transition-colors">Panduan Penyelesaian Sengketa</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Hubungi Layanan CS Bantuan</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Syarat & Ketentuan Lisensi</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Kebijakan Privasi Data Pengguna</a></li>
+              <li><a href="#" className="hover:text-[#1E40AF] transition-colors">Panduan Penyelesaian Sengketa</a></li>
             </ul>
           </div>
 
@@ -644,7 +612,7 @@ export default async function Home() {
 
         {/* Hak cipta bawah */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 border-t border-slate-100 pt-8 text-center text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} pushaja x DinkopUKM Perindag Kota Serang. Seluruh hak cipta dilindungi undang-undang.</p>
+          <p>© {new Date().getFullYear()} pushaja. Dibuat dengan penuh rasa bangga di Indonesia. Seluruh hak cipta dilindungi undang-undang.</p>
         </div>
       </footer>
 

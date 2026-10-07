@@ -50,8 +50,14 @@ export default function TypingHeroTitle() {
   // EFEK 2: LOGIKA PENGETIKAN TYPEWRITER (SMOOTH TEMPO)
   // ----------------------------------------------------
   useEffect(() => {
+    // Pengaman jika index di luar batas
     if (index >= words.length) return;
 
+    // APA blok logika di bawah ini?
+    // JIKA satu kata telah selesai diketik secara lengkap,
+    // MENGAPA ditulis seperti ini?
+    // Kita menahan teks utuh tersebut selama 2000ms (2 detik) di layar 
+    // agar pembeli sempat membacanya dengan santai, sebelum mulai dihapus.
     if (subIndex === words[index].length && !isDeleting) {
       const timeout = setTimeout(() => {
         setIsDeleting(true);
@@ -59,14 +65,24 @@ export default function TypingHeroTitle() {
       return () => clearTimeout(timeout);
     }
 
+    // APA blok logika di bawah ini?
+    // JIKA kalimat telah selesai dihapus secara total (panjang teks = 0),
+    // MENGAPA ditulis seperti ini?
+    // Kita memberikan jeda transisi transparan selama 800ms (hanya kursor kedip yang tampil).
+    // Ini memberikan ritme natural sebelum memulai pengetikan kata baru selanjutnya.
     if (subIndex === 0 && isDeleting) {
       const timeout = setTimeout(() => {
         setIsDeleting(false);
-        setIndex((prev) => (prev + 1) % words.length);
+        setIndex((prev) => (prev + 1) % words.length); // Pindah ke kata berikutnya secara rotasi
       }, 800);
       return () => clearTimeout(timeout);
     }
 
+    // APA variabel tempo di bawah ini?
+    // Menentukan kecepatan pergeseran huruf.
+    // MENGAPA ditulis seperti ini?
+    // - Saat mengetik (isDeleting = false): Kecepatan 110ms terasa mantap, teratur, dan natural.
+    // - Saat menghapus (isDeleting = true): Kecepatan 55ms terasa dinamis, tangkas, namun tidak terburu-buru.
     const speed = isDeleting ? 55 : 110;
 
     const timeout = setTimeout(() => {
@@ -77,12 +93,12 @@ export default function TypingHeroTitle() {
   }, [subIndex, isDeleting, index]);
 
   return (
-    <h1 className="text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-slate-900 mt-2 mb-4 leading-tight min-h-[50px] sm:min-h-[75px] flex items-center justify-center">
-      <span className="bg-gradient-to-r from-[#15803D] via-emerald-800 to-slate-900 bg-clip-text text-transparent">
+    <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-slate-800 mt-2 mb-4 leading-tight min-h-[50px] sm:min-h-[75px] flex items-center justify-center">
+      <span className="bg-gradient-to-r from-[#1E40AF] to-blue-900 bg-clip-text text-transparent">
         {words[index].substring(0, subIndex)}
       </span>
       {/* Kursor Ketik dengan Transisi Opacity Lembut */}
-      <span className={`text-[#15803D] font-light ml-1 transition-opacity duration-75 ${blink ? 'opacity-100' : 'opacity-0'}`}>
+      <span className={`text-[#1E40AF] font-light ml-1 transition-opacity duration-75 ${blink ? 'opacity-100' : 'opacity-0'}`}>
         |
       </span>
     </h1>
