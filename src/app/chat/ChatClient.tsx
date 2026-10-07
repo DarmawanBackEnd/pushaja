@@ -128,10 +128,22 @@ export default function ChatClient({
 
         if (payload.conversationId === activeConversationId) {
           setMessages((prev) => {
-            // Hindari duplikasi pesan jika sudah ada
+            // Jika pesan ini sudah ada berdasarkan id resmi, abaikan
             if (prev.some((m) => m.id === newMsg.id)) {
               return prev;
             }
+
+            // Jika ini pesan kita sendiri, cocokkan dan gantikan pesan sementara (optimistic)
+            const tempIndex = prev.findIndex(
+              (m) => m.id.startsWith('temp-') && m.senderId === newMsg.senderId && m.text === newMsg.text
+            );
+
+            if (tempIndex !== -1) {
+              const updated = [...prev];
+              updated[tempIndex] = newMsg;
+              return updated;
+            }
+
             return [...prev, newMsg];
           });
 
@@ -204,18 +216,26 @@ export default function ChatClient({
       // EventSource otomatis mencoba menghubungkan kembali saat error
     };
 
-    // Sinkronisasi berkala (fallback polling 4 detik) untuk memastikan konsistensi jika jaringan goyah
-    const intervalPoll = setInterval(() => {
+    // Sinkronisasi hanya saat jendela browser kembali aktif (tab focus), BUKAN polling berkala tiap detik
+    const handleWindowFocus = () => {
       getConversationDetails(activeConversationId).then((res) => {
         if (res.success && res.messages) {
-          setMessages(res.messages);
+          setMessages((prev) => {
+            // Perbarui hanya jika terdapat perbedaan jumlah pesan untuk mencegah re-render sia-sia
+            if (res.messages.length !== prev.length) {
+              return res.messages;
+            }
+            return prev;
+          });
         }
       });
-    }, 4000);
+    };
+
+    window.addEventListener('focus', handleWindowFocus);
 
     return () => {
       eventSource.close();
-      clearInterval(intervalPoll);
+      window.removeEventListener('focus', handleWindowFocus);
     };
   }, [activeConversationId, currentUser.id, isSoundEnabled]);
 
@@ -300,10 +320,16 @@ export default function ChatClient({
     try {
       const res = await sendMessage(activeConversationId, textToSend);
       if (res.success && res.message) {
-        // Ganti pesan optimistik dengan data resmi dari database
-        setMessages((prev) =>
-          prev.map((m) => (m.id === tempId ? res.message! : m))
-        );
+        const officialMsg = res.message;
+        // Ganti pesan optimistik dengan data resmi dari database tanpa duplikasi
+        setMessages((prev) => {
+          // Jika SSE sudah lebih dulu memasukkan pesan resmi ini, hapus pesan sementara
+          if (prev.some((m) => m.id === officialMsg.id)) {
+            return prev.filter((m) => m.id !== tempId);
+          }
+          // Jika belum ada, gantikan tempId dengan pesan resmi
+          return prev.map((m) => (m.id === tempId ? officialMsg : m));
+        });
       }
     } catch (err) {
       console.error('Gagal mengirim pesan:', err);
@@ -586,12 +612,12 @@ export default function ChatClient({
                     <p className="text-xs sm:text-sm font-semibold">Kirim pesan pertama Anda untuk memulai obrolan</p>
                   </div>
                 ) : (
-                  messages.map((m) => {
+                  messages.map((m, index) => {
                     const isMe = m.senderId === currentUser.id;
 
                     return (
                       <div
-                        key={m.id}
+                        key={`${m.id}-${index}`}
                         className={`flex flex-col gap-1 max-w-[85%] sm:max-w-[70%] transition-all ${
                           isMe ? 'self-end items-end' : 'self-start items-start'
                         }`}
