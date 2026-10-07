@@ -18,14 +18,14 @@ export default function HeroSearch() {
   const [history, setHistory] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Daftar Pencarian Populer khas Kota Serang & DinkopUKM Perindag
+  // Daftar Pencarian Populer PushAja & Pelatihan DinkopUKM
   const POPULAR_SEARCHES = [
-    'Sate Bandeng & Kuliner Serang',
-    'Batik Kaibon Khas Banten',
-    'Website Profil UMKM Binaan',
-    'Desain Logo & Kemasan P-IRT',
-    'Pendampingan Koperasi Modern',
-    'Fasilitasi Sertifikasi Halal'
+    'Web App SaaS Next.js',
+    'Desain UI/UX Figma',
+    'Optimasi Database SQL',
+    'Bimtek Digital DinkopUKM',
+    'Copywriting & SEO Artikel',
+    'Video Iklan Reels & TikTok'
   ];
 
   // Mengambil riwayat pencarian dari localStorage saat komponen pertama kali dimuat di client

@@ -75,18 +75,21 @@ export default function Navbar() {
 
             {/* Menu Navigasi Tengah (Desktop Only) */}
             <nav className="hidden md:flex items-center gap-7 text-[15px] font-semibold text-slate-600">
-              <a href="#umkm-serang" className="hover:text-[#15803D] transition-colors">Koperasi & UMKM</a>
-              <a href="#layanan-jasa" className="hover:text-[#15803D] transition-colors">Talenta Digital</a>
-              <a href="#bimtek-serang" className="hover:text-[#15803D] transition-colors">Bimtek & Pelatihan</a>
+              <a href="#layanan-jasa" className="hover:text-[#15803D] transition-colors">Jobboard</a>
+              <a href="#pelatihan-tracking" className="hover:text-[#15803D] transition-colors">Pelatihan & Bimtek</a>
+              <a href="#pelatihan-tracking" className="hover:text-[#15803D] transition-colors flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block"></span>
+                Live Tracking
+              </a>
               
-              {/* Dropdown Layanan Dinas */}
+              {/* Dropdown Layanan & Mempekerjakan */}
               <div className="relative">
                 <button 
                   onClick={() => setIsHireOpen(!isHireOpen)}
                   onBlur={() => setTimeout(() => setIsHireOpen(false), 200)}
                   className="flex items-center gap-1.5 hover:text-[#15803D] transition-colors focus:outline-none"
                 >
-                  Layanan Dinas
+                  Mempekerjakan
                   <svg className={`h-4 w-4 transition-transform duration-200 ${isHireOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -95,17 +98,17 @@ export default function Navbar() {
                 {/* Dropdown Menu Box */}
                 {isHireOpen && (
                   <div className="absolute left-0 mt-3 w-64 rounded-2xl border border-slate-100 bg-white p-2.5 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-                    <a href="#bimtek-serang" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
-                      Fasilitasi NIB & Halal Gratis
+                    <a href="#layanan-jasa" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Cari Berdasarkan Keahlian
                     </a>
-                    <a href="#bimtek-serang" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
-                      Akses Modal LPDB & BJB
+                    <a href="#pelatihan-tracking" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Pelatihan Talenta Digital
                     </a>
-                    <a href="#tentang-dinkop" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
-                      Klinik Konsultasi PLUT-KUMKM
+                    <a href="#pelatihan-tracking" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Lacak Progres Pesanan
                     </a>
                     <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
-                      Daftar UMKM / Talenta Binaan
+                      Daftar sebagai Freelancer / Mitra
                     </a>
                   </div>
                 )}
@@ -234,10 +237,10 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white px-4 py-6 shadow-inner animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col gap-4 text-[15px] font-semibold text-slate-700">
-            <a href="#umkm-serang" className="block py-2 hover:text-[#15803D]">Koperasi & UMKM</a>
-            <a href="#layanan-jasa" className="block py-2 hover:text-[#15803D]">Talenta Digital</a>
-            <a href="#bimtek-serang" className="block py-2 hover:text-[#15803D]">Bimtek & Pelatihan</a>
-            <a href="#tentang-dinkop" className="block py-2 hover:text-[#15803D]">Profil DinkopUKM & Kota Serang</a>
+            <a href="#layanan-jasa" className="block py-2 hover:text-[#15803D]">Jobboard</a>
+            <a href="#pelatihan-tracking" className="block py-2 hover:text-[#15803D]">Pelatihan & Bimtek</a>
+            <a href="#pelatihan-tracking" className="block py-2 hover:text-[#15803D]">Lacak Status (Live Tracking)</a>
+            <a href="#tentang-pushaja" className="block py-2 hover:text-[#15803D]">Tentang pushaja & DinkopUKM</a>
             
             {session ? (
               <>

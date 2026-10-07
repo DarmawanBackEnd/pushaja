@@ -23,12 +23,12 @@ import React, { useState, useEffect } from 'react';
  */
 export default function TypingHeroTitle() {
   const words = [
-    'Koperasi Modern Kota Serang',
-    'UMKM Kuliner & Batik Kaibon',
-    'Talenta Digital & IT Profesional',
-    'Legalitas Usaha, NIB & Halal',
-    'Kreativitas Pemuda Kota Serang',
-    'Bimbingan Teknis & Modal Usaha'
+    'Gaya Hidup',
+    'Desain UI/UX & Figma',
+    'Konsultasi & Manajemen',
+    'Pemasaran & Iklan',
+    'Penulisan & Artikel',
+    'Edukasi & Pelatihan'
   ];
 
   const [index, setIndex] = useState(0); // Indeks kata aktif di dalam array

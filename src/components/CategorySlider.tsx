@@ -24,47 +24,58 @@ interface CategorySliderProps {
 // Fallback jika database benar-benar kosong
 const STATIC_FALLBACK_GROUPS: CategoryGroupWithCategories[] = [
   {
-    id: 'umkm-koperasi-serang',
-    name: 'UMKM & Koperasi Kota Serang',
-    slug: 'umkm-koperasi-serang',
-    icon: `<svg class="h-5 w-5 text-emerald-600 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>`,
-    categories: [
-      { id: '1', name: 'Kuliner Khas Kota Serang', slug: 'kuliner-khas-serang', imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60' },
-      { id: '2', name: 'Batik & Kerajinan Kaibon', slug: 'batik-kerajinan-kaibon', imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60' },
-      { id: '3', name: 'Legalitas & NIB Binaan', slug: 'legalitas-izin-umkm-binaan', imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&auto=format&fit=crop&q=60' },
-      { id: '4', name: 'Koperasi Jasa & Simpan Pinjam', slug: 'koperasi-jasa-simpan-pinjam', imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=500&auto=format&fit=crop&q=60' }
-    ]
-  },
-  {
     id: 'pemrograman',
     name: 'Web & Pemrograman',
     slug: 'pemrograman',
     icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
     categories: [
-      { id: '5', name: 'Pembuatan Web Katalog UMKM', slug: 'pembuatan-web-saas', imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60' },
-      { id: '6', name: 'Aplikasi Android & Kasir POS', slug: 'aplikasi-android-ios', imageUrl: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&auto=format&fit=crop&q=60' },
-      { id: '7', name: 'Integrasi Pembayaran QRIS', slug: 'integrasi-api-payment', imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=60' }
+      { id: '1', name: 'Pembuatan Web SaaS', slug: 'pembuatan-web-saas', imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60' },
+      { id: '2', name: 'Aplikasi Android & iOS', slug: 'aplikasi-android-ios', imageUrl: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&auto=format&fit=crop&q=60' },
+      { id: '3', name: 'Tuning Query PostgreSQL', slug: 'tuning-query-postgresql', imageUrl: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=500&auto=format&fit=crop&q=60' },
+      { id: '4', name: 'Integrasi API Payment', slug: 'integrasi-api-payment', imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=60' }
     ]
   },
   {
     id: 'desain',
-    name: 'Desain Grafis & Kemasan',
+    name: 'Desain Grafis & UI/UX',
     slug: 'desain',
     icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>`,
     categories: [
-      { id: '8', name: 'Desain Kemasan Produk UMKM', slug: 'desain-landing-page', imageUrl: 'https://images.unsplash.com/photo-1581291518655-9523c932dedf?w=500&auto=format&fit=crop&q=60' },
-      { id: '9', name: 'Desain Logo & Identitas Brand', slug: 'desain-logo-brand', imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&auto=format&fit=crop&q=60' },
-      { id: '10', name: 'Foto & Banner Promosi Toko', slug: 'ilustrasi-digital', imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60' }
+      { id: '5', name: 'Desain Landing Page', slug: 'desain-landing-page', imageUrl: 'https://images.unsplash.com/photo-1581291518655-9523c932dedf?w=500&auto=format&fit=crop&q=60' },
+      { id: '6', name: 'Desain Logo & Brand', slug: 'desain-logo-brand', imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&auto=format&fit=crop&q=60' },
+      { id: '7', name: 'Ilustrasi & Desain Figma', slug: 'ilustrasi-digital', imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60' }
     ]
   },
   {
     id: 'penulisan',
-    name: 'Promosi & Pemasaran Digital',
+    name: 'Penulisan & Artikel',
     slug: 'penulisan',
     icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`,
     categories: [
-      { id: '11', name: 'Pengelolaan Medsos UMKM', slug: 'artikel-blog-seo', imageUrl: 'https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=500&auto=format&fit=crop&q=60' },
-      { id: '12', name: 'Copywriting Iklan WhatsApp/IG', slug: 'copywriting-landing-page', imageUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=500&auto=format&fit=crop&q=60' }
+      { id: '8', name: 'Artikel Blog SEO', slug: 'artikel-blog-seo', imageUrl: 'https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=500&auto=format&fit=crop&q=60' },
+      { id: '9', name: 'Copywriting Landing Page', slug: 'copywriting-landing-page', imageUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=500&auto=format&fit=crop&q=60' }
+    ]
+  },
+  {
+    id: 'pelatihan-bimtek',
+    name: 'Pelatihan & Bimtek Digital',
+    slug: 'pelatihan-bimtek',
+    icon: `<svg class="h-5 w-5 text-emerald-600 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14l9-5-9-5-9 5 9 5z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>`,
+    categories: [
+      { id: '10', name: 'Bimtek Fullstack Next.js', slug: 'bimtek-fullstack-nextjs', imageUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop&q=60' },
+      { id: '11', name: 'Pelatihan Digital Marketing', slug: 'pelatihan-digital-marketing', imageUrl: 'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=500&auto=format&fit=crop&q=60' },
+      { id: '12', name: 'Legalitas & Halal Gratis', slug: 'legalitas-halal-gratis', imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&auto=format&fit=crop&q=60' }
+    ]
+  },
+  {
+    id: 'umkm-koperasi-serang',
+    name: 'UMKM & Koperasi Kota Serang',
+    slug: 'umkm-koperasi-serang',
+    icon: `<svg class="h-5 w-5 text-[#EAB308] transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>`,
+    categories: [
+      { id: '13', name: 'Kuliner Khas Kota Serang', slug: 'kuliner-khas-serang', imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60' },
+      { id: '14', name: 'Batik & Kerajinan Kaibon', slug: 'batik-kerajinan-kaibon', imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60' },
+      { id: '15', name: 'Koperasi Jasa & Simpan Pinjam', slug: 'koperasi-jasa-simpan-pinjam', imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=500&auto=format&fit=crop&q=60' }
     ]
   }
 ];
