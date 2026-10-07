@@ -58,14 +58,14 @@ export default function Navbar() {
         <div className="flex h-20 items-center justify-between">
           
           {/* ----------------------------------------------------
-              BAGIAN KIRI: LOGO PUSHAJA
+              BAGIAN KIRI: LOGO DINKOPUKM PERINDAG KOTA SERANG
              ---------------------------------------------------- */}
           <div className="flex items-center gap-8 shrink-0">
             <a href="/" className="flex items-center group">
-              <div className="relative w-32 sm:w-36 h-11 sm:h-12 transition-transform duration-300 group-hover:scale-105">
+              <div className="relative w-48 sm:w-56 h-12 sm:h-14 transition-transform duration-300 group-hover:scale-105">
                 <Image 
-                  src="/logo-pushaja-v2.png"
-                  alt="Logo pushaja" 
+                  src="/logo-dinkopukm-serang.png"
+                  alt="DinkopUKM Perindag Kota Serang" 
                   fill
                   priority
                   className="object-contain object-left"
@@ -75,16 +75,18 @@ export default function Navbar() {
 
             {/* Menu Navigasi Tengah (Desktop Only) */}
             <nav className="hidden md:flex items-center gap-7 text-[15px] font-semibold text-slate-600">
-              <a href="#" className="hover:text-[#1E40AF] transition-colors">Jobboard</a>
+              <a href="#umkm-serang" className="hover:text-[#15803D] transition-colors">Koperasi & UMKM</a>
+              <a href="#layanan-jasa" className="hover:text-[#15803D] transition-colors">Talenta Digital</a>
+              <a href="#bimtek-serang" className="hover:text-[#15803D] transition-colors">Bimtek & Pelatihan</a>
               
-              {/* Dropdown Mempekerjakan */}
+              {/* Dropdown Layanan Dinas */}
               <div className="relative">
                 <button 
                   onClick={() => setIsHireOpen(!isHireOpen)}
                   onBlur={() => setTimeout(() => setIsHireOpen(false), 200)}
-                  className="flex items-center gap-1.5 hover:text-[#1E40AF] transition-colors focus:outline-none"
+                  className="flex items-center gap-1.5 hover:text-[#15803D] transition-colors focus:outline-none"
                 >
-                  Mempekerjakan
+                  Layanan Dinas
                   <svg className={`h-4 w-4 transition-transform duration-200 ${isHireOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -92,15 +94,18 @@ export default function Navbar() {
 
                 {/* Dropdown Menu Box */}
                 {isHireOpen && (
-                  <div className="absolute left-0 mt-3 w-60 rounded-2xl border border-slate-100 bg-white p-2.5 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-                    <a href="#" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
-                      Buat Project Baru (Brief)
+                  <div className="absolute left-0 mt-3 w-64 rounded-2xl border border-slate-100 bg-white p-2.5 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <a href="#bimtek-serang" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Fasilitasi NIB & Halal Gratis
                     </a>
-                    <a href="#" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
-                      Cari Berdasarkan Keahlian
+                    <a href="#bimtek-serang" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Akses Modal LPDB & BJB
                     </a>
-                    <a href="#" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
-                      Panduan Rekrutmen Freelancer
+                    <a href="#tentang-dinkop" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Klinik Konsultasi PLUT-KUMKM
+                    </a>
+                    <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                      Daftar UMKM / Talenta Binaan
                     </a>
                   </div>
                 )}
@@ -123,7 +128,7 @@ export default function Navbar() {
                     <p className="text-[15px] font-bold text-slate-800">{profile?.name || session.name}</p>
                     <p className="text-xs font-medium text-slate-400 capitalize">{session.role}</p>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#1E40AF] to-[#A3E635] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#15803D] to-[#EAB308] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative">
                     {profile?.profilePicture ? (
                       <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" />
                     ) : (
@@ -142,42 +147,32 @@ export default function Navbar() {
                       <p className="text-xs font-bold text-slate-400">Akun Anda</p>
                     </div>
                     {session.role === 'superadmin' || session.role === 'moderator' ? (
-                      <a href="/admin/dashboard" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                      <a href="/admin/dashboard" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#15803D] transition-colors">
                         <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                         Dashboard Admin
                       </a>
                     ) : null}
 
                     {session.role === 'freelancer' ? (
-                      <a href="/freelancer/dashboard" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                      <a href="/freelancer/dashboard" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#15803D] transition-colors">
                         <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        Dashboard Freelancer
+                        Dashboard Mitra
                       </a>
                     ) : null}
 
                     {session.role === 'client' ? (
-                      <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                      <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#15803D] transition-colors">
                         <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        Daftar sebagai Freelancer
+                        Daftar sebagai Mitra
                       </a>
                     ) : null}
                     
-                    <Link href="/chat" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                    <Link href="/chat" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#15803D] transition-colors">
                       <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
                       Kotak Pesan
                     </Link>
 
-                    <a href="#" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
-                      <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
-                      Kupon Diskon
-                    </a>
-
-                    <a href="#" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
-                      <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                      Favorit
-                    </a>
-                    
-                    <a href="/account/settings" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                    <a href="/account/settings" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#15803D] transition-colors">
                       <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                       Pengaturan Akun
                     </a>
@@ -194,23 +189,19 @@ export default function Navbar() {
             ) : (
               // TAMPILAN SEBELUM LOGIN (TOMBOL DAFTAR / MASUK)
               <>
-                {/* Link Daftar sebagai Freelancer (Warna aksen biru elegan) */}
-                <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#1E40AF] transition-colors font-semibold">
-                  Daftar sebagai freelancer
+                <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#15803D] transition-colors font-semibold">
+                  Daftar Mitra / UMKM
                 </a>
                 
-                {/* Garis Pembatas Vertikal tipis */}
                 <div className="h-5 w-[1px] bg-slate-200"></div>
 
-                {/* Tombol Masuk */}
-                <a href="/login" className="text-slate-600 hover:text-[#1E40AF] transition-colors font-semibold">
+                <a href="/login" className="text-slate-600 hover:text-[#15803D] transition-colors font-semibold">
                   Masuk
                 </a>
 
-                {/* Tombol Daftar / Registrasi (Blue Pill Button) */}
                 <a 
                   href="/register" 
-                  className="rounded-full bg-[#1E40AF] px-6 py-2.5 text-[15px] font-bold text-white shadow-md shadow-blue-500/10 hover:bg-[#1e40af]/90 hover:shadow-lg transition-all active:scale-[0.98]"
+                  className="rounded-full bg-[#15803D] px-6 py-2.5 text-[15px] font-bold text-white shadow-md shadow-emerald-700/20 hover:bg-[#166534] hover:shadow-lg transition-all active:scale-[0.98]"
                 >
                   Daftar
                 </a>
@@ -243,14 +234,16 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white px-4 py-6 shadow-inner animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col gap-4 text-[15px] font-semibold text-slate-700">
-            <a href="#" className="block py-2 hover:text-[#1E40AF]">Jobboard</a>
-            <a href="#" className="block py-2 hover:text-[#1E40AF]">Cari Freelancer</a>
+            <a href="#umkm-serang" className="block py-2 hover:text-[#15803D]">Koperasi & UMKM</a>
+            <a href="#layanan-jasa" className="block py-2 hover:text-[#15803D]">Talenta Digital</a>
+            <a href="#bimtek-serang" className="block py-2 hover:text-[#15803D]">Bimtek & Pelatihan</a>
+            <a href="#tentang-dinkop" className="block py-2 hover:text-[#15803D]">Profil DinkopUKM & Kota Serang</a>
             
             {session ? (
               <>
                 <div className="h-[1px] bg-slate-100 my-2"></div>
                 <div className="flex items-center gap-3 py-2">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#1E40AF] to-[#A3E635] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#15803D] to-[#EAB308] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative shrink-0">
                     {profile?.profilePicture ? (
                       <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" />
                     ) : (
@@ -264,30 +257,28 @@ export default function Navbar() {
                 </div>
                 <div className="h-[1px] bg-slate-100 my-2"></div>
                 {session.role === 'superadmin' || session.role === 'moderator' ? (
-                  <a href="/admin/dashboard" className="block py-2 hover:text-[#1E40AF]">Dashboard Admin</a>
+                  <a href="/admin/dashboard" className="block py-2 hover:text-[#15803D]">Dashboard Admin</a>
                 ) : null}
                 {session.role === 'freelancer' ? (
-                  <a href="/freelancer/dashboard" className="block py-2 hover:text-[#1E40AF]">Dashboard Freelancer</a>
+                  <a href="/freelancer/dashboard" className="block py-2 hover:text-[#15803D]">Dashboard Mitra</a>
                 ) : null}
                 {session.role === 'client' ? (
-                  <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 hover:text-[#1E40AF]">Daftar sebagai Freelancer</a>
+                  <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 hover:text-[#15803D]">Daftar Mitra / UMKM</a>
                 ) : null}
-                <Link href="/chat" className="block py-2 hover:text-[#1E40AF]">Kotak Pesan</Link>
-                <a href="#" className="block py-2 hover:text-[#1E40AF]">Kupon Diskon</a>
-                <a href="#" className="block py-2 hover:text-[#1E40AF]">Favorit</a>
-                <a href="/account/settings" className="block py-2 hover:text-[#1E40AF]">Pengaturan Akun</a>
+                <Link href="/chat" className="block py-2 hover:text-[#15803D]">Kotak Pesan</Link>
+                <a href="/account/settings" className="block py-2 hover:text-[#15803D]">Pengaturan Akun</a>
                 <button onClick={handleLogout} className="block py-2 text-left text-rose-600 hover:text-rose-700">Keluar</button>
               </>
             ) : (
               <>
-                <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 text-[#1E40AF] hover:underline">Daftar sebagai freelancer</a>
+                <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 text-[#15803D] hover:underline">Daftar Mitra / UMKM</a>
                 
                 <div className="h-[1px] bg-slate-100 my-2"></div>
                 
-                <a href="/login" className="block py-2 text-center text-slate-600 hover:text-[#1E40AF]">Masuk</a>
+                <a href="/login" className="block py-2 text-center text-slate-600 hover:text-[#15803D]">Masuk</a>
                 <a 
                   href="/register" 
-                  className="block rounded-full bg-[#1E40AF] py-3 text-center text-white hover:bg-[#1e40af]/90 shadow-md transition-all"
+                  className="block rounded-full bg-[#15803D] py-3 text-center text-white hover:bg-[#166534] shadow-md transition-all"
                 >
                   Daftar Akun
                 </a>

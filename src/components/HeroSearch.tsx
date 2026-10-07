@@ -18,13 +18,14 @@ export default function HeroSearch() {
   const [history, setHistory] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Daftar Pencarian Populer ala Fastwork
+  // Daftar Pencarian Populer khas Kota Serang & DinkopUKM Perindag
   const POPULAR_SEARCHES = [
-    'Logo minimalis untuk restoran',
-    'Aplikasi mobile React Native',
-    'Landing page Figma premium',
-    'Artikel SEO Bahasa Indonesia',
-    'Video editor TikTok & Reels'
+    'Sate Bandeng & Kuliner Serang',
+    'Batik Kaibon Khas Banten',
+    'Website Profil UMKM Binaan',
+    'Desain Logo & Kemasan P-IRT',
+    'Pendampingan Koperasi Modern',
+    'Fasilitasi Sertifikasi Halal'
   ];
 
   // Mengambil riwayat pencarian dari localStorage saat komponen pertama kali dimuat di client
@@ -115,13 +116,13 @@ export default function HeroSearch() {
         onSubmit={handleSearchSubmit}
         className={`flex w-full items-center gap-2 rounded-full border bg-white p-2 shadow-xl transition-all duration-300 ${
           isFocused 
-            ? 'border-[#1E40AF] ring-4 ring-[#1E40AF]/10 scale-[1.01]' 
+            ? 'border-[#15803D] ring-4 ring-[#15803D]/15 scale-[1.01]' 
             : 'border-slate-200 hover:border-slate-300'
         }`}
       >
         {/* Ikon Sparkles di bagian kiri */}
         <div className="flex items-center pl-3 shrink-0 text-slate-400">
-          <Sparkles className="h-5 w-5 text-[#1E40AF] animate-pulse" />
+          <Sparkles className="h-5 w-5 text-[#EAB308] animate-pulse" />
         </div>
 
         {/* Input Text Utama */}
@@ -130,7 +131,7 @@ export default function HeroSearch() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
-          placeholder="Cari jasa: contoh 'Web SaaS', 'Desain Logo', 'Video Editor'..." 
+          placeholder="Cari produk UMKM, jasa koperasi, atau talenta Kota Serang..." 
           className="w-full bg-transparent px-2 py-3 text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
         />
 
@@ -138,8 +139,8 @@ export default function HeroSearch() {
         <div className="flex items-center gap-3 shrink-0 pr-1">
           <button 
             type="submit"
-            aria-label="Cari Jasa"
-            className="rounded-full bg-gradient-to-r from-[#1E40AF] to-blue-700 p-3 text-white hover:opacity-90 shadow-md hover:shadow-lg transition-all active:scale-95"
+            aria-label="Cari Jasa & Produk"
+            className="rounded-full bg-gradient-to-r from-[#15803D] to-emerald-700 p-3 text-white hover:opacity-95 shadow-md hover:shadow-lg transition-all active:scale-95"
           >
             <Search className="h-4 w-4" strokeWidth={2.5} />
           </button>

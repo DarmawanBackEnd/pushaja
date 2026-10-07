@@ -24,46 +24,47 @@ interface CategorySliderProps {
 // Fallback jika database benar-benar kosong
 const STATIC_FALLBACK_GROUPS: CategoryGroupWithCategories[] = [
   {
+    id: 'umkm-koperasi-serang',
+    name: 'UMKM & Koperasi Kota Serang',
+    slug: 'umkm-koperasi-serang',
+    icon: `<svg class="h-5 w-5 text-emerald-600 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>`,
+    categories: [
+      { id: '1', name: 'Kuliner Khas Kota Serang', slug: 'kuliner-khas-serang', imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60' },
+      { id: '2', name: 'Batik & Kerajinan Kaibon', slug: 'batik-kerajinan-kaibon', imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60' },
+      { id: '3', name: 'Legalitas & NIB Binaan', slug: 'legalitas-izin-umkm-binaan', imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&auto=format&fit=crop&q=60' },
+      { id: '4', name: 'Koperasi Jasa & Simpan Pinjam', slug: 'koperasi-jasa-simpan-pinjam', imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=500&auto=format&fit=crop&q=60' }
+    ]
+  },
+  {
     id: 'pemrograman',
     name: 'Web & Pemrograman',
     slug: 'pemrograman',
     icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
     categories: [
-      { id: '1', name: 'Pembuatan Web SaaS', slug: 'pembuatan-web-saas', imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60' },
-      { id: '2', name: 'Aplikasi Android & iOS', slug: 'aplikasi-android-ios', imageUrl: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&auto=format&fit=crop&q=60' },
-      { id: '3', name: 'Tuning Query PostgreSQL', slug: 'tuning-query-postgresql', imageUrl: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=500&auto=format&fit=crop&q=60' },
-      { id: '4', name: 'Integrasi API Payment', slug: 'integrasi-api-payment', imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=60' }
+      { id: '5', name: 'Pembuatan Web Katalog UMKM', slug: 'pembuatan-web-saas', imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60' },
+      { id: '6', name: 'Aplikasi Android & Kasir POS', slug: 'aplikasi-android-ios', imageUrl: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&auto=format&fit=crop&q=60' },
+      { id: '7', name: 'Integrasi Pembayaran QRIS', slug: 'integrasi-api-payment', imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=60' }
     ]
   },
   {
     id: 'desain',
-    name: 'Desain Grafis & UI/UX',
+    name: 'Desain Grafis & Kemasan',
     slug: 'desain',
     icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>`,
     categories: [
-      { id: '5', name: 'Desain Landing Page', slug: 'desain-landing-page', imageUrl: 'https://images.unsplash.com/photo-1581291518655-9523c932dedf?w=500&auto=format&fit=crop&q=60' },
-      { id: '6', name: 'Desain Logo Brand', slug: 'desain-logo-brand', imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&auto=format&fit=crop&q=60' },
-      { id: '7', name: 'Ilustrasi Digital', slug: 'ilustrasi-digital', imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60' }
+      { id: '8', name: 'Desain Kemasan Produk UMKM', slug: 'desain-landing-page', imageUrl: 'https://images.unsplash.com/photo-1581291518655-9523c932dedf?w=500&auto=format&fit=crop&q=60' },
+      { id: '9', name: 'Desain Logo & Identitas Brand', slug: 'desain-logo-brand', imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&auto=format&fit=crop&q=60' },
+      { id: '10', name: 'Foto & Banner Promosi Toko', slug: 'ilustrasi-digital', imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60' }
     ]
   },
   {
     id: 'penulisan',
-    name: 'Penulisan & Artikel',
+    name: 'Promosi & Pemasaran Digital',
     slug: 'penulisan',
     icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`,
     categories: [
-      { id: '8', name: 'Artikel Blog SEO', slug: 'artikel-blog-seo', imageUrl: 'https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=500&auto=format&fit=crop&q=60' },
-      { id: '9', name: 'Copywriting Landing Page', slug: 'copywriting-landing-page', imageUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=500&auto=format&fit=crop&q=60' }
-    ]
-  },
-  {
-    id: 'lifestyle',
-    name: 'Gaya Hidup & Hobi',
-    slug: 'lifestyle',
-    icon: `<svg class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>`,
-    categories: [
-      { id: '10', name: 'Pijat Tradisional', slug: 'pijat-tradisional', imageUrl: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&auto=format&fit=crop&q=60' },
-      { id: '11', name: 'Cleaning Service', slug: 'cleaning-service', imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&auto=format&fit=crop&q=60' }
+      { id: '11', name: 'Pengelolaan Medsos UMKM', slug: 'artikel-blog-seo', imageUrl: 'https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=500&auto=format&fit=crop&q=60' },
+      { id: '12', name: 'Copywriting Iklan WhatsApp/IG', slug: 'copywriting-landing-page', imageUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=500&auto=format&fit=crop&q=60' }
     ]
   }
 ];
@@ -121,22 +122,22 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
   const activeGroup = groupsToDisplay.find(g => g.slug === activeSlug) || groupsToDisplay[0];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4 mb-16 relative">
+    <div id="umkm-serang" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4 mb-16 relative">
       
       {/* ----------------------------------------------------
-          CONTAINER UTAMA PUTIH (ALA REFERENSI FASTWORK KEDUA)
+          CONTAINER UTAMA PUTIH
           Membungkus slider kategori dan sub-kategori dalam satu box terpadu.
          ---------------------------------------------------- */}
       <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-md">
         
-        {/* ROW 1: SLIDER KATEGORI KAPSUL (DENGAN TOMBOL PANAH BERSIH TANPA OVERLAY GREY) */}
+        {/* ROW 1: SLIDER KATEGORI KAPSUL (DENGAN TOMBOL PANAH BERSIH) */}
         <div className="relative">
           
           {/* Tombol Geser Kiri Melayang Bersih */}
           {showLeftArrow && (
             <button 
               onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#15803D] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kiri"
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
@@ -147,7 +148,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
           {showRightArrow && (
             <button 
               onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#15803D] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kanan"
             >
               <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
@@ -168,15 +169,15 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
                     onClick={() => setActiveSlug(cat.slug)}
                     className={`group flex items-center gap-3 py-3 px-5 rounded-full border hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer ${
                       isActive 
-                        ? 'border-[#1E40AF] bg-[#1E40AF]/5 text-[#1E40AF] shadow-sm' 
-                        : 'border-slate-200 text-slate-600 bg-white hover:border-[#1E40AF]'
+                        ? 'border-[#15803D] bg-[#15803D]/10 text-[#15803D] shadow-sm font-extrabold ring-1 ring-[#15803D]/30' 
+                        : 'border-slate-200 text-slate-600 bg-white hover:border-[#15803D]'
                     }`}
                   >
                     {/* Circle Pod Icon */}
                     <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
                       isActive 
-                        ? 'bg-[#1E40AF] text-white border-[#1E40AF]' 
-                        : 'bg-slate-50 text-slate-400 border-slate-100 group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] group-hover:border-blue-100'
+                        ? 'bg-[#15803D] text-white border-[#15803D]' 
+                        : 'bg-slate-50 text-slate-400 border-slate-100 group-hover:bg-[#15803D]/10 group-hover:text-[#15803D] group-hover:border-emerald-100'
                     }`}>
                       {cat.icon ? (
                         <div 
@@ -192,7 +193,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
 
                     {/* Label Teks */}
                     <span className={`text-xs font-extrabold tracking-tight whitespace-nowrap transition-colors duration-300 ${
-                      isActive ? 'text-[#1E40AF]' : 'text-slate-700 group-hover:text-[#1E40AF]'
+                      isActive ? 'text-[#15803D]' : 'text-slate-700 group-hover:text-[#15803D]'
                     }`}>
                       {cat.name}
                     </span>
@@ -207,7 +208,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
         {/* PEMBATAS HORIZONTAL TIPIS */}
         <div className="h-[1px] bg-slate-100 my-6"></div>
 
-        {/* ROW 2: CONTAINER GRID SUB-KATEGORI (DENGAN TAMPILAN GAMBAR PREMIUM DARI DATABASE) */}
+        {/* ROW 2: CONTAINER GRID SUB-KATEGORI */}
         <div>
           {activeGroup && activeGroup.categories && activeGroup.categories.length > 0 ? (
             <div className="grid gap-4 grid-cols-2 md:grid-cols-4 animate-in fade-in duration-300">
@@ -229,7 +230,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
                     </>
                   ) : (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#1E40AF] to-indigo-900 opacity-80"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#15803D] to-slate-900 opacity-80"></div>
                       <div className="absolute top-[-20%] right-[-20%] w-16 h-16 bg-white/10 rounded-full blur-md group-hover:scale-125 transition-transform duration-300"></div>
                     </>
                   )}
@@ -255,13 +256,13 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
             </div>
           )}
 
-          {/* LINK SELANJUTNYA (DI KANAN BAWAH ALA FIVERR/FASTWORK) */}
+          {/* LINK SELANJUTNYA */}
           <div className="mt-6 flex justify-end">
             <Link 
               href={`/categories/${activeGroup?.slug || activeSlug}`} 
-              className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#1E40AF] hover:text-[#1e40af]/80 hover:underline transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#15803D] hover:text-[#166534] hover:underline transition-all"
             >
-              Lihat Jasa Lainnya di Kategori Ini
+              Lihat Jasa & Produk Lainnya di Kategori Ini
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

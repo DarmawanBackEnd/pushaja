@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "pushaja | Platform Marketplace Freelance Premium Indonesia",
-  description: "Temukan jasa freelancer profesional terbaik untuk kebutuhan website, desain grafis, penulisan, dan teknologi lainnya di pushaja.",
+  title: "KopDigital Kota Serang | Portal Resmi Koperasi, UMKM & Talenta Digital Kota Serang Madani",
+  description: "Platform resmi Dinas Koperasi, Usaha Kecil Menengah, Perindustrian dan Perdagangan (DinkopUKM Perindag) Kota Serang untuk pemberdayaan koperasi modern, produk UMKM unggulan, dan talenta digital lokal Kota Serang Madani.",
 };
 
 export default function RootLayout({
