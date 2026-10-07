@@ -5,8 +5,8 @@ import HeroSearch from '@/components/HeroSearch';
 import CategorySlider from '@/components/CategorySlider';
 import TypingHeroTitle from '@/components/TypingHeroTitle';
 import GigSlider from '@/components/GigSlider';
-import TrainingTracker from '@/components/TrainingTracker';
 import Image from 'next/image';
+import Link from 'next/link';
 import { 
   ShieldCheck, 
   Zap, 
@@ -18,7 +18,10 @@ import {
   Sparkles,
   MapPin,
   Phone,
-  Mail
+  Mail,
+  GraduationCap,
+  Search,
+  ArrowRight
 } from 'lucide-react';
 
 // ============================================================================
@@ -184,10 +187,40 @@ export default async function Home() {
       <CategorySlider initialGroups={categoryGroups} />
 
       {/* ----------------------------------------------------
-          NEW FEATURE: PELATIHAN & SISTEM LIVE TRACKING PROGRES
-          (Koleksi Bimtek DinkopUKM & Pelacakan Status Pesanan/Pelatihan)
+          BANNER PROMOSI: PELATIHAN BINAAN & LIVE TRACKING KE HALAMAN SENDIRI
          ---------------------------------------------------- */}
-      <TrainingTracker />
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8">
+        <div className="relative rounded-[2.5rem] bg-gradient-to-r from-[#15803D] via-emerald-800 to-slate-900 p-8 sm:p-12 text-white shadow-xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#EAB308]/15 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="relative z-10 max-w-2xl text-left space-y-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-widest text-[#EAB308] uppercase border border-white/20">
+              <GraduationCap className="w-3.5 h-3.5" /> PROGRAM RESMI PEMKOT SERANG
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+              Pelatihan Binaan & Pelacakan Status Real-Time
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+              Ikuti program Bimbingan Teknis (Bimtek) digital gratis dan pantau status progres pelatihan maupun pesanan proyek Anda secara transparan di halaman khusus.
+            </p>
+          </div>
+          <div className="relative z-10 flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+            <Link
+              href="/pelatihan"
+              className="rounded-2xl bg-[#EAB308] hover:bg-amber-400 text-slate-950 font-black px-6 py-3.5 text-xs sm:text-sm shadow-lg transition-all text-center flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
+            >
+              <Search className="w-4 h-4" />
+              Lacak Status Proyek
+            </Link>
+            <Link
+              href="/pelatihan"
+              className="rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-extrabold px-6 py-3.5 text-xs sm:text-sm transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
+            >
+              Lihat Program Pelatihan
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ----------------------------------------------------
           SECTION: CARA MEMPEKERJAKAN FREELANCER (STEPS & YOUTUBE)
@@ -578,7 +611,7 @@ export default async function Home() {
             <ul className="space-y-2 text-xs">
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Cari Jasa Pemrograman Web</a></li>
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Cari Jasa Desain Grafis & UI/UX</a></li>
-              <li><a href="#pelatihan-tracking" className="hover:text-[#15803D] transition-colors">Lacak Status Pesanan (Live Tracking)</a></li>
+              <li><Link href="/pelatihan" className="hover:text-[#15803D] transition-colors">Lacak Status Pesanan (Live Tracking)</Link></li>
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Jaminan Rekening Bersama Escrow</a></li>
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Kebijakan Pengembalian Dana</a></li>
             </ul>
@@ -589,7 +622,7 @@ export default async function Home() {
             <h4 className="text-sm font-bold text-slate-800 mb-4">Untuk Freelancer & Mitra</h4>
             <ul className="space-y-2 text-xs">
               <li><a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="hover:text-[#15803D] transition-colors">Cara Mulai Jual Layanan</a></li>
-              <li><a href="#pelatihan-tracking" className="hover:text-[#15803D] transition-colors">Bimtek & Pelatihan Gratis</a></li>
+              <li><Link href="/pelatihan" className="hover:text-[#15803D] transition-colors">Bimtek & Pelatihan Gratis</Link></li>
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Skema Komisi Pembagian Hasil</a></li>
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Pencairan Saldo (Withdraw)</a></li>
               <li><a href="#" className="hover:text-[#15803D] transition-colors">Tips Memperoleh Banyak Orderan</a></li>

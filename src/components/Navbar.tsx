@@ -79,12 +79,12 @@ export default function Navbar() {
 
             {/* Menu Navigasi Tengah (Desktop Only) */}
             <nav className="hidden md:flex items-center gap-7 text-[15px] font-semibold text-slate-600">
-              <a href="#layanan-jasa" className="hover:text-[#15803D] transition-colors">Jobboard</a>
-              <a href="#pelatihan-tracking" className="hover:text-[#15803D] transition-colors">Pelatihan & Bimtek</a>
-              <a href="#pelatihan-tracking" className="hover:text-[#15803D] transition-colors flex items-center gap-1.5">
+              <Link href="/#layanan-jasa" className="hover:text-[#15803D] transition-colors">Jobboard</Link>
+              <Link href="/pelatihan" className="hover:text-[#15803D] transition-colors">Pelatihan & Bimtek</Link>
+              <Link href="/pelatihan" className="hover:text-[#15803D] transition-colors flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block"></span>
                 Live Tracking
-              </a>
+              </Link>
               
               {/* Dropdown Layanan & Mempekerjakan */}
               <div className="relative">
@@ -102,15 +102,15 @@ export default function Navbar() {
                 {/* Dropdown Menu Box */}
                 {isHireOpen && (
                   <div className="absolute left-0 mt-3 w-64 rounded-2xl border border-slate-100 bg-white p-2.5 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-                    <a href="#layanan-jasa" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                    <Link href="/#layanan-jasa" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
                       Cari Berdasarkan Keahlian
-                    </a>
-                    <a href="#pelatihan-tracking" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                    </Link>
+                    <Link href="/pelatihan" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
                       Pelatihan Talenta Digital
-                    </a>
-                    <a href="#pelatihan-tracking" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
+                    </Link>
+                    <Link href="/pelatihan" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
                       Lacak Progres Pesanan
-                    </a>
+                    </Link>
                     <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#15803D] transition-colors">
                       Daftar sebagai Freelancer / Mitra
                     </a>
@@ -241,10 +241,10 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white px-4 py-6 shadow-inner animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col gap-4 text-[15px] font-semibold text-slate-700">
-            <a href="#layanan-jasa" className="block py-2 hover:text-[#15803D]">Jobboard</a>
-            <a href="#pelatihan-tracking" className="block py-2 hover:text-[#15803D]">Pelatihan & Bimtek</a>
-            <a href="#pelatihan-tracking" className="block py-2 hover:text-[#15803D]">Lacak Status (Live Tracking)</a>
-            <a href="#tentang-pushaja" className="block py-2 hover:text-[#15803D]">Tentang pushaja & DinkopUKM</a>
+            <Link href="/#layanan-jasa" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 hover:text-[#15803D]">Jobboard</Link>
+            <Link href="/pelatihan" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 hover:text-[#15803D]">Pelatihan & Bimtek</Link>
+            <Link href="/pelatihan" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 hover:text-[#15803D]">Lacak Status (Live Tracking)</Link>
+            <Link href="/#tentang-pushaja" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 hover:text-[#15803D]">Tentang pushaja & DinkopUKM</Link>
             
             {session ? (
               <>
