@@ -545,9 +545,9 @@ export default async function Home() {
           
           {/* Col 1 */}
           <div className="col-span-2 md:col-span-1">
-            <div className="relative w-48 h-12 mb-4">
+            <div className="relative w-48 sm:w-56 h-12 sm:h-14 mb-4">
               <Image 
-                src="/logo-dinkopukm-serang.png" 
+                src="/logo-dinkop-kota-serang.png" 
                 alt="Logo DinkopUKM Perindag Kota Serang"
                 fill
                 className="object-contain object-left"

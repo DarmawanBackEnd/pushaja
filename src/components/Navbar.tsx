@@ -64,7 +64,7 @@ export default function Navbar() {
             <a href="/" className="flex items-center group">
               <div className="relative w-48 sm:w-56 h-12 sm:h-14 transition-transform duration-300 group-hover:scale-105">
                 <Image 
-                  src="/logo-dinkopukm-serang.png"
+                  src="/logo-dinkop-kota-serang.png"
                   alt="DinkopUKM Perindag Kota Serang" 
                   fill
                   priority

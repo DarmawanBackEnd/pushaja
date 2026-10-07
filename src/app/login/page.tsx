@@ -77,10 +77,10 @@ export default function LoginPage() {
         {/* Bagian Atas: Badge Platform & Logo */}
         <div className="relative z-10 flex items-center justify-between">
           <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95 duration-200">
-            <div className="relative w-32 h-10 brightness-0 invert">
+            <div className="relative w-44 h-12">
               <Image 
-                src="/logo-pushaja-v2.png" 
-                alt="PushAja Logo" 
+                src="/logo-dinkop-kota-serang.png" 
+                alt="Logo DinkopUKM Kota Serang" 
                 fill 
                 priority 
                 className="object-contain object-left" 
@@ -160,10 +160,10 @@ export default function LoginPage() {
           {/* Logo Brand Konsisten dengan Navbar */}
           <div className="text-center space-y-1.5">
             <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95 duration-200">
-              <div className="relative w-32 h-10 mx-auto">
+              <div className="relative w-44 h-12 mx-auto">
                 <Image 
-                  src="/logo-pushaja-v2.png"
-                  alt="Logo PushAja" 
+                  src="/logo-dinkop-kota-serang.png"
+                  alt="Logo DinkopUKM Kota Serang" 
                   fill
                   priority
                   className="object-contain"
