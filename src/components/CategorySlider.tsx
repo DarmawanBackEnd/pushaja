@@ -121,13 +121,13 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
   const activeGroup = groupsToDisplay.find(g => g.slug === activeSlug) || groupsToDisplay[0];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4 mb-16 relative">
+    <div className="mx-auto max-w-7xl 2xl:max-w-[1400px] px-4 sm:px-6 lg:px-8 mt-6 mb-20 relative">
       
       {/* ----------------------------------------------------
-          CONTAINER UTAMA PUTIH (ALA REFERENSI FASTWORK KEDUA)
-          Membungkus slider kategori dan sub-kategori dalam satu box terpadu.
+          CONTAINER UTAMA PUTIH (LEBIH LEGA, BESAR, DAN NYAMAN DILIHAT)
+          Membungkus slider kelompok kategori dan kartu jenis layanan
          ---------------------------------------------------- */}
-      <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-md">
+      <div className="bg-white rounded-[2.5rem] border border-slate-200/80 p-6 sm:p-10 lg:p-12 shadow-xl shadow-slate-200/50 transition-all">
         
         {/* ROW 1: SLIDER KATEGORI KAPSUL (DENGAN TOMBOL PANAH BERSIH TANPA OVERLAY GREY) */}
         <div className="relative">
@@ -136,7 +136,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
           {showLeftArrow && (
             <button 
               onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kiri"
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
@@ -147,7 +147,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
           {showRightArrow && (
             <button 
               onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:bg-slate-50 hover:text-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kanan"
             >
               <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
@@ -157,7 +157,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
           {/* Slider Kapsul Kategori */}
           <div 
             ref={sliderRef}
-            className="flex items-center gap-3 overflow-x-auto px-1 py-1.5 scrollbar-none snap-x snap-mandatory"
+            className="flex items-center gap-3.5 overflow-x-auto px-1 py-2 scrollbar-none snap-x snap-mandatory"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {groupsToDisplay.map((cat) => {
@@ -166,14 +166,14 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
                 <div key={cat.slug} className="flex-none snap-start">
                   <button 
                     onClick={() => setActiveSlug(cat.slug)}
-                    className={`group flex items-center gap-3 py-3 px-5 rounded-full border hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer ${
+                    className={`group flex items-center gap-3.5 py-3.5 px-6 rounded-full border hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer ${
                       isActive 
-                        ? 'border-[#1E40AF] bg-[#1E40AF]/5 text-[#1E40AF] shadow-sm' 
+                        ? 'border-[#1E40AF] bg-[#1E40AF]/10 text-[#1E40AF] shadow-sm font-black' 
                         : 'border-slate-200 text-slate-600 bg-white hover:border-[#1E40AF]'
                     }`}
                   >
                     {/* Circle Pod Icon */}
-                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
                       isActive 
                         ? 'bg-[#1E40AF] text-white border-[#1E40AF]' 
                         : 'bg-slate-50 text-slate-400 border-slate-100 group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] group-hover:border-blue-100'
@@ -191,7 +191,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
                     </div>
 
                     {/* Label Teks */}
-                    <span className={`text-xs font-extrabold tracking-tight whitespace-nowrap transition-colors duration-300 ${
+                    <span className={`text-sm font-black tracking-tight whitespace-nowrap transition-colors duration-300 ${
                       isActive ? 'text-[#1E40AF]' : 'text-slate-700 group-hover:text-[#1E40AF]'
                     }`}>
                       {cat.name}
@@ -205,64 +205,66 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
         </div>
 
         {/* PEMBATAS HORIZONTAL TIPIS */}
-        <div className="h-[1px] bg-slate-100 my-6"></div>
+        <div className="h-[1px] bg-slate-100 my-8"></div>
 
-        {/* ROW 2: CONTAINER GRID SUB-KATEGORI (DENGAN TAMPILAN GAMBAR PREMIUM DARI DATABASE) */}
+        {/* ROW 2: CONTAINER GRID SUB-KATEGORI (DIPERBESAR AGAR FOTO & TEKS SANGAT ENAK DILIHAT) */}
         <div>
           {activeGroup && activeGroup.categories && activeGroup.categories.length > 0 ? (
-            <div className="grid gap-4 grid-cols-2 md:grid-cols-4 animate-in fade-in duration-300">
+            <div className="grid gap-5 sm:gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 animate-in fade-in duration-300">
               {activeGroup.categories.map((sub) => (
                 <Link 
                   key={sub.id}
                   href={`/categories/${sub.slug}`}
-                  className="relative h-28 rounded-2xl overflow-hidden bg-slate-900 p-5 flex flex-col justify-end text-white shadow-sm hover:shadow-lg hover:scale-[1.03] hover:brightness-105 active:scale-95 transition-all duration-300 cursor-pointer group"
+                  className="relative h-44 sm:h-52 lg:h-56 rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 p-5 sm:p-6 flex flex-col justify-end text-white shadow-md hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer group"
                 >
-                  {/* Gambar visual premium Unsplash */}
+                  {/* Gambar visual premium */}
                   {sub.imageUrl ? (
                     <>
                       <img 
                         src={sub.imageUrl} 
                         alt={sub.name} 
-                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-500"
+                        className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-105 group-hover:opacity-85 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"></div>
                     </>
                   ) : (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#1E40AF] to-indigo-900 opacity-80"></div>
-                      <div className="absolute top-[-20%] right-[-20%] w-16 h-16 bg-white/10 rounded-full blur-md group-hover:scale-125 transition-transform duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#1E40AF] to-indigo-950 opacity-90"></div>
+                      <div className="absolute top-[-20%] right-[-20%] w-24 h-24 bg-white/10 rounded-full blur-xl group-hover:scale-125 transition-transform duration-300"></div>
                     </>
                   )}
                   
-                  {/* Teks Nama Jasa Spesifik (Tebal & Centered) */}
-                  <span className="text-sm font-extrabold tracking-tight text-white leading-tight drop-shadow-md pr-4 z-10">
+                  {/* Teks Nama Jasa Spesifik (Besar, Jelas, & Kontras Tinggi) */}
+                  <span className="text-sm sm:text-base lg:text-lg font-black tracking-tight text-white leading-snug drop-shadow-md pr-8 z-10">
                     {sub.name}
                   </span>
 
-                  {/* Ikon panah kecil di pojok kanan bawah melambangkan navigasi */}
-                  <ArrowRight className="absolute bottom-4 right-4 h-4 w-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all z-10" />
+                  {/* Tombol Lingkaran Arah Panah Navigasi di Pojok Kanan Bawah */}
+                  <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 h-8 w-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white/90 group-hover:bg-[#1E40AF] group-hover:text-white group-hover:scale-110 transition-all z-10 shadow-sm">
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="py-12 text-center bg-slate-50 rounded-2xl border border-slate-100">
-              <svg className="h-8 w-8 text-slate-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="py-16 text-center bg-slate-50/80 rounded-3xl border border-slate-100">
+              <svg className="h-10 w-10 text-slate-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <title>Kategori Kosong</title>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5" />
               </svg>
-              <h4 className="text-xs font-extrabold text-slate-600">Belum Ada Jenis Layanan</h4>
-              <p className="text-[10px] text-slate-400 mt-1">Grup kategori ini belum memiliki klasifikasi jenis layanan di database.</p>
+              <h4 className="text-sm font-black text-slate-700">Belum Ada Jenis Layanan</h4>
+              <p className="text-xs text-slate-400 mt-1">Grup kategori ini belum memiliki klasifikasi jenis layanan di database.</p>
             </div>
           )}
 
-          {/* LINK SELANJUTNYA (DI KANAN BAWAH ALA FIVERR/FASTWORK) */}
-          <div className="mt-6 flex justify-end">
+          {/* LINK SELANJUTNYA (DI KANAN BAWAH) */}
+          <div className="mt-8 flex justify-end">
             <Link 
               href={`/categories/${activeGroup?.slug || activeSlug}`} 
-              className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#1E40AF] hover:text-[#1e40af]/80 hover:underline transition-all"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-black text-[#1E40AF] hover:text-blue-700 py-2.5 px-5 rounded-full hover:bg-blue-50 transition-all group"
             >
-              Lihat Jasa Lainnya di Kategori Ini
-              <ArrowRight className="h-3.5 w-3.5" />
+              <span>Lihat Jasa Lainnya di Kategori Ini</span>
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
