@@ -435,21 +435,35 @@ export async function updateCategory(formData: FormData) {
     const name = formData.get('name') as string;
     const slug = formData.get('slug') as string;
     const categoryGroupId = formData.get('categoryGroupId') as string;
-    const imageUrlInput = formData.get('imageUrl') as string;
+    const imageUrlInput = (formData.get('imageUrl') as string || '').trim();
     const file = formData.get('imageFile') as File | null;
+    const isRemoveImage = formData.get('removeImage') === 'true';
 
     if (!id || !name || !slug) {
       return { success: false, error: 'ID, Nama, dan Slug jenis layanan wajib diisi.' };
     }
 
-    let imageUrl = imageUrlInput || null;
-    if (file && file.size > 0) {
-      imageUrl = await saveUploadedFile(file);
+    // Pastikan slug unik (tidak bentrok dengan kategori lain)
+    const existingSlug = await prisma.category.findFirst({
+      where: {
+        slug,
+        NOT: { id }
+      }
+    });
+    if (existingSlug) {
+      return { success: false, error: 'Slug jenis layanan ini sudah digunakan oleh layanan lain.' };
     }
 
-    // Jika tidak ada upload file baru dan ada input imageUrl, gunakan imageUrl itu.
-    // Jika tidak keduanya, kita pertahankan imageUrl lama dengan mencarinya di database terlebih dahulu.
-    if (!imageUrl && !imageUrlInput) {
+    let imageUrl: string | null = imageUrlInput || null;
+    
+    // Jika ada upload berkas gambar baru
+    if (file && typeof file === 'object' && file.size > 0) {
+      imageUrl = await saveUploadedFile(file);
+    } else if (isRemoveImage) {
+      // Jika pengguna secara eksplisit menghapus gambar
+      imageUrl = null;
+    } else if (!imageUrl && !file) {
+      // Jika tidak ada perubahan gambar dan tidak ada file baru, pertahankan gambar lama di DB
       const existing = await prisma.category.findUnique({
         where: { id },
         select: { imageUrl: true }
@@ -462,14 +476,18 @@ export async function updateCategory(formData: FormData) {
       data: { 
         name, 
         slug, 
-        categoryGroupId: categoryGroupId || null,
+        categoryGroupId: categoryGroupId ? categoryGroupId : null,
         imageUrl: imageUrl
       }
     });
+
     revalidatePath('/');
-    return { success: true };
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/categories');
+    return { success: true, imageUrl };
   } catch (err: any) {
-    return { success: false, error: err.message };
+    console.error('Error in updateCategory:', err);
+    return { success: false, error: err.message || 'Gagal memperbarui jenis layanan.' };
   }
 }
 

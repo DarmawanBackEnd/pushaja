@@ -11,7 +11,7 @@ import {
   getCategoryGroups, 
   getCategoriesList 
 } from '@/actions/admin.action';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Image as ImageIcon, Trash2, AlertCircle } from 'lucide-react';
 
 interface CategoryTabProps {
   categories: any[];
@@ -64,7 +64,9 @@ export default function CategoryTab({
   const [editCatSlug, setEditCatSlug] = useState('');
   const [editCatImageUrl, setEditCatImageUrl] = useState('');
   const [editCatImageFile, setEditCatImageFile] = useState<File | null>(null);
+  const [editCatImagePreview, setEditCatImagePreview] = useState<string | null>(null);
   const [editGroupId, setEditGroupId] = useState('');
+  const [editModalError, setEditModalError] = useState<string | null>(null);
 
   // Auto-generate slug helpers
   const generateSlug = (val: string) => {
@@ -215,12 +217,49 @@ export default function CategoryTab({
     });
   };
 
+  const handleOpenEditCat = (cat: any) => {
+    setEditingCat(cat);
+    setEditCatName(cat.name);
+    setEditCatSlug(cat.slug);
+    setEditCatImageUrl(cat.imageUrl || '');
+    setEditCatImageFile(null);
+    setEditCatImagePreview(cat.imageUrl || null);
+    setEditGroupId(cat.categoryGroupId || '');
+    setEditModalError(null);
+  };
+
+  const handleEditCatFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setEditCatImageFile(file);
+      setEditCatImageUrl('');
+      setEditCatImagePreview(URL.createObjectURL(file));
+      setEditModalError(null);
+    }
+  };
+
+  const handleEditCatUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setEditCatImageUrl(val);
+    setEditCatImagePreview(val.trim() || null);
+    setEditModalError(null);
+  };
+
+  const handleRemoveEditCatImage = () => {
+    setEditCatImageFile(null);
+    setEditCatImageUrl('');
+    setEditCatImagePreview(null);
+    const fileInput = document.getElementById('edit-cat-file-input') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  };
+
   const handleUpdateCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingCat) return;
 
     setError(null);
     setSuccess(null);
+    setEditModalError(null);
 
     startTransition(async () => {
       const formData = new FormData();
@@ -228,19 +267,29 @@ export default function CategoryTab({
       formData.append('name', editCatName);
       formData.append('slug', editCatSlug);
       formData.append('categoryGroupId', editGroupId || '');
-      formData.append('imageUrl', editCatImageUrl || '');
+      formData.append('imageUrl', editCatImageUrl.trim());
       if (editCatImageFile) {
         formData.append('imageFile', editCatImageFile);
+      }
+      if (!editCatImagePreview && !editCatImageFile && !editCatImageUrl.trim()) {
+        formData.append('removeImage', 'true');
       }
 
       const res = await updateCategory(formData);
       if (res.success) {
-        const freshCats = await getCategoriesList();
+        const [freshCats, freshGroups] = await Promise.all([
+          getCategoriesList(),
+          getCategoryGroups(),
+        ]);
         onRefresh(freshCats);
-        setSuccess('Jenis layanan berhasil diperbarui di database!');
+        onRefreshGroups(freshGroups);
+        setSuccess(`Jenis layanan "${editCatName}" berhasil diperbarui di database!`);
         setEditCatImageFile(null);
+        setEditCatImagePreview(null);
         setEditingCat(null);
+        onUpdateStats();
       } else {
+        setEditModalError(res.error || 'Gagal memperbarui jenis layanan.');
         setError(res.error || 'Gagal memperbarui jenis layanan.');
       }
     });
@@ -607,14 +656,7 @@ export default function CategoryTab({
                       <td className="p-4 text-slate-500">{cat.slug}</td>
                       <td className="p-4 text-right flex justify-end gap-2">
                         <button
-                          onClick={() => {
-                            setEditingCat(cat);
-                            setEditCatName(cat.name);
-                            setEditCatSlug(cat.slug);
-                            setEditCatImageUrl(cat.imageUrl || '');
-                            setEditGroupId(cat.categoryGroupId || '');
-                            setEditCatImageFile(null);
-                          }}
+                          onClick={() => handleOpenEditCat(cat)}
                           className="rounded-lg border border-slate-200 px-3 py-1.5 hover:bg-[#1E40AF] hover:text-white hover:border-[#1E40AF] transition-all cursor-pointer"
                         >
                           Ubah
@@ -707,11 +749,19 @@ export default function CategoryTab({
          ==================================================== */}
       {editingCat && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-2xl space-y-6 text-left">
+          <div className="w-full max-w-lg bg-white rounded-[2.5rem] border border-slate-200 p-6 sm:p-8 shadow-2xl space-y-6 text-left max-h-[90vh] overflow-y-auto">
             <div>
               <h3 className="text-lg font-black text-slate-900">Ubah Data Jenis Layanan</h3>
-              <p className="text-xs text-slate-400 font-semibold mt-1">Ubah klasifikasi jenis layanan di basis data</p>
+              <p className="text-xs text-slate-400 font-semibold mt-1">Ubah klasifikasi dan foto jenis layanan di basis data</p>
             </div>
+
+            {/* Error Banner di dalam modal */}
+            {editModalError && (
+              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold flex gap-2.5 items-center animate-in slide-in-from-top-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
+                <span>{editModalError}</span>
+              </div>
+            )}
 
             <form onSubmit={handleUpdateCategory} className="space-y-4">
               
@@ -720,10 +770,9 @@ export default function CategoryTab({
                 <select
                   value={editGroupId}
                   onChange={(e) => setEditGroupId(e.target.value)}
-                  required
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-805 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold"
                 >
-                  <option value="">-- Pilih Kelompok Kategori --</option>
+                  <option value="">-- Tanpa Kelompok Kategori --</option>
                   {groups.map(g => (
                     <option key={g.id} value={g.id}>{g.name}</option>
                   ))}
@@ -737,7 +786,7 @@ export default function CategoryTab({
                   value={editCatName}
                   onChange={handleEditCatNameChange}
                   required 
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-805 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold"
                 />
               </div>
 
@@ -748,48 +797,80 @@ export default function CategoryTab({
                   value={editCatSlug}
                   onChange={(e) => setEditCatSlug(generateSlug(e.target.value))}
                   required 
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-805 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold"
                 />
               </div>
 
-              {/* KELOMPOK UNGGAH BERKAS / IMAGE URL */}
-              <div className="border border-slate-100 bg-slate-50/50 p-4 rounded-2xl space-y-4">
+              {/* KELOMPOK UNGGAH BERKAS / IMAGE URL DENGAN LIVE PREVIEW */}
+              <div className="border border-slate-200 bg-slate-50/70 p-4 rounded-2xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Foto Visual Jenis Layanan</label>
+                  {editCatImagePreview && (
+                    <button
+                      type="button"
+                      onClick={handleRemoveEditCatImage}
+                      className="text-[10px] font-black text-rose-500 hover:text-rose-700 transition-colors flex items-center gap-1 cursor-pointer"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      Hapus Foto
+                    </button>
+                  )}
+                </div>
+
+                {/* Box Live Preview Gambar */}
+                {editCatImagePreview ? (
+                  <div className="relative w-full h-36 rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 shadow-inner group">
+                    <img 
+                      src={editCatImagePreview} 
+                      alt="Preview Gambar"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end justify-between p-3">
+                      <span className="text-[10px] font-black text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg">
+                        {editCatImageFile ? 'Foto Baru Terpilih' : 'Foto Saat Ini'}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-24 rounded-2xl border-2 border-dashed border-slate-200 bg-white flex flex-col items-center justify-center text-slate-400 gap-1.5">
+                    <ImageIcon className="w-6 h-6 text-slate-300" />
+                    <span className="text-xs font-bold text-slate-500">Belum ada foto visual</span>
+                    <span className="text-[10px] text-slate-400">Pilih berkas foto dari komputer atau ketikkan link URL</span>
+                  </div>
+                )}
+
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Unggah Foto Baru (File Upload)</label>
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest block">Opsi 1: Unggah Foto Dari Komputer</label>
                   <input 
+                    id="edit-cat-file-input"
                     type="file" 
                     accept="image/*"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        setEditCatImageFile(e.target.files[0]);
-                        setEditCatImageUrl('');
-                      }
-                    }}
+                    onChange={handleEditCatFileChange}
                     className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#1E40AF]/10 file:text-[#1E40AF] hover:file:bg-[#1E40AF]/20 cursor-pointer"
                   />
                   {editCatImageFile && (
                     <div className="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5 mt-1 animate-in fade-in">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      File baru terpilih: {editCatImageFile.name} ({(editCatImageFile.size / 1024).toFixed(1)} KB)
+                      File baru: {editCatImageFile.name} ({(editCatImageFile.size / 1024).toFixed(1)} KB)
                     </div>
                   )}
                 </div>
 
                 <div className="relative flex py-1 items-center">
                   <div className="flex-grow border-t border-slate-200"></div>
-                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-black tracking-widest uppercase">Atau Gunakan Link</span>
+                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-black tracking-widest uppercase">Atau Opsi 2: Gunakan Link / URL</span>
                   <div className="flex-grow border-t border-slate-200"></div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Link Gambar Baru (URL)</label>
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest block">Link Gambar (URL Web atau /uploads/...)</label>
                   <input 
-                    type="url" 
+                    type="text" 
                     value={editCatImageUrl}
                     disabled={!!editCatImageFile}
-                    onChange={(e) => setEditCatImageUrl(e.target.value)}
-                    placeholder={editCatImageFile ? "Memprioritaskan file upload..." : "https://images.unsplash.com/..."}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-805 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold disabled:opacity-50"
+                    onChange={handleEditCatUrlChange}
+                    placeholder={editCatImageFile ? "Memprioritaskan file upload terpilih..." : "https://images.unsplash.com/... atau /uploads/..."}
+                    className="w-full bg-white border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -797,7 +878,12 @@ export default function CategoryTab({
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => setEditingCat(null)}
+                  onClick={() => {
+                    setEditingCat(null);
+                    setEditModalError(null);
+                    setEditCatImagePreview(null);
+                    setEditCatImageFile(null);
+                  }}
                   className="flex-1 rounded-xl border border-slate-200 py-3 text-xs font-black text-slate-500 hover:bg-slate-100 transition-all cursor-pointer text-center animate-in fade-in"
                 >
                   Batal
