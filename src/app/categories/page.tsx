@@ -11,6 +11,8 @@ import {
   Briefcase 
 } from 'lucide-react';
 
+export const revalidate = 60;
+
 export default async function CategoriesIndexPage() {
   const groups = await getAllCategoriesList();
 

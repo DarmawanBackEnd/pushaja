@@ -41,63 +41,56 @@ export async function loginUser(formData: FormData): Promise<LoginResponse> {
     // Enkripsi kata sandi input untuk verifikasi aman
     const hashedPassword = hashPassword(password);
 
-    // 1. Cari di tabel Admin terlebih dahulu
-    const admin = await prisma.admin.findUnique({
-      where: { email },
-    });
+    // Jalankan pengecekan Admin dan User secara paralel demi performa maksimal (1 network round-trip)
+    const [admin, user] = await Promise.all([
+      prisma.admin.findUnique({ where: { email } }),
+      prisma.user.findUnique({ where: { email } }),
+    ]);
 
-    if (admin) {
-      // Verifikasi password admin terenkripsi
-      if (admin.password === hashedPassword) {
-        // Simpan sesi login admin di Cookie (sangat aman & didukung Next.js)
-        const cookieStore = await cookies();
-        cookieStore.set('pushaja_session', JSON.stringify({
-          id: admin.id,
-          name: admin.name,
-          email: admin.email,
-          role: admin.roleLevel, // 'superadmin' atau 'moderator'
-        }), {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          maxAge: 60 * 60 * 24, // 1 hari sesi aktif
-          path: '/',
-        });
+    // 1. Cek Admin
+    if (admin && admin.password === hashedPassword) {
+      const cookieStore = await cookies();
+      cookieStore.set('pushaja_session', JSON.stringify({
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.roleLevel, // 'superadmin' atau 'moderator'
+        profilePicture: admin.profilePicture || null,
+      }), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24, // 1 hari sesi aktif
+        path: '/',
+      });
 
-        return {
-          success: true,
-          role: admin.roleLevel as 'superadmin' | 'moderator',
-          name: admin.name,
-        };
-      }
+      return {
+        success: true,
+        role: admin.roleLevel as 'superadmin' | 'moderator',
+        name: admin.name,
+      };
     }
 
-    // 2. Jika tidak ada di tabel Admin, cari di tabel User (Client/Freelancer)
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    // 2. Cek User (Client/Freelancer)
+    if (user && user.password === hashedPassword) {
+      const cookieStore = await cookies();
+      cookieStore.set('pushaja_session', JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role, // 'client' atau 'freelancer'
+        profilePicture: user.profilePicture || null,
+      }), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24,
+        path: '/',
+      });
 
-    if (user) {
-      // Verifikasi password user terenkripsi
-      if (user.password === hashedPassword) {
-        const cookieStore = await cookies();
-        cookieStore.set('pushaja_session', JSON.stringify({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role, // 'client' atau 'freelancer'
-        }), {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          maxAge: 60 * 60 * 24,
-          path: '/',
-        });
-
-        return {
-          success: true,
-          role: user.role as 'client' | 'freelancer',
-          name: user.name,
-        };
-      }
+      return {
+        success: true,
+        role: user.role as 'client' | 'freelancer',
+        name: user.name,
+      };
     }
 
     return {
@@ -131,9 +124,11 @@ export async function registerUser(formData: FormData): Promise<RegisterResponse
       return { success: false, error: 'Kolom Nama, Email, Kata Sandi, dan Peran wajib diisi.' };
     }
 
-    // 1. Cek duplikasi email di database (admins & users)
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    const existingAdmin = await prisma.admin.findUnique({ where: { email } });
+    // 1. Cek duplikasi email di database secara paralel (1 network round-trip)
+    const [existingUser, existingAdmin] = await Promise.all([
+      prisma.user.findUnique({ where: { email } }),
+      prisma.admin.findUnique({ where: { email } }),
+    ]);
 
     if (existingUser || existingAdmin) {
       return { success: false, error: 'Alamat email ini sudah terdaftar dalam sistem pushaja.' };

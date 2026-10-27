@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { getCurrentSession, logoutUser } from './auth.action';
+import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -100,6 +101,20 @@ export async function updateProfile(formData: FormData) {
         }
       });
     }
+
+    // Perbarui sesi cookie agar sinkron tanpa perlu kueri ulang ke database
+    const cookieStore = await cookies();
+    cookieStore.set('pushaja_session', JSON.stringify({
+      ...session,
+      name,
+      email,
+      profilePicture: profilePictureUrl || session.profilePicture || null,
+    }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24,
+      path: '/',
+    });
 
     return { success: true };
   } catch (error: any) {

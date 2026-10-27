@@ -44,10 +44,7 @@ export default function RegisterPage() {
         setError(res.error || 'Pendaftaran gagal.');
       } else {
         setSuccessMsg('Akun Anda berhasil terdaftar dengan aman! Mengalihkan ke halaman masuk...');
-        
-        setTimeout(() => {
-          router.push('/login');
-        }, 1800);
+        router.push('/login');
       }
     });
   };

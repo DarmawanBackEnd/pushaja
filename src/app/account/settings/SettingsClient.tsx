@@ -21,7 +21,7 @@ export default function SettingsClient({ initialProfile }: { initialProfile: any
     if (res.success) {
       setMessage({ text: 'Profil berhasil diperbarui.', type: 'success' });
       // Reload page to reflect new profile pic across navbar
-      setTimeout(() => window.location.reload(), 1500);
+      setTimeout(() => window.location.reload(), 400);
     } else {
       setMessage({ text: res.error || 'Terjadi kesalahan.', type: 'error' });
     }

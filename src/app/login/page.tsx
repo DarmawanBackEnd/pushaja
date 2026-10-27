@@ -41,15 +41,9 @@ export default function LoginPage() {
         setError(res.error || 'Login gagal.');
       } else {
         setSuccessMsg(`Selamat datang kembali, ${res.name}! Mengalihkan...`);
-        
-        setTimeout(() => {
-          if (res.role === 'superadmin' || res.role === 'moderator') {
-            router.push('/admin/dashboard');
-          } else {
-            router.push('/');
-          }
-          router.refresh();
-        }, 1200);
+        const targetUrl = (res.role === 'superadmin' || res.role === 'moderator') ? '/admin/dashboard' : '/';
+        router.push(targetUrl);
+        router.refresh();
       }
     });
   };

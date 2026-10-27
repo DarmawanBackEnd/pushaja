@@ -107,13 +107,15 @@ const PUSHAJA_GIGS = [
   }
 ];
 
+export const revalidate = 60;
+
 export default async function Home() {
-  // Mengambil data real dari database PostgreSQL jika ada
-  const dbResponse = await getGigsWithFreelancer();
+  // Mengambil data real dari database PostgreSQL secara paralel
+  const [dbResponse, categoryGroups] = await Promise.all([
+    getGigsWithFreelancer(),
+    getCategoryGroups(),
+  ]);
   const hasDbData = dbResponse.success && dbResponse.data && dbResponse.data.length > 0;
-  
-  // Ambil data kategori grup dinamis langsung dari database
-  const categoryGroups = await getCategoryGroups();
   
   // Backup menggunakan data kustom eksklusif pushaja jika db masih kosong
   const gigsToDisplay = hasDbData 

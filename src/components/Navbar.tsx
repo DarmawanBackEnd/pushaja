@@ -33,8 +33,12 @@ export default function Navbar() {
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    getCurrentSession().then(s => setSession(s));
-    getUserProfile().then(p => setProfile(p));
+    getCurrentSession().then(s => {
+      setSession(s);
+      if (s) {
+        setProfile(s);
+      }
+    });
   }, []);
 
   useEffect(() => {
