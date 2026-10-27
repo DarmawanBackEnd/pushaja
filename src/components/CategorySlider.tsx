@@ -129,14 +129,14 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
          ---------------------------------------------------- */}
       <div className="bg-white rounded-[2.5rem] border border-slate-200/80 p-6 sm:p-10 lg:p-12 shadow-xl shadow-slate-200/50 transition-all">
         
-        {/* ROW 1: SLIDER KATEGORI KAPSUL (DENGAN TOMBOL PANAH BERSIH TANPA OVERLAY GREY) */}
+        {/* ROW 1: SLIDER KATEGORI KAPSUL (DENGAN TOMBOL PANAH BERSIH & TIDAK TERPOTONG SAAT HOVER) */}
         <div className="relative">
           
           {/* Tombol Geser Kiri Melayang Bersih */}
           {showLeftArrow && (
             <button 
               onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
+              className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-xl hover:bg-slate-50 hover:text-[#1E40AF] hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kiri"
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
@@ -147,33 +147,33 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
           {showRightArrow && (
             <button 
               onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg hover:bg-slate-50 hover:text-[#1E40AF] hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
+              className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-xl hover:bg-slate-50 hover:text-[#1E40AF] hover:border-[#1E40AF] hover:scale-105 active:scale-95 transition-all focus:outline-none"
               title="Geser Kanan"
             >
               <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
             </button>
           )}
 
-          {/* Slider Kapsul Kategori */}
+          {/* Slider Kapsul Kategori (Diberikan padding lapang px-4 py-3 agar tidak terpotong saat hover/active) */}
           <div 
             ref={sliderRef}
-            className="flex items-center gap-3.5 overflow-x-auto px-1 py-2 scrollbar-none snap-x snap-mandatory"
+            className="flex items-center gap-3.5 overflow-x-auto px-4 py-3 scrollbar-none snap-x snap-mandatory"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {groupsToDisplay.map((cat) => {
               const isActive = activeSlug === cat.slug;
               return (
-                <div key={cat.slug} className="flex-none snap-start">
+                <div key={cat.slug} className="flex-none snap-start py-1">
                   <button 
                     onClick={() => setActiveSlug(cat.slug)}
-                    className={`group flex items-center gap-3.5 py-3.5 px-6 rounded-full border hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer ${
+                    className={`group flex items-center gap-3.5 py-3.5 px-6 rounded-full border transition-all duration-200 cursor-pointer ${
                       isActive 
                         ? 'border-[#1E40AF] bg-[#1E40AF]/10 text-[#1E40AF] shadow-sm font-black' 
-                        : 'border-slate-200 text-slate-600 bg-white hover:border-[#1E40AF]'
+                        : 'border-slate-200 text-slate-600 bg-white hover:border-[#1E40AF] hover:text-[#1E40AF] hover:bg-slate-50/80 hover:shadow-md'
                     }`}
                   >
                     {/* Circle Pod Icon */}
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-all duration-300 group-hover:scale-105 ${
                       isActive 
                         ? 'bg-[#1E40AF] text-white border-[#1E40AF]' 
                         : 'bg-slate-50 text-slate-400 border-slate-100 group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] group-hover:border-blue-100'
@@ -191,7 +191,7 @@ export default function CategorySlider({ initialGroups }: CategorySliderProps) {
                     </div>
 
                     {/* Label Teks */}
-                    <span className={`text-sm font-black tracking-tight whitespace-nowrap transition-colors duration-300 ${
+                    <span className={`text-sm font-black tracking-tight whitespace-nowrap transition-colors duration-200 ${
                       isActive ? 'text-[#1E40AF]' : 'text-slate-700 group-hover:text-[#1E40AF]'
                     }`}>
                       {cat.name}
