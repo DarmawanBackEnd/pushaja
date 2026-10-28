@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getGigsWithFreelancer } from '@/actions/gig.action';
 import { getCategoryGroups } from '@/actions/admin.action';
 import Navbar from '@/components/Navbar';
@@ -6,17 +5,16 @@ import HeroSearch from '@/components/HeroSearch';
 import CategorySlider from '@/components/CategorySlider';
 import TypingHeroTitle from '@/components/TypingHeroTitle';
 import GigSlider from '@/components/GigSlider';
-import { 
-  ShieldCheck, 
-  Zap, 
-  Scale, 
-  MessageSquareQuote, 
-  Star, 
-  Sprout, 
-  Sparkles, 
-  Users, 
-  CheckCircle2, 
-  ArrowRight,
+import {
+  ShieldCheck,
+  Zap,
+  Scale,
+  MessageSquareQuote,
+  Star,
+  Sprout,
+  Sparkles,
+  Users,
+  CheckCircle2,
   TrendingUp,
   Award,
   Lock
@@ -131,10 +129,10 @@ export default async function Home() {
     getCategoryGroups(),
   ]);
   const hasDbData = dbResponse.success && dbResponse.data && dbResponse.data.length > 0;
-  
+
   // Backup menggunakan data kustom eksklusif pushaja jika db masih kosong
-  const gigsToDisplay = hasDbData 
-    ? dbResponse.data!.map(gig => ({ ...gig, price: Number(gig.price) })) 
+  const gigsToDisplay = hasDbData
+    ? dbResponse.data!.map(gig => ({ ...gig, price: Number(gig.price) }))
     : PUSHAJA_GIGS;
   const isDemoMode = !hasDbData;
 
@@ -149,7 +147,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-[#A3E635] selection:text-[#1E40AF]">
-      
+
       {/* ----------------------------------------------------
           NAVBAR KUSTOM PUSHAJA (ALA FASTWORK REFERENSI)
          ---------------------------------------------------- */}
@@ -161,7 +159,7 @@ export default async function Home() {
           tidak tertimpa atau terpotong oleh komponen di bawahnya.
          ---------------------------------------------------- */}
       <section className="relative z-30 overflow-visible bg-gradient-to-b from-blue-50/80 via-blue-50/20 to-slate-50 py-20 text-center">
-        
+
         {/* Hiasan Latar Belakang Bulatan Berpendar Lembut - Terbungkus wadah overflow-hidden agar aman */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <div className="absolute top-[-10%] right-[-10%] w-[350px] h-[350px] rounded-full bg-blue-200/30 blur-[90px]"></div>
@@ -169,7 +167,7 @@ export default async function Home() {
         </div>
 
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 z-10 flex flex-col items-center">
-          
+
           {/* Label Kampanye pushaja */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-4 py-1.5 text-xs font-black text-[#1E40AF] border border-[#1E40AF]/10 mb-6">
             <svg className="h-3.5 w-3.5 text-[#1E40AF] animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -211,7 +209,7 @@ export default async function Home() {
          ---------------------------------------------------- */}
       <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-12 gap-12 items-center">
-          
+
           {/* Kolom Kiri: Langkah-langkah Rekrutmen */}
           <div className="md:col-span-6 text-left">
             <span className="text-[#1E40AF] text-xs font-black uppercase tracking-wider block mb-3">
@@ -227,7 +225,7 @@ export default async function Home() {
 
             {/* List Langkah */}
             <div className="mt-8 space-y-6">
-              
+
               {/* Langkah 1 */}
               <div className="flex gap-4 items-start">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
@@ -286,11 +284,11 @@ export default async function Home() {
           {/* Kolom Kanan: Video Tutorial YouTube */}
           <div className="md:col-span-6 flex justify-center">
             <div className="w-full max-w-lg aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100 relative group">
-              <iframe 
-                className="absolute inset-0 w-full h-full" 
-                src="https://www.youtube.com/embed/1SFtUsmyJX0?si=K1mQEPbvbaOfB2PP" 
-                title="Panduan Mempekerjakan Freelancer di pushaja" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/1SFtUsmyJX0?si=K1mQEPbvbaOfB2PP"
+                title="Panduan Mempekerjakan Freelancer di pushaja"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               ></iframe>
             </div>
@@ -305,7 +303,7 @@ export default async function Home() {
          ---------------------------------------------------- */}
       <section className="py-20 bg-slate-50 border-y border-slate-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
+
           <div className="max-w-3xl mb-16">
             <span className="text-[#1E40AF] text-xs font-black uppercase tracking-wider block mb-3">
               KEMUDAHAN DAN KEAMANAN
@@ -319,7 +317,7 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            
+
             {/* Benefit 1 */}
             <div className="p-8 rounded-3xl bg-white border border-slate-150 hover:shadow-xl transition-all duration-300 group">
               <div className="w-12 h-12 rounded-full bg-[#1E40AF]/5 flex items-center justify-center mb-6 border border-blue-50 transition-colors group-hover:bg-[#1E40AF]/10 group-hover:text-[#1E40AF] text-[#1E40AF]/60">
@@ -364,7 +362,7 @@ export default async function Home() {
          ---------------------------------------------------- */}
       <section className="bg-slate-100/50 py-20 md:py-28 border-t border-slate-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          
+
           {/* Header Konten Redesain */}
           <div className="flex flex-col items-start text-left border-b border-slate-100 pb-10 mb-12">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#A3E635]/10 px-4 py-1.5 text-[10px] font-black tracking-widest text-[#1E40AF] uppercase border border-[#A3E635]/20 mb-4 shadow-sm">
@@ -393,7 +391,7 @@ export default async function Home() {
          ---------------------------------------------------- */}
       <section className="py-20 bg-white border-b border-slate-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          
+
           {/* Header Section */}
           <div className="max-w-3xl mb-16 text-left animate-in fade-in duration-550">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E40AF]/5 px-3 py-1 text-[10px] font-black tracking-wider text-[#1E40AF] uppercase border border-[#1E40AF]/10 mb-3">
@@ -409,7 +407,7 @@ export default async function Home() {
 
           {/* Grid Testimoni */}
           <div className="grid gap-8 md:grid-cols-3">
-            
+
             {/* Ulasan 1 */}
             <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-150 hover:shadow-xl hover:bg-white hover:border-[#1E40AF]/30 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between">
               <div>
@@ -422,7 +420,7 @@ export default async function Home() {
                   "Sistem escrow rekening bersama pushaja benar-benar memberikan rasa aman yang luar biasa. Freelancer menyelesaikan web SaaS kami tepat waktu, dan dana baru dicairkan setelah kami uji coba menyeluruh. Sangat direkomendasikan!"
                 </blockquote>
               </div>
-              
+
               {/* Profil Pemberi Ulasan */}
               <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1E40AF] text-xs font-black text-white">
@@ -447,7 +445,7 @@ export default async function Home() {
                   "Desain UI/UX aplikasi e-commerce kami yang dikerjakan via pushaja sangat memukau! Penjualan kami meningkat drastis berkat desain premium yang responsif. Kolaborasi naskah brief-nya sangat mulus."
                 </blockquote>
               </div>
-              
+
               {/* Profil Pemberi Ulasan */}
               <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-600 text-xs font-black text-white">
@@ -472,7 +470,7 @@ export default async function Home() {
                   "Video promosi Reels & TikTok untuk menu kuliner baru kami meledak di media sosial. Hasil pengerjaannya sangat cepat, komunikasi responsif, dan kualitas dubbing suara serta editing videonya benar-benar di atas rata-rata!"
                 </blockquote>
               </div>
-              
+
               {/* Profil Pemberi Ulasan */}
               <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-black text-white">
@@ -495,20 +493,20 @@ export default async function Home() {
           Memenuhi layar penuh kanan-kiri (Edge-to-Edge) dengan estetika SaaS modern
          ---------------------------------------------------- */}
       <section className="relative w-full py-20 lg:py-28 bg-[#090F26] text-white overflow-hidden border-y border-blue-950/80">
-        
+
         {/* Latar Belakang Gradien Multi-Layer & Pendaran Cahaya Dinamis */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {/* Ambient Glow Orbs */}
           <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[#A3E635]/12 blur-[150px]"></div>
           <div className="absolute bottom-[-15%] left-[-10%] w-[650px] h-[650px] rounded-full bg-[#1E40AF]/35 blur-[160px]"></div>
           <div className="absolute top-[40%] left-[30%] w-[450px] h-[450px] rounded-full bg-indigo-600/15 blur-[140px]"></div>
-          
+
           {/* Subtle Grid Pattern Overlay */}
-          <div 
-            className="absolute inset-0 opacity-[0.07]" 
-            style={{ 
+          <div
+            className="absolute inset-0 opacity-[0.07]"
+            style={{
               backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0)`,
-              backgroundSize: '32px 32px' 
+              backgroundSize: '32px 32px'
             }}
           ></div>
 
@@ -517,14 +515,14 @@ export default async function Home() {
           <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-14">
-          
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
           {/* Grid Konten Utama: 2 Kolom (Kiri: Narasi & Pilar, Kanan: 4 Glassmorphic KPI Cards) */}
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            
+
             {/* Kolom Kiri: Copywriting & Value Propositions */}
             <div className="lg:col-span-7 space-y-7 text-left">
-              
+
               {/* Badge Kategori / Identitas */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/15 text-[#A3E635] text-xs font-black tracking-widest uppercase shadow-lg shadow-[#A3E635]/5">
                 <Sparkles className="w-3.5 h-3.5 text-[#A3E635] animate-pulse" />
@@ -604,7 +602,7 @@ export default async function Home() {
 
             {/* Kolom Kanan: 4 Glassmorphic KPI Cards */}
             <div className="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-5">
-              
+
               {/* Stat Card 1 */}
               <div className="relative group p-6 rounded-3xl bg-gradient-to-br from-white/[0.09] to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-[#A3E635]/50 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-2xl flex flex-col justify-between overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[#A3E635]/10 rounded-full blur-2xl group-hover:bg-[#A3E635]/20 transition-all"></div>
@@ -685,33 +683,6 @@ export default async function Home() {
 
           </div>
 
-          {/* CTA Ribbon di Bagian Bawah Section */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-blue-950/80 border border-white/10 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
-            <div className="space-y-1.5 text-center md:text-left">
-              <h3 className="text-lg sm:text-xl font-black text-white">
-                Siap Mewujudkan Proyek Digital Impian Anda?
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 font-medium">
-                Pilih ratusan jasa profesional terpercaya atau mulai tawarkan keahlian Anda sekarang.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 shrink-0 flex-wrap justify-center">
-              <Link
-                href="/categories"
-                className="inline-flex items-center gap-2 rounded-2xl bg-[#A3E635] hover:bg-lime-400 text-slate-900 px-6 py-3.5 text-xs font-black shadow-lg shadow-[#A3E635]/20 active:scale-95 transition-all cursor-pointer"
-              >
-                <span>Jelajahi Semua Layanan</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/freelancer/apply"
-                className="inline-flex items-center gap-2 rounded-2xl bg-white/10 hover:bg-white/15 text-white border border-white/20 px-6 py-3.5 text-xs font-bold active:scale-95 transition-all cursor-pointer"
-              >
-                <span>Gabung Freelancer</span>
-              </Link>
-            </div>
-          </div>
-
         </div>
       </section>
 
@@ -722,7 +693,7 @@ export default async function Home() {
          ---------------------------------------------------- */}
       <footer className="bg-white border-t border-slate-200 py-16 text-slate-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          
+
           {/* Col 1 */}
           <div>
             <span className="text-2xl font-black tracking-tight text-[#1E40AF]">
