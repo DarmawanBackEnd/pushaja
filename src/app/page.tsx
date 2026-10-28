@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getGigsWithFreelancer } from '@/actions/gig.action';
 import { getCategoryGroups } from '@/actions/admin.action';
 import Navbar from '@/components/Navbar';
@@ -5,7 +6,21 @@ import HeroSearch from '@/components/HeroSearch';
 import CategorySlider from '@/components/CategorySlider';
 import TypingHeroTitle from '@/components/TypingHeroTitle';
 import GigSlider from '@/components/GigSlider';
-import { ShieldCheck, Zap, Scale, MessageSquareQuote, Star, Sprout } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  Zap, 
+  Scale, 
+  MessageSquareQuote, 
+  Star, 
+  Sprout, 
+  Sparkles, 
+  Users, 
+  CheckCircle2, 
+  ArrowRight,
+  TrendingUp,
+  Award,
+  Lock
+} from 'lucide-react';
 
 
 // ============================================================================
@@ -476,84 +491,225 @@ export default async function Home() {
       </section>
 
       {/* ----------------------------------------------------
-          NEW SECTION: TENTANG PUSHAJA (ABOUT PLATFORM)
-          Diletakkan di bawah section ulasan pelanggan.
+          FULL-WIDTH SECTION: TENTANG PUSHAJA (ABOUT PLATFORM)
+          Memenuhi layar penuh kanan-kiri (Edge-to-Edge) dengan estetika SaaS modern
          ---------------------------------------------------- */}
-      <section className="py-20 bg-slate-50 border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative w-full py-20 lg:py-28 bg-[#090F26] text-white overflow-hidden border-y border-blue-950/80">
+        
+        {/* Latar Belakang Gradien Multi-Layer & Pendaran Cahaya Dinamis */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Ambient Glow Orbs */}
+          <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[#A3E635]/12 blur-[150px]"></div>
+          <div className="absolute bottom-[-15%] left-[-10%] w-[650px] h-[650px] rounded-full bg-[#1E40AF]/35 blur-[160px]"></div>
+          <div className="absolute top-[40%] left-[30%] w-[450px] h-[450px] rounded-full bg-indigo-600/15 blur-[140px]"></div>
           
-          {/* Card Jumbo Premium "Tentang pushaja" */}
-          <div className="relative rounded-[3rem] overflow-hidden bg-gradient-to-br from-[#1E40AF] via-blue-900 to-indigo-950 text-white shadow-2xl p-8 md:p-16 border border-blue-950">
+          {/* Subtle Grid Pattern Overlay */}
+          <div 
+            className="absolute inset-0 opacity-[0.07]" 
+            style={{ 
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0)`,
+              backgroundSize: '32px 32px' 
+            }}
+          ></div>
+
+          {/* Top & Bottom Soft Fade Lines */}
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#A3E635]/30 to-transparent"></div>
+          <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-14">
+          
+          {/* Grid Konten Utama: 2 Kolom (Kiri: Narasi & Pilar, Kanan: 4 Glassmorphic KPI Cards) */}
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Glowing background shapes */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-[-30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#A3E635]/10 blur-[120px]"></div>
-              <div className="absolute bottom-[-20%] left-[-20%] w-[400px] h-[400px] rounded-full bg-[#1E40AF]/40 blur-[100px]"></div>
-            </div>
-
-            <div className="relative z-10 grid md:grid-cols-12 gap-12 items-center">
+            {/* Kolom Kiri: Copywriting & Value Propositions */}
+            <div className="lg:col-span-7 space-y-7 text-left">
               
-              {/* Kolom Kiri: Ringkasan Platform */}
-              <div className="md:col-span-7 text-left space-y-6">
-                
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1 text-[10px] font-black tracking-widest text-[#A3E635] uppercase border border-white/10">
-                  <Sprout size={12} strokeWidth={2.5} /> TENTANG PUSHAJA
-                </span>
-                
-                <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
-                  Mendorong Potensi Digital <br />
-                  Indonesia Lebih Cepat
-                </h2>
-                
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-                  <strong>pushaja</strong> lahir sebagai solusi dari lambatnya integrasi layanan digital di era modern. Kami menyadari bahwa UMKM, korporat, maupun startup membutuhkan eksekusi keahlian yang instan, aman, dan tanpa hambatan birokrasi. 
-                </p>
-
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-                  Dengan mempertemukan talenta digital terverifikasi dari Sabang sampai Merauke, kami menyeimbangkan kualitas standar global dengan kearifan lokal. Sistem escrow rekening bersama kami menjamin perlindungan investasi Anda, sehingga Anda bisa fokus penuh pada ekspansi bisnis Anda.
-                </p>
-
-                <div className="pt-4 flex gap-4 flex-wrap">
-                  <span className="text-xs font-black text-[#A3E635]">#TinggalPushAja</span>
-                  <span className="text-xs font-black text-slate-400">•</span>
-                  <span className="text-xs font-black text-[#A3E635]">#KerjaTanpaRibet</span>
-                  <span className="text-xs font-black text-slate-400">•</span>
-                  <span className="text-xs font-black text-[#A3E635]">#TalentaBangsa</span>
-                </div>
-
+              {/* Badge Kategori / Identitas */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/15 text-[#A3E635] text-xs font-black tracking-widest uppercase shadow-lg shadow-[#A3E635]/5">
+                <Sparkles className="w-3.5 h-3.5 text-[#A3E635] animate-pulse" />
+                <span>TENTANG PUSHAJA INDONESIA</span>
               </div>
 
-              {/* Kolom Kanan: Statistik / Nilai Utama */}
-              <div className="md:col-span-5 grid grid-cols-2 gap-4">
-                
-                {/* Stat 1 */}
-                <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">50K+</span>
-                  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Proyek Selesai</span>
+              {/* Judul Besar Menarik */}
+              <div className="space-y-3">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] text-white">
+                  Mendorong Potensi Digital{' '}
+                  <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-[#A3E635] via-emerald-300 to-teal-200">
+                    Indonesia Lebih Cepat
+                  </span>
+                </h2>
+                <div className="h-1.5 w-24 bg-gradient-to-r from-[#A3E635] to-[#1E40AF] rounded-full"></div>
+              </div>
+
+              {/* Deskripsi Narasi */}
+              <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
+                <p>
+                  <strong className="text-white font-black">pushaja</strong> hadir sebagai katalisator layanan digital modern Indonesia. Kami menyadari bahwa UMKM, korporat, maupun startup membutuhkan eksekusi keahlian yang instan, aman, dan tanpa hambatan birokrasi.
+                </p>
+                <p className="text-slate-400 text-xs sm:text-sm">
+                  Dengan mempertemukan talenta digital terverifikasi dari Sabang sampai Merauke, kami menyeimbangkan kualitas standar global dengan kearifan lokal. Sistem escrow rekening bersama kami menjamin perlindungan investasi Anda hingga pekerjaan selesai dan disetujui.
+                </p>
+              </div>
+
+              {/* 3 Value Pillars (Micro Badges) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
+                  <div className="w-8 h-8 rounded-xl bg-[#A3E635]/15 text-[#A3E635] flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-[11px] font-black text-white block">Escrow Rekber</span>
+                    <span className="text-[10px] text-slate-400">100% Proteksi Dana</span>
+                  </div>
                 </div>
 
-                {/* Stat 2 */}
-                <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">15K+</span>
-                  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Talenta Terpilih</span>
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
+                  <div className="w-8 h-8 rounded-xl bg-[#A3E635]/15 text-[#A3E635] flex items-center justify-center shrink-0">
+                    <Award className="w-4 h-4" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-[11px] font-black text-white block">Terverifikasi</span>
+                    <span className="text-[10px] text-slate-400">Kurasi Keahlian Ketat</span>
+                  </div>
                 </div>
 
-                {/* Stat 3 */}
-                <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">99.4%</span>
-                  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Kepuasan Klien</span>
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
+                  <div className="w-8 h-8 rounded-xl bg-[#A3E635]/15 text-[#A3E635] flex items-center justify-center shrink-0">
+                    <TrendingUp className="w-4 h-4" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-[11px] font-black text-white block">Eksekusi Cepat</span>
+                    <span className="text-[10px] text-slate-400">Sesuai Deadline</span>
+                  </div>
                 </div>
+              </div>
 
-                {/* Stat 4 */}
-                <div className="p-6 rounded-[2rem] bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 text-center">
-                  <span className="text-2xl md:text-3xl font-black text-[#A3E635] block mb-1">Rp 0</span>
-                  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Risiko Transaksi</span>
-                </div>
-
+              {/* Tagar Komunitas */}
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap pt-1">
+                <span className="px-3 py-1 rounded-full bg-[#A3E635]/10 border border-[#A3E635]/25 text-[#A3E635] text-xs font-black">
+                  #TinggalPushAja
+                </span>
+                <span className="text-slate-600 font-bold">•</span>
+                <span className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-300 text-xs font-black">
+                  #KerjaTanpaRibet
+                </span>
+                <span className="text-slate-600 font-bold">•</span>
+                <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-black">
+                  #TalentaBangsa
+                </span>
               </div>
 
             </div>
 
+            {/* Kolom Kanan: 4 Glassmorphic KPI Cards */}
+            <div className="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-5">
+              
+              {/* Stat Card 1 */}
+              <div className="relative group p-6 rounded-3xl bg-gradient-to-br from-white/[0.09] to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-[#A3E635]/50 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-2xl flex flex-col justify-between overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#A3E635]/10 rounded-full blur-2xl group-hover:bg-[#A3E635]/20 transition-all"></div>
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-[#A3E635]/15 text-[#A3E635] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <span className="text-3xl sm:text-4xl font-black text-[#A3E635] tracking-tight block">
+                    50K+
+                  </span>
+                  <span className="text-xs font-extrabold text-white mt-1 block">
+                    Proyek Selesai
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-white/10 font-medium">
+                  Pesanan sukses terselesaikan dengan proteksi penuh.
+                </p>
+              </div>
+
+              {/* Stat Card 2 */}
+              <div className="relative group p-6 rounded-3xl bg-gradient-to-br from-white/[0.09] to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-[#A3E635]/50 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-2xl flex flex-col justify-between overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-blue-500/15 text-blue-300 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <span className="text-3xl sm:text-4xl font-black text-white tracking-tight block">
+                    15K+
+                  </span>
+                  <span className="text-xs font-extrabold text-slate-200 mt-1 block">
+                    Talenta Terpilih
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-white/10 font-medium">
+                  Freelancer terverifikasi di berbagai bidang spesialisasi.
+                </p>
+              </div>
+
+              {/* Stat Card 3 */}
+              <div className="relative group p-6 rounded-3xl bg-gradient-to-br from-white/[0.09] to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-[#A3E635]/50 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-2xl flex flex-col justify-between overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-400/10 rounded-full blur-2xl group-hover:bg-amber-400/20 transition-all"></div>
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-amber-400/15 text-amber-300 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Star className="w-5 h-5 fill-current" />
+                  </div>
+                  <span className="text-3xl sm:text-4xl font-black text-[#A3E635] tracking-tight block">
+                    99.4%
+                  </span>
+                  <span className="text-xs font-extrabold text-white mt-1 block">
+                    Kepuasan Klien
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-white/10 font-medium">
+                  Review bintang 4.9+ dari ribuan klien UMKM & korporat.
+                </p>
+              </div>
+
+              {/* Stat Card 4 */}
+              <div className="relative group p-6 rounded-3xl bg-gradient-to-br from-white/[0.09] to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-[#A3E635]/50 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-2xl flex flex-col justify-between overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#A3E635]/10 rounded-full blur-2xl group-hover:bg-[#A3E635]/20 transition-all"></div>
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-[#A3E635]/15 text-[#A3E635] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Lock className="w-5 h-5" />
+                  </div>
+                  <span className="text-3xl sm:text-4xl font-black text-[#A3E635] tracking-tight block">
+                    Rp 0
+                  </span>
+                  <span className="text-xs font-extrabold text-white mt-1 block">
+                    Risiko Transaksi
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-white/10 font-medium">
+                  Dana aman 100% dengan garansi uang kembali jika batal.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* CTA Ribbon di Bagian Bawah Section */}
+          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-blue-950/80 border border-white/10 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div className="space-y-1.5 text-center md:text-left">
+              <h3 className="text-lg sm:text-xl font-black text-white">
+                Siap Mewujudkan Proyek Digital Impian Anda?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 font-medium">
+                Pilih ratusan jasa profesional terpercaya atau mulai tawarkan keahlian Anda sekarang.
+              </p>
+            </div>
+            <div className="flex items-center gap-3 shrink-0 flex-wrap justify-center">
+              <Link
+                href="/categories"
+                className="inline-flex items-center gap-2 rounded-2xl bg-[#A3E635] hover:bg-lime-400 text-slate-900 px-6 py-3.5 text-xs font-black shadow-lg shadow-[#A3E635]/20 active:scale-95 transition-all cursor-pointer"
+              >
+                <span>Jelajahi Semua Layanan</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/freelancer/apply"
+                className="inline-flex items-center gap-2 rounded-2xl bg-white/10 hover:bg-white/15 text-white border border-white/20 px-6 py-3.5 text-xs font-bold active:scale-95 transition-all cursor-pointer"
+              >
+                <span>Gabung Freelancer</span>
+              </Link>
+            </div>
           </div>
 
         </div>
