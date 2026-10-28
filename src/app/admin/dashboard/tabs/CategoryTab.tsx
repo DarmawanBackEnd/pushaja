@@ -12,6 +12,7 @@ import {
   getCategoriesList 
 } from '@/actions/admin.action';
 import { PlusCircle, Image as ImageIcon, Trash2, AlertCircle } from 'lucide-react';
+import ConfirmModal from '@/components/ConfirmModal';
 
 interface CategoryTabProps {
   categories: any[];
@@ -67,6 +68,13 @@ export default function CategoryTab({
   const [editCatImagePreview, setEditCatImagePreview] = useState<string | null>(null);
   const [editGroupId, setEditGroupId] = useState('');
   const [editModalError, setEditModalError] = useState<string | null>(null);
+
+  // State untuk Modal Konfirmasi Hapus Kustom (Menggantikan window.confirm)
+  const [deleteTarget, setDeleteTarget] = useState<{
+    type: 'group' | 'category';
+    id: string;
+    name: string;
+  } | null>(null);
 
   // Auto-generate slug helpers
   const generateSlug = (val: string) => {
@@ -149,27 +157,11 @@ export default function CategoryTab({
   const handleDeleteGroup = (id: string) => {
     const groupToDelete = groups.find(g => g.id === id);
     if (!groupToDelete) return;
-
-    if (confirm(`Apakah Anda yakin ingin menghapus kelompok "${groupToDelete.name}"?\nJenis layanan di bawahnya tidak terhapus melainkan klasifikasinya dikosongkan.`)) {
-      setError(null);
-      setSuccess(null);
-
-      startTransition(async () => {
-        const res = await deleteCategoryGroup(id);
-        if (res.success) {
-          const freshGroups = await getCategoryGroups();
-          onRefreshGroups(freshGroups);
-          
-          // Juga refresh daftar kategori karena relasi grup mereka telah dilepas
-          const freshCats = await getCategoriesList();
-          onRefresh(freshCats);
-          
-          setSuccess(`Kategori grup "${groupToDelete.name}" berhasil dihapus.`);
-        } else {
-          setError(res.error || 'Gagal menghapus kategori grup.');
-        }
-      });
-    }
+    setDeleteTarget({
+      type: 'group',
+      id: groupToDelete.id,
+      name: groupToDelete.name,
+    });
   };
 
   // ==========================================
@@ -295,22 +287,50 @@ export default function CategoryTab({
     });
   };
 
-  const handleDeleteCategory = async (id: string) => {
-    if (!confirm('Apakah Anda yakin ingin menghapus jenis layanan ini?')) return;
+  const handleDeleteCategory = (id: string) => {
+    const catToDelete = categories.find(c => c.id === id);
+    if (!catToDelete) return;
+    setDeleteTarget({
+      type: 'category',
+      id: catToDelete.id,
+      name: catToDelete.name,
+    });
+  };
 
+  // Handler eksekusi konfirmasi hapus modal kustom
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    const { type, id, name } = deleteTarget;
     setError(null);
     setSuccess(null);
 
     startTransition(async () => {
-      const res = await deleteCategory(id);
-      if (res.success) {
-        const freshCats = await getCategoriesList();
-        onRefresh(freshCats);
-        setSuccess('Jenis layanan berhasil dihapus dari database PostgreSQL.');
-        onUpdateStats();
+      if (type === 'group') {
+        const res = await deleteCategoryGroup(id);
+        if (res.success) {
+          const freshGroups = await getCategoryGroups();
+          onRefreshGroups(freshGroups);
+          
+          // Juga refresh daftar kategori karena relasi grup mereka telah dilepas
+          const freshCats = await getCategoriesList();
+          onRefresh(freshCats);
+          
+          setSuccess(`Kategori grup "${name}" berhasil dihapus.`);
+        } else {
+          setError(res.error || 'Gagal menghapus kategori grup.');
+        }
       } else {
-        setError(res.error || 'Gagal menghapus jenis layanan.');
+        const res = await deleteCategory(id);
+        if (res.success) {
+          const freshCats = await getCategoriesList();
+          onRefresh(freshCats);
+          setSuccess(`Jenis layanan "${name}" berhasil dihapus dari database.`);
+          onUpdateStats();
+        } else {
+          setError(res.error || 'Gagal menghapus jenis layanan.');
+        }
       }
+      setDeleteTarget(null);
     });
   };
 
@@ -900,6 +920,30 @@ export default function CategoryTab({
           </div>
         </div>
       )}
+
+      {/* ====================================================
+          MODAL KONFIRMASI HAPUS KUSTOM (PREMIUM UI DIALOG)
+         ==================================================== */}
+      <ConfirmModal
+        isOpen={!!deleteTarget}
+        isLoading={isPending}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        title={deleteTarget?.type === 'group' ? 'Hapus Kelompok Kategori?' : 'Hapus Jenis Layanan?'}
+        description={
+          deleteTarget?.type === 'group'
+            ? `Apakah Anda yakin ingin menghapus kelompok "${deleteTarget.name}"?`
+            : `Apakah Anda yakin ingin menghapus jenis layanan "${deleteTarget?.name}"?`
+        }
+        detail={
+          deleteTarget?.type === 'group'
+            ? 'Jenis layanan di bawahnya tidak terhapus melainkan klasifikasinya dikosongkan.'
+            : 'Jasa freelancer yang terkait dengan jenis layanan ini akan kehilangan kategori spesifiknya.'
+        }
+        confirmText="Ya, Hapus Sekarang"
+        cancelText="Batal"
+        isDestructive={true}
+      />
 
     </div>
   );

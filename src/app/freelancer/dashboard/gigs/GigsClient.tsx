@@ -3,12 +3,14 @@
 import React, { useState, useTransition, useRef } from 'react';
 import { createGig, updateGig, deleteGig } from '@/actions/freelancer.gig.action';
 import Image from 'next/image';
+import ConfirmModal from '@/components/ConfirmModal';
 
 export default function GigsClient({ initialGigs, categories }: { initialGigs: any[], categories: any[] }) {
   const [gigs, setGigs] = useState(initialGigs);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [formError, setFormError] = useState('');
+  const [deleteTargetGig, setDeleteTargetGig] = useState<{ id: string; title: string } | null>(null);
   
   // State form
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -56,8 +58,17 @@ export default function GigsClient({ initialGigs, categories }: { initialGigs: a
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Apakah Anda yakin ingin menghapus jasa ini?')) return;
+  const handleDelete = (id: string) => {
+    const gig = gigs.find(g => g.id === id);
+    setDeleteTargetGig({
+      id,
+      title: gig?.title || 'Jasa ini',
+    });
+  };
+
+  const handleConfirmDeleteGig = () => {
+    if (!deleteTargetGig) return;
+    const { id } = deleteTargetGig;
     startTransition(async () => {
       const res = await deleteGig(id);
       if (res.success) {
@@ -65,6 +76,7 @@ export default function GigsClient({ initialGigs, categories }: { initialGigs: a
       } else {
         alert(res.error);
       }
+      setDeleteTargetGig(null);
     });
   };
 
@@ -311,6 +323,20 @@ export default function GigsClient({ initialGigs, categories }: { initialGigs: a
           </div>
         </div>
       )}
+
+      {/* Modal Konfirmasi Hapus Jasa Kustom */}
+      <ConfirmModal
+        isOpen={!!deleteTargetGig}
+        isLoading={isPending}
+        onClose={() => setDeleteTargetGig(null)}
+        onConfirm={handleConfirmDeleteGig}
+        title="Hapus Jasa Freelance?"
+        description={`Apakah Anda yakin ingin menghapus jasa "${deleteTargetGig?.title}"?`}
+        detail="Jasa ini tidak akan lagi tampil di etalase dan hasil pencarian klien."
+        confirmText="Ya, Hapus Jasa"
+        cancelText="Batal"
+        isDestructive={true}
+      />
     </div>
   );
 }

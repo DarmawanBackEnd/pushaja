@@ -3,6 +3,7 @@
 import React, { useState, useTransition } from 'react';
 import { createModerator, updateModerator, deleteModerator } from '@/actions/admin.action';
 import { UserPlus } from 'lucide-react';
+import ConfirmModal from '@/components/ConfirmModal';
 
 interface ModeratorTabProps {
   moderators: any[];
@@ -19,6 +20,7 @@ export default function ModeratorTab({ moderators, userRole, onRefresh }: Modera
   const [editingMod, setEditingMod] = useState<any | null>(null);
   const [editName, setEditName] = useState('');
   const [editPassword, setEditPassword] = useState('');
+  const [deleteTargetMod, setDeleteTargetMod] = useState<{ id: string; name: string } | null>(null);
 
   // Fallback Mock data if empty
   const MOCK_MODS = [
@@ -106,8 +108,17 @@ export default function ModeratorTab({ moderators, userRole, onRefresh }: Modera
   };
 
   // Aksi Hapus Moderator
-  const handleDelete = async (id: string) => {
-    if (!confirm('Apakah Anda yakin ingin menghapus akun moderator ini secara permanen?')) return;
+  const handleDelete = (id: string) => {
+    const mod = displayMods.find(m => m.id === id);
+    setDeleteTargetMod({
+      id,
+      name: mod?.name || 'Moderator ini',
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (!deleteTargetMod) return;
+    const { id } = deleteTargetMod;
     
     setErrorMsg(null);
     setSuccessMsg(null);
@@ -117,6 +128,7 @@ export default function ModeratorTab({ moderators, userRole, onRefresh }: Modera
       if (isMock) {
         onRefresh(moderators); // bersihkan mock
         setSuccessMsg('Simulasi penghapusan moderator berhasil!');
+        setDeleteTargetMod(null);
         return;
       }
 
@@ -127,6 +139,7 @@ export default function ModeratorTab({ moderators, userRole, onRefresh }: Modera
       } else {
         setErrorMsg(res.error || 'Gagal menghapus moderator.');
       }
+      setDeleteTargetMod(null);
     });
   };
 
@@ -319,6 +332,20 @@ export default function ModeratorTab({ moderators, userRole, onRefresh }: Modera
           </div>
         </div>
       )}
+
+      {/* Modal Konfirmasi Hapus Moderator Kustom */}
+      <ConfirmModal
+        isOpen={!!deleteTargetMod}
+        isLoading={isPending}
+        onClose={() => setDeleteTargetMod(null)}
+        onConfirm={handleConfirmDelete}
+        title="Hapus Akun Moderator?"
+        description={`Apakah Anda yakin ingin menghapus akun moderator "${deleteTargetMod?.name}" secara permanen?`}
+        detail="Akses akun moderator ini akan dicabut seketika dan tidak dapat login kembali ke dashboard admin."
+        confirmText="Ya, Hapus Moderator"
+        cancelText="Batal"
+        isDestructive={true}
+      />
 
     </div>
   );

@@ -3,12 +3,14 @@
 import React, { useState } from 'react';
 import { updateProfile, updatePassword, deleteAccount } from '@/actions/account.action';
 import Image from 'next/image';
+import ConfirmModal from '@/components/ConfirmModal';
 
 export default function SettingsClient({ initialProfile }: { initialProfile: any }) {
   const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'danger'>('profile');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
   const [profilePicPreview, setProfilePicPreview] = useState(initialProfile.profilePicture || null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,10 +47,11 @@ export default function SettingsClient({ initialProfile }: { initialProfile: any
     setLoading(false);
   };
 
-  const handleDeleteAccount = async () => {
-    const confirmDelete = window.confirm("PERINGATAN: Apakah Anda yakin ingin menghapus akun secara permanen? Semua data transaksi, gig, dan riwayat akan hilang dan tidak dapat dipulihkan.");
-    if (!confirmDelete) return;
+  const handleDeleteAccount = () => {
+    setIsDeleteModalOpen(true);
+  };
 
+  const handleConfirmDeleteAccount = async () => {
     setLoading(true);
     const res = await deleteAccount();
     if (res.success) {
@@ -56,6 +59,7 @@ export default function SettingsClient({ initialProfile }: { initialProfile: any
     } else {
       setMessage({ text: res.error || 'Gagal menghapus akun.', type: 'error' });
       setLoading(false);
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -211,6 +215,20 @@ export default function SettingsClient({ initialProfile }: { initialProfile: any
         )}
 
       </div>
+
+      {/* Modal Konfirmasi Hapus Akun Kustom */}
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        isLoading={loading}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDeleteAccount}
+        title="Hapus Akun Permanen?"
+        description="Apakah Anda yakin ingin menghapus akun Anda secara permanen?"
+        detail="Semua data profil, transaksi, pesanan aktif, gigs, dan riwayat obrolan akan dihapus secara permanen dan tidak dapat dipulihkan."
+        confirmText="Ya, Hapus Akun Saya"
+        cancelText="Batal"
+        isDestructive={true}
+      />
     </div>
   );
 }
