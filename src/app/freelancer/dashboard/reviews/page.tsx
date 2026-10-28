@@ -39,7 +39,7 @@ export default async function FreelancerReviewsPage() {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden relative border border-slate-200 shrink-0">
                     {review.client.profilePicture ? (
-                      <Image src={review.client.profilePicture} alt={review.client.name} fill className="object-cover" />
+                      <Image src={review.client.profilePicture} alt={review.client.name} fill className="object-cover" unoptimized />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-500 font-bold bg-slate-200">
                         {review.client.name.charAt(0).toUpperCase()}

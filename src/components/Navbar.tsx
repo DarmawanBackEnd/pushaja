@@ -129,7 +129,7 @@ export default function Navbar() {
                   </div>
                   <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#1E40AF] to-[#A3E635] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative">
                     {profile?.profilePicture ? (
-                      <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" />
+                      <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" unoptimized />
                     ) : (
                       (profile?.name || session.name) ? (profile?.name || session.name).charAt(0).toUpperCase() : 'U'
                     )}
@@ -256,7 +256,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-3 py-2">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#1E40AF] to-[#A3E635] flex items-center justify-center text-white font-bold text-lg shadow-md overflow-hidden relative shrink-0">
                     {profile?.profilePicture ? (
-                      <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" />
+                      <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" unoptimized />
                     ) : (
                       (profile?.name || session.name) ? (profile?.name || session.name).charAt(0).toUpperCase() : 'U'
                     )}

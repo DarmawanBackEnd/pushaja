@@ -65,7 +65,7 @@ export default async function GigDetailPage({ params }: { params: Promise<{ id: 
             <div className="flex items-center gap-4 py-4 border-y border-slate-200/60">
               <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-200 shrink-0 relative">
                 {gig.freelancer.profilePicture ? (
-                  <Image src={gig.freelancer.profilePicture} alt={gig.freelancer.name} fill className="object-cover" />
+                  <Image src={gig.freelancer.profilePicture} alt={gig.freelancer.name} fill className="object-cover" unoptimized />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-[#1E40AF]/10 text-[#1E40AF] font-bold">
                     {gig.freelancer.name.charAt(0)}

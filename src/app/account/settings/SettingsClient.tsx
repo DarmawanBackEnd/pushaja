@@ -123,7 +123,7 @@ export default function SettingsClient({ initialProfile }: { initialProfile: any
               <div className="flex items-center gap-6 mb-8">
                 <div className="relative w-24 h-24 rounded-full bg-slate-100 border-4 border-white shadow-lg overflow-hidden flex items-center justify-center shrink-0 group">
                   {profilePicPreview ? (
-                    <Image src={profilePicPreview} alt="Profile Preview" fill className="object-cover" />
+                    <Image src={profilePicPreview} alt="Profile Preview" fill className="object-cover" unoptimized />
                   ) : (
                     <span className="text-3xl font-black text-slate-300">{initialProfile.name?.charAt(0)}</span>
                   )}
