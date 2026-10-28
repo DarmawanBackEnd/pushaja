@@ -42,6 +42,9 @@ export async function GET(
       '.gif': 'image/gif',
       '.svg': 'image/svg+xml',
       '.pdf': 'application/pdf',
+      '.zip': 'application/zip',
+      '.rar': 'application/x-rar-compressed',
+      '.7z': 'application/x-7z-compressed',
       '.ico': 'image/x-icon',
     };
 

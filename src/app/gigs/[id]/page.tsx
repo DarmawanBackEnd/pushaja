@@ -137,13 +137,18 @@ export default async function GigDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
 
-              {/* Tombol Order (Mulai Chat Realtime) */}
-              <Link href={`/chat`} className="w-full rounded-2xl bg-[#1E40AF] px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2 group">
-                Pesan & Mulai Chat
+              {/* Tombol Order Checkout & Chat */}
+              <Link href={`/checkout/${gig.id}`} className="w-full rounded-2xl bg-[#1E40AF] px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2 group">
+                <span>Pesan Jasa Sekarang</span>
                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </Link>
+              
+              <Link href={`/chat`} className="w-full mt-3 rounded-2xl bg-slate-100 hover:bg-slate-200 px-6 py-3 text-xs font-bold text-slate-700 transition-all text-center flex items-center justify-center gap-2">
+                Konsultasi via Chat Dulu
+              </Link>
+
               <p className="text-center text-[10px] text-slate-400 font-bold mt-4 uppercase tracking-widest">
-                Anda belum akan dikenakan biaya saat klik pesan
+                Proteksi Rekber Escrow Aktif 100%
               </p>
             </div>
           </div>

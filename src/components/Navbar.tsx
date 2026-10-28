@@ -166,6 +166,11 @@ export default function Navbar() {
                       </a>
                     ) : null}
                     
+                    <Link href="/orders" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
+                      <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                      Pesanan Saya
+                    </Link>
+
                     <Link href="/chat" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#1E40AF] transition-colors">
                       <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
                       Kotak Pesan
@@ -276,6 +281,7 @@ export default function Navbar() {
                 {session.role === 'client' ? (
                   <a href="/freelancer/apply" target="_blank" rel="noopener noreferrer" className="block py-2 hover:text-[#1E40AF]">Daftar sebagai Freelancer</a>
                 ) : null}
+                <Link href="/orders" className="block py-2 hover:text-[#1E40AF]">Pesanan Saya</Link>
                 <Link href="/chat" className="block py-2 hover:text-[#1E40AF]">Kotak Pesan</Link>
                 <a href="#" className="block py-2 hover:text-[#1E40AF]">Kupon Diskon</a>
                 <a href="#" className="block py-2 hover:text-[#1E40AF]">Favorit</a>

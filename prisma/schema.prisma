@@ -151,6 +151,8 @@ model Order {
   totalAmount  Decimal     @map("total_amount") @db.Decimal(10, 2) // Visual ERD: total_amount
   status       OrderStatus @default(unpaid)
   dueDate      DateTime    @map("due_date")      // Visual ERD: due_date
+  createdAt    DateTime    @default(now()) @map("created_at")
+  notes        String?     @db.Text
 
   // Relasi
   gig          Gig         @relation(fields: [gigId], references: [id], onDelete: Restrict)
