@@ -75,74 +75,91 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </nav>
 
         {/* ----------------------------------------------------
-            TATA LETAK UTAMA: 2 KOLOM (SIDEBAR + KONTEN)
+            TATA LETAK UTAMA: 2 KOLOM (SIDEBAR BESAR ADMIN STYLE + KONTEN)
            ---------------------------------------------------- */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           
-          {/* KOLOM KIRI: SIDEBAR KELOMPOK KATEGORI */}
-          <aside className="w-full lg:w-72 shrink-0 space-y-6">
-            <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm sticky top-28">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <div className="flex items-center gap-2 text-sm font-extrabold text-slate-900">
-                  <div className="w-8 h-8 rounded-xl bg-[#1E40AF]/10 text-[#1E40AF] flex items-center justify-center">
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  Kelompok Kategori
+          {/* KOLOM KIRI: SIDEBAR KELOMPOK KATEGORI (ADMIN DASHBOARD STYLE) */}
+          <aside className="w-full lg:w-80 shrink-0 sticky top-28 self-start space-y-6">
+            <div className="bg-gradient-to-b from-[#1E40AF] via-blue-900 to-indigo-950 text-white rounded-[2.5rem] p-6 shadow-2xl relative overflow-hidden border border-blue-800/40 backdrop-blur-xl space-y-6">
+              
+              {/* Glow efek pendaran lime green & blue halus di belakang sidebar */}
+              <div className="absolute top-[-20%] left-[-20%] w-64 h-64 bg-[#A3E635]/15 rounded-full blur-[70px] pointer-events-none"></div>
+              <div className="absolute bottom-[-20%] right-[-20%] w-64 h-64 bg-blue-600/20 rounded-full blur-[70px] pointer-events-none"></div>
+
+              {/* Header Sidebar */}
+              <div className="relative z-10 space-y-3 pb-5 border-b border-white/10">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[9px] font-black text-[#A3E635] border border-white/10 uppercase tracking-widest">
+                    <Sparkles className="w-3 h-3 text-[#A3E635]" />
+                    Eksplorasi Jasa
+                  </span>
+                  <span className="bg-[#A3E635] text-slate-900 font-extrabold text-[11px] px-2.5 py-0.5 rounded-full shadow-sm">
+                    {data.allGroups.length} Grup
+                  </span>
                 </div>
-                <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
-                  {data.allGroups.length}
-                </span>
+                <div>
+                  <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
+                    Kelompok Kategori
+                  </h3>
+                  <p className="text-xs text-blue-200/80 font-medium mt-1">
+                    Klasifikasi talenta profesional untuk berbagai kebutuhan proyek Anda
+                  </p>
+                </div>
               </div>
 
-              <div className="mt-4 space-y-1">
+              {/* Menu Navigasi Kelompok Kategori */}
+              <nav className="relative z-10 flex flex-col gap-2">
                 {data.allGroups.map((group) => {
                   const isCurrentGroup = group.slug === data.groupSlug;
                   return (
                     <div key={group.id} className="space-y-1">
                       <Link
                         href={`/categories/${group.slug}`}
-                        className={`group flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-200 ${
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black tracking-wide transition-all duration-300 text-left group cursor-pointer ${
                           isCurrentGroup
-                            ? 'bg-[#1E40AF] text-white shadow-sm'
-                            : 'text-slate-600 hover:bg-slate-50 hover:text-[#1E40AF]'
+                            ? 'bg-white text-[#1E40AF] shadow-xl shadow-blue-950/30 translate-x-1'
+                            : 'text-white/80 hover:bg-white/10 hover:text-white hover:translate-x-0.5'
                         }`}
                       >
-                        <div className="flex items-center gap-2.5 truncate">
+                        <div className="flex items-center gap-3 truncate">
                           {group.icon ? (
                             <div 
-                              className={`w-4 h-4 flex items-center justify-center shrink-0 ${
-                                isCurrentGroup ? 'text-white' : 'text-slate-400 group-hover:text-[#1E40AF]'
+                              className={`w-4.5 h-4.5 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+                                isCurrentGroup ? 'text-[#1E40AF]' : 'text-blue-300 group-hover:text-[#A3E635]'
                               }`}
                               dangerouslySetInnerHTML={{ __html: group.icon }}
                             />
                           ) : (
-                            <Briefcase className="w-4 h-4 shrink-0" />
+                            <Briefcase className={`w-4.5 h-4.5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+                              isCurrentGroup ? 'text-[#1E40AF]' : 'text-blue-300 group-hover:text-[#A3E635]'
+                            }`} />
                           )}
                           <span className="truncate">{group.name}</span>
                         </div>
-                        <ChevronRight className={`w-3.5 h-3.5 transition-transform ${
-                          isCurrentGroup ? 'text-white rotate-90' : 'text-slate-300 group-hover:text-[#1E40AF] group-hover:translate-x-0.5'
+                        <ChevronRight className={`w-4 h-4 shrink-0 transition-transform duration-300 ${
+                          isCurrentGroup ? 'text-[#1E40AF] rotate-90 scale-110' : 'text-white/40 group-hover:text-white group-hover:translate-x-1'
                         }`} />
                       </Link>
 
                       {/* Sub-kategori khusus untuk grup yang sedang aktif */}
                       {isCurrentGroup && group.categories && group.categories.length > 0 && (
-                        <div className="ml-4 pl-3 border-l-2 border-[#1E40AF]/20 py-1 space-y-1">
+                        <div className="ml-5 pl-3.5 border-l-2 border-[#A3E635]/40 py-2 space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
                           {group.categories.map((sub) => {
                             const isCurrentSub = data.type === 'category' && data.categorySlug === sub.slug;
                             return (
                               <Link
                                 key={sub.id}
                                 href={`/categories/${sub.slug}`}
-                                className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-semibold transition-all ${
+                                className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${
                                   isCurrentSub
-                                    ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-extrabold'
-                                    : 'text-slate-500 hover:text-[#1E40AF] hover:bg-slate-50'
+                                    ? 'bg-white/20 text-[#A3E635] shadow-inner font-black'
+                                    : 'text-blue-100/75 hover:text-white hover:bg-white/10'
                                 }`}
                               >
                                 <span className="truncate">{sub.name}</span>
                                 {sub.gigsCount !== undefined && sub.gigsCount > 0 && (
-                                  <span className="text-[10px] text-slate-400 ml-1 font-mono">
+                                  <span className="text-[10px] bg-white/10 text-[#A3E635] font-extrabold px-2 py-0.5 rounded-full ml-1 font-mono">
                                     {sub.gigsCount}
                                   </span>
                                 )}
@@ -154,7 +171,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     </div>
                   );
                 })}
+              </nav>
+
+              {/* Sidebar Footer: Jaminan Rekber PushAja */}
+              <div className="relative z-10 pt-4 border-t border-white/10">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-1.5">
+                  <div className="flex items-center gap-2 text-[#A3E635] text-xs font-black uppercase tracking-wider">
+                    <ShieldCheck className="w-4 h-4 text-[#A3E635]" />
+                    Transaksi 100% Aman
+                  </div>
+                  <p className="text-[11px] text-blue-200/80 leading-relaxed font-medium">
+                    Pembayaran dilindungi sistem Escrow Rekber PushAja sampai pekerjaan selesai dan disetujui.
+                  </p>
+                </div>
               </div>
+
             </div>
           </aside>
 
@@ -162,37 +193,53 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <section className="flex-1 min-w-0 space-y-8">
             
             {/* HERO BANNER KATEGORI */}
-            <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white p-8 sm:p-10 shadow-lg border border-slate-700/50">
+            <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white p-8 sm:p-12 shadow-xl border border-slate-700/50 group min-h-[260px] flex flex-col justify-center">
               
-              {/* Background ambient glow */}
-              <div className="absolute top-0 right-0 w-80 h-80 bg-[#1E40AF]/30 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-              <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-[#A3E635]/15 rounded-full blur-3xl pointer-events-none"></div>
+              {/* Gambar Banner Kustom dari Dashboard Admin (jika diatur) */}
+              {data.bannerUrl ? (
+                <>
+                  <img 
+                    src={data.bannerUrl} 
+                    alt={data.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay gradien sinematik agar teks terbaca sangat jelas */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40 backdrop-blur-[0.5px]"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                </>
+              ) : (
+                <>
+                  {/* Background ambient glow default */}
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-[#1E40AF]/30 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+                  <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-[#A3E635]/15 rounded-full blur-3xl pointer-events-none"></div>
+                </>
+              )}
 
               <div className="relative z-10 space-y-4 max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#A3E635] text-xs font-extrabold">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#A3E635] text-xs font-extrabold shadow-sm">
                   <Sparkles className="w-3.5 h-3.5" />
                   {data.type === 'category' ? `Subkategori: ${data.groupName}` : 'Kategori Utama'}
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white drop-shadow-sm">
                   {data.title}
                 </h1>
 
-                <p className="text-sm sm:text-base text-slate-300 font-medium leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-200 font-medium leading-relaxed drop-shadow-sm">
                   {data.description}
                 </p>
 
                 {/* Highlights jaminan PushAja */}
-                <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-slate-300">
-                  <div className="flex items-center gap-1.5">
+                <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-slate-200">
+                  <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10">
                     <ShieldCheck className="w-4 h-4 text-[#A3E635]" />
                     <span>Garansi Rekber PushAja</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10">
                     <Clock className="w-4 h-4 text-[#A3E635]" />
                     <span>Pengerjaan Tepat Waktu</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10">
                     <Star className="w-4 h-4 text-[#A3E635]" />
                     <span>Rating Rata-rata 4.9+</span>
                   </div>

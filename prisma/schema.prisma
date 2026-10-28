@@ -105,6 +105,7 @@ model CategoryGroup {
   name       String
   slug       String     @unique
   icon       String?    @db.Text // Menyimpan data nama ikon SVG, SVG path, atau slug ikon
+  bannerUrl  String?    @map("banner_url") @db.Text // URL banner gambar hero untuk kategori utama
   categories Category[]
 
   @@map("category_groups")

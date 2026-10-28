@@ -45,12 +45,19 @@ export default function CategoryTab({
   const [groupName, setGroupName] = useState('');
   const [groupSlug, setGroupSlug] = useState('');
   const [groupIcon, setGroupIcon] = useState('');
+  const [groupBannerFile, setGroupBannerFile] = useState<File | null>(null);
+  const [groupBannerUrl, setGroupBannerUrl] = useState('');
+  const [groupBannerPreview, setGroupBannerPreview] = useState<string | null>(null);
   
   // Edit Grup Modal State
   const [editingGroup, setEditingGroup] = useState<any | null>(null);
   const [editGroupName, setEditGroupName] = useState('');
   const [editGroupSlug, setEditGroupSlug] = useState('');
   const [editGroupIcon, setEditGroupIcon] = useState('');
+  const [editGroupBannerFile, setEditGroupBannerFile] = useState<File | null>(null);
+  const [editGroupBannerUrl, setEditGroupBannerUrl] = useState('');
+  const [editGroupBannerPreview, setEditGroupBannerPreview] = useState<string | null>(null);
+  const [removeEditGroupBanner, setRemoveEditGroupBanner] = useState(false);
 
   // 2. STATE KELOLA KATEGORI / JENIS LAYANAN
   const [catName, setCatName] = useState('');
@@ -120,18 +127,67 @@ export default function CategoryTab({
     }
 
     startTransition(async () => {
-      const res = await createCategoryGroup(groupName, groupSlug, groupIcon || null);
+      const formData = new FormData();
+      formData.append('name', groupName);
+      formData.append('slug', groupSlug);
+      if (groupIcon) formData.append('icon', groupIcon);
+      if (groupBannerFile) formData.append('bannerFile', groupBannerFile);
+      if (groupBannerUrl.trim()) formData.append('bannerUrl', groupBannerUrl.trim());
+
+      const res = await createCategoryGroup(formData);
       if (res.success) {
         const freshGroups = await getCategoryGroups();
         onRefreshGroups(freshGroups);
         setGroupName('');
         setGroupSlug('');
         setGroupIcon('');
-        setSuccess(`Kategori grup "${groupName}" berhasil disimpan ke PostgreSQL!`);
+        setGroupBannerFile(null);
+        setGroupBannerUrl('');
+        setGroupBannerPreview(null);
+        const fileInput = document.getElementById('new-group-banner-file') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
+        setSuccess(`Kategori grup "${groupName}" berhasil disimpan ke basis data!`);
       } else {
         setError(res.error || 'Gagal menambahkan kategori grup.');
       }
     });
+  };
+
+  const handleOpenEditGroup = (g: any) => {
+    setEditingGroup(g);
+    setEditGroupName(g.name);
+    setEditGroupSlug(g.slug);
+    setEditGroupIcon(g.icon || '');
+    setEditGroupBannerUrl(g.bannerUrl || '');
+    setEditGroupBannerFile(null);
+    setEditGroupBannerPreview(g.bannerUrl || null);
+    setRemoveEditGroupBanner(false);
+  };
+
+  const handleEditGroupFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setEditGroupBannerFile(file);
+      setEditGroupBannerUrl('');
+      setEditGroupBannerPreview(URL.createObjectURL(file));
+      setRemoveEditGroupBanner(false);
+    }
+  };
+
+  const handleEditGroupUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setEditGroupBannerUrl(val);
+    setEditGroupBannerPreview(val.trim() || null);
+    setRemoveEditGroupBanner(false);
+  };
+
+  const handleRemoveEditGroupBanner = () => {
+    setEditGroupBannerFile(null);
+    setEditGroupBannerUrl('');
+    setEditGroupBannerPreview(null);
+    setRemoveEditGroupBanner(true);
+    const fileInput = document.getElementById('edit-group-banner-file') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   };
 
   const handleUpdateGroup = (e: React.FormEvent) => {
@@ -142,12 +198,25 @@ export default function CategoryTab({
     setSuccess(null);
 
     startTransition(async () => {
-      const res = await updateCategoryGroup(editingGroup.id, editGroupName, editGroupSlug, editGroupIcon || null);
+      const formData = new FormData();
+      formData.append('id', editingGroup.id);
+      formData.append('name', editGroupName);
+      formData.append('slug', editGroupSlug);
+      if (editGroupIcon) formData.append('icon', editGroupIcon);
+      if (editGroupBannerFile) formData.append('bannerFile', editGroupBannerFile);
+      if (editGroupBannerUrl.trim()) formData.append('bannerUrl', editGroupBannerUrl.trim());
+      if (removeEditGroupBanner || (!editGroupBannerPreview && !editGroupBannerFile && !editGroupBannerUrl.trim())) {
+        formData.append('removeBanner', 'true');
+      }
+
+      const res = await updateCategoryGroup(formData);
       if (res.success) {
         const freshGroups = await getCategoryGroups();
         onRefreshGroups(freshGroups);
         setSuccess(`Kategori grup "${editGroupName}" berhasil diperbarui di database!`);
         setEditingGroup(null);
+        setEditGroupBannerFile(null);
+        setEditGroupBannerPreview(null);
       } else {
         setError(res.error || 'Gagal memperbarui kategori grup.');
       }
@@ -431,9 +500,101 @@ export default function CategoryTab({
                   value={groupIcon}
                   onChange={(e) => setGroupIcon(e.target.value)}
                   placeholder="Masukkan tag SVG lengkap (misal: <svg>...</svg>)"
-                  rows={4}
+                  rows={3}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-805 focus:outline-none focus:border-[#1E40AF] transition-all font-mono"
                 />
+              </div>
+
+              {/* KELOMPOK UNGGAH BANNER KATEGORI UTAMA */}
+              <div className="border border-slate-200 bg-slate-50/70 p-4 rounded-2xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">
+                    Banner Hero Kategori (Opsional)
+                  </label>
+                  {groupBannerPreview && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setGroupBannerFile(null);
+                        setGroupBannerUrl('');
+                        setGroupBannerPreview(null);
+                        const fileInput = document.getElementById('new-group-banner-file') as HTMLInputElement;
+                        if (fileInput) fileInput.value = '';
+                      }}
+                      className="text-[10px] font-black text-rose-500 hover:text-rose-700 transition-colors flex items-center gap-1 cursor-pointer"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      Hapus
+                    </button>
+                  )}
+                </div>
+
+                {/* Box Live Preview Banner */}
+                {groupBannerPreview ? (
+                  <div className="relative w-full h-28 rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 shadow-inner group">
+                    <img 
+                      src={groupBannerPreview} 
+                      alt="Preview Banner Kategori"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end justify-between p-2.5">
+                      <span className="text-[10px] font-black text-white bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-lg">
+                        {groupBannerFile ? 'File Terpilih' : 'URL Terpilih'}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-20 rounded-2xl border-2 border-dashed border-slate-200 bg-white flex flex-col items-center justify-center text-slate-400 gap-1">
+                    <ImageIcon className="w-5 h-5 text-slate-300" />
+                    <span className="text-xs font-bold text-slate-500">Banner Kategori Utama</span>
+                    <span className="text-[10px] text-slate-400">Jika kosong, halaman memakai gradien PushAja default</span>
+                  </div>
+                )}
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest block">Unggah Gambar Banner</label>
+                  <input 
+                    id="new-group-banner-file"
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const file = e.target.files[0];
+                        setGroupBannerFile(file);
+                        setGroupBannerUrl('');
+                        setGroupBannerPreview(URL.createObjectURL(file));
+                      }
+                    }}
+                    className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#1E40AF]/10 file:text-[#1E40AF] hover:file:bg-[#1E40AF]/20 cursor-pointer"
+                  />
+                  {groupBannerFile && (
+                    <div className="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5 mt-1 animate-in fade-in">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      File: {groupBannerFile.name} ({(groupBannerFile.size / 1024).toFixed(1)} KB)
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative flex py-1 items-center">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-black tracking-widest uppercase">Atau Link / URL</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <input 
+                    type="text" 
+                    value={groupBannerUrl}
+                    disabled={!!groupBannerFile}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setGroupBannerUrl(val);
+                      setGroupBannerPreview(val.trim() || null);
+                    }}
+                    placeholder={groupBannerFile ? "Memprioritaskan file upload..." : "https://images.unsplash.com/... atau /uploads/..."}
+                    className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 text-xs text-slate-800 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold disabled:opacity-50"
+                  />
+                </div>
               </div>
 
               <button
@@ -466,6 +627,7 @@ export default function CategoryTab({
                   <tr className="bg-slate-50 border-b border-slate-150 text-[10px] font-black text-slate-400 uppercase tracking-wider">
                     <th className="p-4 w-12 text-center">Ikon</th>
                     <th className="p-4">Nama Grup</th>
+                    <th className="p-4">Banner Hero</th>
                     <th className="p-4">Slug</th>
                     <th className="p-4 text-right">Aksi</th>
                   </tr>
@@ -486,22 +648,32 @@ export default function CategoryTab({
                         )}
                       </td>
                       <td className="p-4 font-bold text-slate-800">{g.name}</td>
-                      <td className="p-4 text-slate-500">{g.slug}</td>
+                      <td className="p-4">
+                        {g.bannerUrl ? (
+                          <div className="relative w-16 h-10 rounded-lg overflow-hidden border border-slate-200 bg-slate-900 group shadow-sm">
+                            <img 
+                              src={g.bannerUrl} 
+                              alt={g.name} 
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                            />
+                          </div>
+                        ) : (
+                          <span className="inline-block text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
+                            Gradien Default
+                          </span>
+                        )}
+                      </td>
+                      <td className="p-4 text-slate-500 font-mono text-[11px]">{g.slug}</td>
                       <td className="p-4 text-right flex justify-end gap-2">
                         <button
-                          onClick={() => {
-                            setEditingGroup(g);
-                            setEditGroupName(g.name);
-                            setEditGroupSlug(g.slug);
-                            setEditGroupIcon(g.icon || '');
-                          }}
-                          className="rounded-lg border border-slate-200 px-3 py-1.5 hover:bg-[#1E40AF] hover:text-white hover:border-[#1E40AF] transition-all cursor-pointer"
+                          onClick={() => handleOpenEditGroup(g)}
+                          className="rounded-lg border border-slate-200 px-3 py-1.5 hover:bg-[#1E40AF] hover:text-white hover:border-[#1E40AF] transition-all cursor-pointer font-bold"
                         >
                           Ubah
                         </button>
                         <button
                           onClick={() => handleDeleteGroup(g.id)}
-                          className="rounded-lg border border-rose-100 bg-rose-50 text-rose-500 px-3 py-1.5 hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all cursor-pointer"
+                          className="rounded-lg border border-rose-100 bg-rose-50 text-rose-500 px-3 py-1.5 hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all cursor-pointer font-bold"
                         >
                           Hapus
                         </button>
@@ -703,10 +875,10 @@ export default function CategoryTab({
          ==================================================== */}
       {editingGroup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-2xl space-y-6 text-left">
+          <div className="w-full max-w-lg bg-white rounded-[2.5rem] border border-slate-200 p-6 sm:p-8 shadow-2xl space-y-6 text-left max-h-[90vh] overflow-y-auto">
             <div>
               <h3 className="text-lg font-black text-slate-900">Ubah Kategori Grup</h3>
-              <p className="text-xs text-slate-400 font-semibold mt-1">Ubah nama, slug, atau ikon kelompok utama</p>
+              <p className="text-xs text-slate-400 font-semibold mt-1">Ubah nama, slug, ikon, atau banner hero kelompok utama</p>
             </div>
 
             <form onSubmit={handleUpdateGroup} className="space-y-4">
@@ -738,15 +910,95 @@ export default function CategoryTab({
                   value={editGroupIcon}
                   onChange={(e) => setEditGroupIcon(e.target.value)}
                   placeholder="Masukkan tag SVG lengkap (misal: <svg>...</svg>)"
-                  rows={4}
+                  rows={3}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-xs sm:text-sm text-slate-805 focus:outline-none focus:border-[#1E40AF] transition-all font-mono"
                 />
+              </div>
+
+              {/* KELOMPOK UNGGAH BANNER KATEGORI UTAMA DI MODAL EDIT */}
+              <div className="border border-slate-200 bg-slate-50/70 p-4 rounded-2xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">
+                    Banner Hero Kategori Utama
+                  </label>
+                  {editGroupBannerPreview && (
+                    <button
+                      type="button"
+                      onClick={handleRemoveEditGroupBanner}
+                      className="text-[10px] font-black text-rose-500 hover:text-rose-700 transition-colors flex items-center gap-1 cursor-pointer"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      Hapus Banner
+                    </button>
+                  )}
+                </div>
+
+                {/* Box Live Preview Banner */}
+                {editGroupBannerPreview ? (
+                  <div className="relative w-full h-32 rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 shadow-inner group">
+                    <img 
+                      src={editGroupBannerPreview} 
+                      alt="Preview Banner Kategori"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex items-end justify-between p-3">
+                      <span className="text-[10px] font-black text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg">
+                        {editGroupBannerFile ? 'File Banner Baru' : 'Banner Saat Ini'}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-24 rounded-2xl border-2 border-dashed border-slate-200 bg-white flex flex-col items-center justify-center text-slate-400 gap-1.5">
+                    <ImageIcon className="w-6 h-6 text-slate-300" />
+                    <span className="text-xs font-bold text-slate-500">Gradien Default Aktif</span>
+                    <span className="text-[10px] text-slate-400">Pilih berkas foto baru atau isi link URL gambar banner</span>
+                  </div>
+                )}
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest block">Opsi 1: Unggah Foto Dari Komputer</label>
+                  <input 
+                    id="edit-group-banner-file"
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleEditGroupFileChange}
+                    className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#1E40AF]/10 file:text-[#1E40AF] hover:file:bg-[#1E40AF]/20 cursor-pointer"
+                  />
+                  {editGroupBannerFile && (
+                    <div className="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5 mt-1 animate-in fade-in">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      File baru: {editGroupBannerFile.name} ({(editGroupBannerFile.size / 1024).toFixed(1)} KB)
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative flex py-1 items-center">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-black tracking-widest uppercase">Atau Opsi 2: Gunakan Link / URL</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest block">Link Gambar (URL Web atau /uploads/...)</label>
+                  <input 
+                    type="text" 
+                    value={editGroupBannerUrl}
+                    disabled={!!editGroupBannerFile}
+                    onChange={handleEditGroupUrlChange}
+                    placeholder={editGroupBannerFile ? "Memprioritaskan file upload terpilih..." : "https://images.unsplash.com/... atau /uploads/..."}
+                    className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#1E40AF] transition-all font-semibold disabled:opacity-50"
+                  />
+                </div>
               </div>
 
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => setEditingGroup(null)}
+                  onClick={() => {
+                    setEditingGroup(null);
+                    setEditGroupBannerFile(null);
+                    setEditGroupBannerPreview(null);
+                  }}
                   className="flex-1 rounded-xl border border-slate-200 py-3 text-xs font-black text-slate-500 hover:bg-slate-100 transition-all cursor-pointer text-center animate-in fade-in"
                 >
                   Batal

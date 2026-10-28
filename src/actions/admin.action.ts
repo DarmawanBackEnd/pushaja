@@ -314,64 +314,6 @@ export async function getCategoryGroups() {
   }
 }
 
-export async function createCategoryGroup(name: string, slug: string, icon: string | null) {
-  try {
-    const existing = await prisma.categoryGroup.findUnique({ where: { slug } });
-    if (existing) {
-      return { success: false, error: 'Slug kelompok ini sudah terdaftar.' };
-    }
-
-    await prisma.categoryGroup.create({
-      data: { name, slug, icon }
-    });
-    revalidatePath('/');
-    return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message };
-  }
-}
-
-export async function updateCategoryGroup(id: string, name: string, slug: string, icon: string | null) {
-  try {
-    await prisma.categoryGroup.update({
-      where: { id },
-      data: { name, slug, icon }
-    });
-    revalidatePath('/');
-    return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message };
-  }
-}
-
-export async function deleteCategoryGroup(id: string) {
-  try {
-    await prisma.categoryGroup.delete({
-      where: { id }
-    });
-    revalidatePath('/');
-    return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message };
-  }
-}
-
-export async function getCategoriesList() {
-  try {
-    const categories = await prisma.category.findMany({
-      orderBy: { name: 'asc' },
-      include: {
-        categoryGroup: {
-          select: { id: true, name: true, slug: true }
-        }
-      }
-    });
-    return categories;
-  } catch {
-    return [];
-  }
-}
-
 async function saveUploadedFile(file: File): Promise<string> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
@@ -390,6 +332,160 @@ async function saveUploadedFile(file: File): Promise<string> {
   
   // Mengembalikan URL publik Next.js
   return `/uploads/${filename}`;
+}
+
+export async function createCategoryGroup(
+  arg1: string | FormData,
+  slugParam?: string,
+  iconParam?: string | null,
+  bannerUrlParam?: string | null
+) {
+  try {
+    let name: string = '';
+    let slug: string = '';
+    let icon: string | null = null;
+    let bannerUrl: string | null = null;
+
+    if (arg1 instanceof FormData) {
+      name = arg1.get('name') as string;
+      slug = arg1.get('slug') as string;
+      icon = (arg1.get('icon') as string) || null;
+      const bannerUrlInput = (arg1.get('bannerUrl') as string || '').trim();
+      const file = arg1.get('bannerFile') as File | null;
+      
+      bannerUrl = bannerUrlInput || null;
+      if (file && typeof file === 'object' && file.size > 0) {
+        bannerUrl = await saveUploadedFile(file);
+      }
+    } else {
+      name = arg1;
+      slug = slugParam || '';
+      icon = iconParam || null;
+      bannerUrl = bannerUrlParam || null;
+    }
+
+    if (!name || !slug) {
+      return { success: false, error: 'Nama dan slug kelompok kategori wajib diisi.' };
+    }
+
+    const existing = await prisma.categoryGroup.findUnique({ where: { slug } });
+    if (existing) {
+      return { success: false, error: 'Slug kelompok ini sudah terdaftar.' };
+    }
+
+    await prisma.categoryGroup.create({
+      data: { name, slug, icon, bannerUrl }
+    });
+    revalidatePath('/');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/categories');
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Gagal menambahkan kelompok kategori.' };
+  }
+}
+
+export async function updateCategoryGroup(
+  arg1: string | FormData,
+  nameParam?: string,
+  slugParam?: string,
+  iconParam?: string | null,
+  bannerUrlParam?: string | null
+) {
+  try {
+    let id: string = '';
+    let name: string = '';
+    let slug: string = '';
+    let icon: string | null = null;
+    let bannerUrl: string | null = null;
+    let isRemoveBanner = false;
+
+    if (arg1 instanceof FormData) {
+      id = arg1.get('id') as string;
+      name = arg1.get('name') as string;
+      slug = arg1.get('slug') as string;
+      icon = (arg1.get('icon') as string) || null;
+      const bannerUrlInput = (arg1.get('bannerUrl') as string || '').trim();
+      const file = arg1.get('bannerFile') as File | null;
+      isRemoveBanner = arg1.get('removeBanner') === 'true';
+
+      bannerUrl = bannerUrlInput || null;
+      if (file && typeof file === 'object' && file.size > 0) {
+        bannerUrl = await saveUploadedFile(file);
+      } else if (isRemoveBanner) {
+        bannerUrl = null;
+      } else if (!bannerUrl && !file) {
+        const existing = await prisma.categoryGroup.findUnique({
+          where: { id },
+          select: { bannerUrl: true }
+        });
+        bannerUrl = existing?.bannerUrl || null;
+      }
+    } else {
+      id = arg1;
+      name = nameParam || '';
+      slug = slugParam || '';
+      icon = iconParam || null;
+      bannerUrl = bannerUrlParam || null;
+    }
+
+    if (!id || !name || !slug) {
+      return { success: false, error: 'ID, Nama, dan Slug kelompok kategori wajib diisi.' };
+    }
+
+    // Pastikan slug unik
+    const existingSlug = await prisma.categoryGroup.findFirst({
+      where: {
+        slug,
+        NOT: { id }
+      }
+    });
+    if (existingSlug) {
+      return { success: false, error: 'Slug kelompok ini sudah digunakan oleh kelompok lain.' };
+    }
+
+    await prisma.categoryGroup.update({
+      where: { id },
+      data: { name, slug, icon, bannerUrl }
+    });
+
+    revalidatePath('/');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/categories');
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Gagal memperbarui kelompok kategori.' };
+  }
+}
+
+export async function deleteCategoryGroup(id: string) {
+  try {
+    await prisma.categoryGroup.delete({
+      where: { id }
+    });
+    revalidatePath('/');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/categories');
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Gagal menghapus kelompok kategori.' };
+  }
+}
+
+export async function getCategoriesList() {
+  try {
+    const categories = await prisma.category.findMany({
+      orderBy: { name: 'asc' },
+      include: {
+        categoryGroup: {
+          select: { id: true, name: true, slug: true }
+        }
+      }
+    });
+    return categories;
+  } catch {
+    return [];
+  }
 }
 
 export async function createCategory(formData: FormData) {

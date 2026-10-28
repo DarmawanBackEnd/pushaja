@@ -7,6 +7,7 @@ export interface CategoryGroupItem {
   name: string;
   slug: string;
   icon: string | null;
+  bannerUrl?: string | null;
   categories: {
     id: string;
     name: string;
@@ -27,6 +28,7 @@ export interface CategoryBrowseResult {
   categorySlug?: string;
   categoryName?: string;
   imageUrl?: string | null;
+  bannerUrl?: string | null;
   icon?: string | null;
   allGroups: CategoryGroupItem[];
   subcategories: {
@@ -228,6 +230,7 @@ export async function getCategoryBrowseData(slug: string): Promise<CategoryBrows
           name: g.name,
           slug: g.slug,
           icon: g.icon,
+          bannerUrl: g.bannerUrl || null,
           categoriesCount: g.categories.length,
           categories: g.categories.map((c: any) => ({
             id: c.id,
@@ -323,6 +326,7 @@ export async function getCategoryBrowseData(slug: string): Promise<CategoryBrows
         currentSlug: slug,
         groupSlug: matchedGroup.slug,
         groupName: matchedGroup.name,
+        bannerUrl: matchedGroup.bannerUrl || null,
         icon: matchedGroup.icon,
         allGroups,
         subcategories,
@@ -425,6 +429,7 @@ export async function getCategoryBrowseData(slug: string): Promise<CategoryBrows
         categorySlug: matchedCategory.slug,
         categoryName: matchedCategory.name,
         imageUrl: matchedCategory.imageUrl,
+        bannerUrl: matchedCategory.categoryGroup?.bannerUrl || null,
         icon: matchedCategory.categoryGroup?.icon,
         allGroups,
         subcategories,
